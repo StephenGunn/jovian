@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  /* this has to be set to switch between light or dark */
+  color-scheme: light dark;
+  --light-bg: #f1f0e9;
+  --light-bg-accent-1: #282f44;
+  --light-bg-accent-2: #453a49;
+  --light-bg-accent-3: #6d3b47;
+  --light-font-color: #f1f0e9;
+  --light-primary: #f27059;
+  --light-secondary: #c2eabd;
+  --light-accent: #f7aef8;
+  --light-highlight: #c3bef7;
+
+  --dark-bg: #121117;
+  --dark-bg-accent-1: #282f44;
+  --dark-bg-accent-2: #453a49;
+  --dark-bg-accent-3: #6d3b47;
+  --dark-font-color: #f1f0e9;
+  --dark-primary: #f4845f;
+  --dark-secondary: #c2eabd;
+  --dark-accent: #f7aef8;
+  --dark-highlight: #c3bef7;
+}
+
+body {
+  font-family: "Merriweather", "Georgia", serif;
+  background-color: light-dark(var(--light-bg), var(--dark-bg));
+  color: light-dark(var(--light-color), var(--dark-color));
+}
+
+h1 {
+  font-family: "Jost", sans-serif;
+  font-weight: 200;
+  font-size: 5rem;
+}
