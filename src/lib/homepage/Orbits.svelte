@@ -1,9 +1,12 @@
 <script lang="ts">
-  import Jupiter from "$lib/layout/art/Jupiter.svelte";
+  import Jupiter from "./Jupiter.svelte";
   import MoonFacts from "./MoonFacts.svelte";
   import MoonShadow from "./MoonShadow.svelte";
+  import { jupiter_data, io_data, europa_data, ganymede_data } from "$lib/stores/homepage.svelte.js";
 
   import { facts } from "$lib/data";
+  import { onMount } from "svelte";
+  import type { CelestialBodyData } from "$lib/types/schema";
 
   type CelestialBody = "Jupiter" | "Io" | "Europa" | "Ganymede";
   let showing: CelestialBody | undefined = $state(undefined);
@@ -16,17 +19,70 @@
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => (showing = undefined), 5000);
   };
+
+  let jupiter: HTMLDivElement | undefined = $state();
+  let io: HTMLDivElement | undefined = $state();
+  let europa: HTMLDivElement | undefined = $state();
+  let ganymede: HTMLDivElement | undefined = $state();
+
+  const orbital_telemetry = (div: HTMLDivElement, store: CelestialBodyData) => {
+    let lastRect = div.getBoundingClientRect();
+
+    function checkPosition() {
+      const rect = div.getBoundingClientRect();
+      if (rect.top !== lastRect.top || rect.left !== lastRect.left) {
+        store.x = rect.left;
+        store.y = rect.top;
+        lastRect = rect;
+      }
+      requestAnimationFrame(checkPosition);
+    }
+    requestAnimationFrame(checkPosition);
+  };
+
+  onMount(() => {
+    if (!jupiter || !io || !europa || !ganymede) return;
+    jupiter_data.x = jupiter.getBoundingClientRect().left;
+    jupiter_data.y = jupiter.getBoundingClientRect().top;
+    jupiter_data.width = jupiter.getBoundingClientRect().width;
+    jupiter_data.height = jupiter.getBoundingClientRect().height;
+
+    // set io's width and height
+    io_data.width = io.getBoundingClientRect().width;
+    io_data.height = io.getBoundingClientRect().height;
+
+    // set europa's width and height
+    europa_data.width = europa.getBoundingClientRect().width;
+    europa_data.height = europa.getBoundingClientRect().height;
+
+    // set ganymede's width and height
+    ganymede_data.width = ganymede.getBoundingClientRect().width;
+    ganymede_data.height = ganymede.getBoundingClientRect().height;
+  });
 </script>
 
 <div class="map">
-  <div class="jupiter" onmouseenter={() => set_visible_facts("Jupiter")} role="button" tabindex="0">
+  <div
+    class="jupiter"
+    bind:this={jupiter}
+    onmouseenter={() => set_visible_facts("Jupiter")}
+    role="button"
+    tabindex="0"
+  >
     <Jupiter />
     {#if showing === "Jupiter"}
       <MoonFacts facts={facts.Jupiter} title="Jupiter" distance="from Sun" />
     {/if}
   </div>
   <div class="io orbit bound circle absolute">
-    <div class="moon" onmouseenter={() => set_visible_facts("Io")} role="button" tabindex="0">
+    <div
+      use:orbital_telemetry={io_data}
+      bind:this={io}
+      class="moon"
+      onmouseenter={() => set_visible_facts("Io")}
+      role="button"
+      tabindex="0"
+    >
       <MoonShadow />
       {#if showing === "Io"}
         <MoonFacts facts={facts.Io} title="Io" distance="from Jupiter" />
@@ -35,7 +91,14 @@
   </div>
   <div class="io orbit absolute ignore"></div>
   <div class="europa orbit bound circle absolute">
-    <div class="moon" onmouseenter={() => set_visible_facts("Europa")} role="button" tabindex="0">
+    <div
+      class="moon"
+      use:orbital_telemetry={europa_data}
+      bind:this={europa}
+      onmouseenter={() => set_visible_facts("Europa")}
+      role="button"
+      tabindex="0"
+    >
       <MoonShadow />
       {#if showing === "Europa"}
         <MoonFacts facts={facts.Europa} title="Europa" distance="from Jupiter" />
@@ -44,7 +107,14 @@
   </div>
   <div class="europa orbit absolute ignore"></div>
   <div class="ganymede orbit bound circle absolute">
-    <div class="moon" onmouseenter={() => set_visible_facts("Ganymede")} role="button" tabindex="0">
+    <div
+      class="moon"
+      use:orbital_telemetry={ganymede_data}
+      bind:this={ganymede}
+      onmouseenter={() => set_visible_facts("Ganymede")}
+      role="button"
+      tabindex="0"
+    >
       <MoonShadow />
       {#if showing === "Ganymede"}
         <MoonFacts facts={facts.Ganymede} title="Ganymede" distance="from Jupiter" />

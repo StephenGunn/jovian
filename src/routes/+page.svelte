@@ -1,15 +1,13 @@
 <script lang="ts">
-  import Waves from "$lib/layout/art/Waves.svelte";
-  import Orbits from "$lib/layout/art/Orbits.svelte";
+  import Waves from "$lib/homepage/Waves.svelte";
+  import Orbits from "$lib/homepage/Orbits.svelte";
   import StarField from "$lib/layout/art/StarField.svelte";
-  import Crosshair from "$lib/layout/art/Crosshair.svelte";
-  import Ship from "$lib/layout/art/Ship.svelte";
+  import Ship from "$lib/homepage/Ship.svelte";
 </script>
 
 <div class="box">
   <h1>Jovian Moon</h1>
   <Ship />
-  <Crosshair />
   <StarField />
   <Waves />
   <Orbits />

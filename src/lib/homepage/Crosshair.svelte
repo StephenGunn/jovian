@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { coords, jupiter_data } from "$lib/stores/homepage.svelte.js";
 </script>
 
-<div class="box">test etsalkdfjas ldkjfa</div>
+<div class="box"></div>
 
 <style>
   .box {

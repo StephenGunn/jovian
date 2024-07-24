@@ -28,3 +28,17 @@ export type FactsMap = {
   Europa: CelestialBodyFacts;
   Ganymede: CelestialBodyFacts;
 };
+
+export type CelestialBody = keyof FactsMap;
+
+export type CelestialBodyData = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type Coords = {
+  x: number;
+  y: number;
+};
