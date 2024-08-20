@@ -1,13 +1,29 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  let { ignition, launched }: { ignition: boolean; launched: boolean } = $props();
+  let {
+    ignition,
+    launched,
+    orbit_mode,
+    decent_mode,
+    orbit_size,
+    size
+  }: {
+    ignition: boolean;
+    launched: boolean;
+    orbit_mode: boolean;
+    decent_mode: boolean;
+    orbit_size: number;
+    size: number;
+  } = $props();
 </script>
 
 <svg
   version="1.1"
   viewBox="0 0 50 50"
   xmlns="http://www.w3.org/2000/svg"
-  style="--fins: #6c7b92; --body: #a1abba;"
+  style="--fins: #6c7b92; --body: #a1abba; --max: {size}px; --orbit_size: {orbit_size}px"
+  class:orbit_mode={orbit_mode || decent_mode}
+  class:launched
 >
   <defs>
     <clipPath id="rocketj">
@@ -172,5 +188,20 @@
     width: 100%;
     height: 100%;
     transform: rotate(90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 2s ease-out;
+    transform-origin: center;
+  }
+
+  svg.launched {
+    transform-origin: center;
+    max-width: var(--max);
+    max-height: var(--max);
+  }
+
+  svg.orbit_mode {
+    transform: rotate(46deg) translateX(60%) scale(50%);
   }
 </style>

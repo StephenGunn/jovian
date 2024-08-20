@@ -17,10 +17,26 @@
     ping_coords = $state({ x: 0, y: 0 });
     ignition = $state(false);
     size = $derived(this.large ? 150 : 50);
+    orbit_radius = $state(0);
+    orbiting = $state(false);
+    ship_conatainer_size = $derived(this.large ? 150 : this.orbiting ? this.orbit_radius : 50);
     in_motion = $state(false);
     waypoint_queue: { x: number; y: number }[] = $state([]);
     launched = $state(false);
-    orbiting = $state(false);
+    orbit_target = $state(0);
+    ascent_mode = $state(false);
+    descent_mode = $state(false);
+    orbit_rotation_transform = $state(0);
+
+    ship_orbit = () => {
+      console.log("orbiting");
+      if (this.orbiting || this.ascent_mode || this.descent_mode) {
+        this.orbit_rotation_transform += 0.25;
+      }
+      if (this.orbiting || this.ascent_mode || this.descent_mode) {
+        requestAnimationFrame(this.ship_orbit);
+      }
+    };
 
     set_position(x: number, y: number) {
       this.x = x;
@@ -28,12 +44,54 @@
     }
 
     set_waypoint = (x: number, y: number) => {
-      if (!this.in_motion) {
-        this.fly(x, y);
+      if (this.in_motion || this.orbiting) {
+        this.waypoint_queue.push({ x, y });
         return;
       }
-      this.waypoint_queue.push({ x, y });
+      this.fly(x, y);
     };
+
+    set_orbit_center(coords: Coords) {
+      x_move.set(coords.x, { duration: this.trip_duration, easing: sineIn });
+      y_move.set(coords.y, { duration: this.trip_duration, easing: sineIn });
+    }
+
+    async set_orbit(number: 0 | 1 | 2 | 3, immediate: boolean = false) {
+      this.orbit_target = number;
+
+      await this.delay(immediate ? 0 : this.trip_duration);
+
+      this.orbiting = true;
+
+      switch (number) {
+        case 0:
+          this.orbit_radius = jupiter_data.width * 2.5;
+          this.set_orbit_center({
+            x: jupiter_data.x + (jupiter_data.width / 2 - this.size / 2),
+            y: jupiter_data.y + (jupiter_data.height / 2 - this.size / 2)
+          });
+          break;
+        case 1:
+          this.orbit_radius = 200;
+          break;
+        case 2:
+          this.orbit_radius = 300;
+          break;
+        case 3:
+          this.orbit_radius = 400;
+          break;
+      }
+
+      this.ship_orbit();
+    }
+
+    async leave_orbit() {
+      this.ascent_mode = true;
+      this.orbiting = false;
+      await this.delay(2000);
+      this.ascent_mode = false;
+      this.check_queue();
+    }
 
     ping_location(x: number, y: number) {
       this.ping_coords = { x, y };
@@ -43,7 +101,9 @@
       }, 2000);
     }
 
+    // helper for anitmation
     delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
     async fly(x: number, y: number, ping: boolean = true) {
       this.set_rotation_angle(x, y);
       this.calculate_trip_duration(x, y);
@@ -81,6 +141,10 @@
       this.in_motion = false;
 
       await this.delay(10);
+      this.check_queue();
+    }
+
+    check_queue() {
       if (this.waypoint_queue.length > 0) {
         const next_coords = this.waypoint_queue.shift();
         if (next_coords) {
@@ -93,7 +157,7 @@
       this.ignition = true;
       this.launched = true;
 
-      const escape_pixelocity = h * 1;
+      const escape_pixelocity = h;
 
       const offscreen = { x: this.x, y: this.y - escape_pixelocity };
 
@@ -136,6 +200,9 @@
       }
 
       let delta_angle = theta_degrees - this.rotation;
+
+      // account for the orbit rotation
+      delta_angle -= this.orbit_rotation_transform % 360;
 
       // Normalize the difference to the range -180 to +180 degrees
       if (delta_angle > 180) {
@@ -194,9 +261,26 @@
       return;
     }
 
+    // CLICKING ON JUPITER
     // check to see if the coords are within the bounds of jupiter
     if (check_celestial_position(coords, jupiter_data)) {
-      console.log("hi jupiter");
+      console.log("hi jupiter", jupiter_data);
+
+      // if we are orbiting jupiter and we click on jupiter
+      if (ship.orbit_target === 0 && ship.orbiting) {
+        ship.leave_orbit();
+        return;
+      }
+
+      // if we are not orbiting jupiter but the ship is already over the planet
+      if (!ship.orbiting && check_celestial_position({ x: ship.x, y: ship.y }, jupiter_data)) {
+        ship.set_orbit(0, true);
+        return;
+      }
+
+      ship.set_waypoint(coords.x, coords.y);
+      ship.set_orbit(0);
+      return;
     }
 
     // check to see if the coords are within the bounds of io
@@ -213,10 +297,17 @@
     if (check_celestial_position(coords, ganymede_data)) {
       console.log("hi ganymede");
     }
+
+    // if we didn't click on a body but we're orbiting
+    if (ship.orbiting) {
+      ship.set_waypoint(coords.x, coords.y);
+
+      ship.leave_orbit();
+      return;
+    }
     //console.log("io", io_data);
     //console.log("europa", europa_data);
     //console.log("ganymede", ganymede_data);
-    //
     ship.set_waypoint(coords.x, coords.y);
   };
 
@@ -230,7 +321,7 @@
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
 
-<div class="box" onmousemove={handle_mouse_position} onmousedown={handle_click}>
+<div class="box" onmousemove={handle_mouse_position} onmousedown={handle_click} role="button" tabindex="-1">
   {#if ship.ping}
     <div
       class="ping"
@@ -248,7 +339,21 @@
     style:height="{ship.size}px"
     style:transform="rotate({ship.rotation}deg)"
   >
-    <Rocket ignition={ship.ignition} launched={ship.launched} />
+    <div
+      class="orbit_modifier"
+      style:width="{ship.ship_conatainer_size}px"
+      style:height="{ship.ship_conatainer_size}px"
+      style:transform="rotate({ship.orbit_rotation_transform}deg)"
+    >
+      <Rocket
+        ignition={ship.ignition || ship.orbiting || ship.ascent_mode || ship.descent_mode}
+        size={ship.size}
+        launched={ship.launched}
+        decent_mode={ship.descent_mode}
+        orbit_mode={ship.orbiting}
+        orbit_size={40}
+      />
+    </div>
   </div>
   <div class="debug">
     <p>Mouse X: {coords.x}</p>
@@ -257,6 +362,13 @@
     <p>Ship Y: {ship.y}</p>
     <p>Ship Rotation: {ship.rotation}</p>
     <p>Ship Trip Duration: {ship.trip_duration}</p>
+    <p>Ship Orbiting: {ship.orbiting}</p>
+    <p>Ship Orbit Radius: {ship.orbit_radius}</p>
+    <p>Ship Orbit Target: {ship.orbit_target}</p>
+    <p>
+      Ship Container Size: {ship.ship_conatainer_size}
+    </p>
+    <p>Ship size: {ship.size}</p>
   </div>
 </div>
 
@@ -295,6 +407,21 @@
     line-height: 2rem;
   }
 
+  .orbit_modifier {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid white;
+    border-left: 1px solid blue;
+    border-right: 1px solid red;
+    border-bottom: 1px solid green;
+    border-radius: 50%;
+    transition:
+      2s width ease-out,
+      2s height ease-out;
+  }
+
   @keyframes pulse {
     0% {
       transform: scale(0);
@@ -306,6 +433,15 @@
     100% {
       opacity: 0;
       transform: scale(1);
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 </style>
