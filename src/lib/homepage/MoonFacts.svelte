@@ -43,6 +43,8 @@
     font-family: "Jost", sans-serif;
     gap: 2rem;
     min-width: 225px;
+    z-index: 11;
+    pointer-events: none;
   }
 
   .facts > div {

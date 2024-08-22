@@ -36,6 +36,7 @@ export type CelestialBodyData = {
   y: number;
   width: number;
   height: number;
+  show_info: boolean;
 };
 
 export type Coords = {

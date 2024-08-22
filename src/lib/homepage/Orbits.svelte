@@ -62,61 +62,34 @@
 </script>
 
 <div class="map">
-  <div
-    class="jupiter"
-    bind:this={jupiter}
-    onmouseenter={() => set_visible_facts("Jupiter")}
-    role="button"
-    tabindex="0"
-  >
+  <div class="jupiter" bind:this={jupiter} role="button" tabindex="0">
     <Jupiter />
-    {#if showing === "Jupiter"}
+    {#if jupiter_data.show_info}
       <MoonFacts facts={facts.Jupiter} title="Jupiter" distance="from Sun" />
     {/if}
   </div>
   <div class="io orbit bound circle absolute">
-    <div
-      use:orbital_telemetry={io_data}
-      bind:this={io}
-      class="moon"
-      onmouseenter={() => set_visible_facts("Io")}
-      role="button"
-      tabindex="0"
-    >
+    <div use:orbital_telemetry={io_data} bind:this={io} class="moon" role="button" tabindex="0">
       <MoonShadow />
-      {#if showing === "Io"}
+      {#if io_data.show_info}
         <MoonFacts facts={facts.Io} title="Io" distance="from Jupiter" />
       {/if}
     </div>
   </div>
   <div class="io orbit absolute ignore"></div>
   <div class="europa orbit bound circle absolute">
-    <div
-      class="moon"
-      use:orbital_telemetry={europa_data}
-      bind:this={europa}
-      onmouseenter={() => set_visible_facts("Europa")}
-      role="button"
-      tabindex="0"
-    >
+    <div class="moon" use:orbital_telemetry={europa_data} bind:this={europa} role="button" tabindex="0">
       <MoonShadow />
-      {#if showing === "Europa"}
+      {#if europa_data.show_info}
         <MoonFacts facts={facts.Europa} title="Europa" distance="from Jupiter" />
       {/if}
     </div>
   </div>
   <div class="europa orbit absolute ignore"></div>
   <div class="ganymede orbit bound circle absolute">
-    <div
-      class="moon"
-      use:orbital_telemetry={ganymede_data}
-      bind:this={ganymede}
-      onmouseenter={() => set_visible_facts("Ganymede")}
-      role="button"
-      tabindex="0"
-    >
+    <div class="moon" use:orbital_telemetry={ganymede_data} bind:this={ganymede} role="button" tabindex="0">
       <MoonShadow />
-      {#if showing === "Ganymede"}
+      {#if ganymede_data.show_info}
         <MoonFacts facts={facts.Ganymede} title="Ganymede" distance="from Jupiter" />
       {/if}
     </div>
@@ -139,6 +112,7 @@
     position: absolute;
     right: 5%;
     top: 10%;
+    z-index: 2;
   }
 
   .circle {

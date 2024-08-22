@@ -6,9 +6,11 @@
   import { onMount } from "svelte";
   import type { CelestialBodyData, Coords } from "$lib/types/schema";
 
+  const debug_mode = false;
+
   class Ship {
-    x = $state(300);
-    y = $state(1200);
+    x = $state(-300);
+    y = $state(-300);
     large = $state(true);
     rotation = $state(-90);
     trip_duration = $state(2000);
@@ -27,24 +29,42 @@
     ascent_mode = $state(false);
     descent_mode = $state(false);
     orbit_rotation_transform = $state(0);
+    z_i = $state(10);
+    heading_to_orbit = $state(false);
 
+    // animation for the ship to orbit around the planet
     ship_orbit = () => {
-      console.log("orbiting");
       if (this.orbiting || this.ascent_mode || this.descent_mode) {
         this.orbit_rotation_transform += 0.25;
       }
+
       if (this.orbiting || this.ascent_mode || this.descent_mode) {
+        // if the orbit is in motion, the orbit center needs to track it
+        switch (this.orbit_target) {
+          case 1:
+            this.adjust_orbit_center(io_data);
+            break;
+          case 2:
+            this.adjust_orbit_center(europa_data);
+            break;
+          case 3:
+            this.adjust_orbit_center(ganymede_data);
+            break;
+        }
+
         requestAnimationFrame(this.ship_orbit);
       }
     };
 
+    // set the ship's position without flight
     set_position(x: number, y: number) {
       this.x = x;
       this.y = y;
     }
 
+    // if the ship is in motion, add the coords to the queue
     set_waypoint = (x: number, y: number) => {
-      if (this.in_motion || this.orbiting) {
+      if (this.in_motion || this.orbiting || this.ascent_mode || this.descent_mode || this.heading_to_orbit) {
         this.waypoint_queue.push({ x, y });
         return;
       }
@@ -56,11 +76,23 @@
       y_move.set(coords.y, { duration: this.trip_duration, easing: sineIn });
     }
 
+    // for moons in motion while orbiting
+    adjust_orbit_center(moon: CelestialBodyData) {
+      x_move.set(moon.x + (moon.width / 2 - this.size / 2), { duration: 10, easing: sineIn });
+      y_move.set(moon.y + (moon.height / 2 - this.size / 2), { duration: 10, easing: sineIn });
+    }
+
+    // set the orbit target and the center of the orbit
     async set_orbit(number: 0 | 1 | 2 | 3, immediate: boolean = false) {
       this.orbit_target = number;
 
       await this.delay(immediate ? 0 : this.trip_duration);
 
+      if (this.waypoint_queue.length > 0) {
+        this.waypoint_queue = [];
+      }
+
+      this.heading_to_orbit = false;
       this.orbiting = true;
 
       switch (number) {
@@ -70,18 +102,39 @@
             x: jupiter_data.x + (jupiter_data.width / 2 - this.size / 2),
             y: jupiter_data.y + (jupiter_data.height / 2 - this.size / 2)
           });
+
+          jupiter_data.show_info = true;
           break;
         case 1:
-          this.orbit_radius = 200;
+          this.orbit_radius = io_data.width * 5;
+          this.set_orbit_center({
+            x: io_data.x + (io_data.width / 2 - this.size / 2),
+            y: io_data.y + (io_data.height / 2 - this.size / 2)
+          });
+
+          io_data.show_info = true;
           break;
         case 2:
-          this.orbit_radius = 300;
+          this.orbit_radius = europa_data.width * 5;
+          this.set_orbit_center({
+            x: europa_data.x + (europa_data.width / 2 - this.size / 2),
+            y: europa_data.y + (europa_data.height / 2 - this.size / 2)
+          });
+
+          europa_data.show_info = true;
           break;
         case 3:
-          this.orbit_radius = 400;
+          this.orbit_radius = ganymede_data.width * 5;
+          this.set_orbit_center({
+            x: ganymede_data.x + (ganymede_data.width / 2 - this.size / 2),
+            y: ganymede_data.y + (ganymede_data.height / 2 - this.size / 2)
+          });
+
+          ganymede_data.show_info = true;
           break;
       }
 
+      // start the animation
       this.ship_orbit();
     }
 
@@ -91,8 +144,13 @@
       await this.delay(2000);
       this.ascent_mode = false;
       this.check_queue();
+      jupiter_data.show_info = false;
+      io_data.show_info = false;
+      ganymede_data.show_info = false;
+      europa_data.show_info = false;
     }
 
+    // displays the visual marker for the ship's destination
     ping_location(x: number, y: number) {
       this.ping_coords = { x, y };
       this.ping = true;
@@ -104,6 +162,7 @@
     // helper for anitmation
     delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+    // duh
     async fly(x: number, y: number, ping: boolean = true) {
       this.set_rotation_angle(x, y);
       this.calculate_trip_duration(x, y);
@@ -157,12 +216,10 @@
       this.ignition = true;
       this.launched = true;
 
-      const escape_pixelocity = h;
-
-      const offscreen = { x: this.x, y: this.y - escape_pixelocity };
-
-      this.calculate_trip_duration(this.x, this.y - escape_pixelocity);
+      // figure out the offscreen coords and flight duration
+      const offscreen = { x: this.x, y: this.y - h };
       const coords = { x: this.x, y: offscreen.y - this.size / 2 };
+      this.calculate_trip_duration(this.x, this.y - h);
 
       await this.delay(200);
       this.in_motion = true;
@@ -172,9 +229,11 @@
 
       await this.delay(this.trip_duration);
 
+      // push the ship behind the text characters
+      this.z_i = 5;
+
       this.large = false;
       this.speed = 0.2;
-
       this.fly(w * 0.5, h * 0.5, false);
     }
 
@@ -255,59 +314,58 @@
     return false;
   };
 
+  const handle_body_click = (index: 0 | 1 | 2 | 3, body: CelestialBodyData) => {
+    if (ship.orbiting) {
+      ship.leave_orbit();
+      return;
+    }
+
+    if (check_celestial_position({ x: ship.x, y: ship.y }, body)) {
+      ship.set_orbit(index, true);
+      return;
+    }
+
+    ship.set_waypoint(coords.x, coords.y);
+
+    // heading to orbit will put any clicks made between the ship and the orbit target into the queue
+    ship.heading_to_orbit = true;
+    ship.set_orbit(index);
+  };
+
+  const detect_celestial_body_click = (coords: Coords) => {
+    if (check_celestial_position(coords, jupiter_data)) {
+      handle_body_click(0, jupiter_data);
+      return true;
+    }
+    if (check_celestial_position(coords, io_data)) {
+      handle_body_click(1, io_data);
+      return true;
+    }
+    if (check_celestial_position(coords, europa_data)) {
+      handle_body_click(2, europa_data);
+      return true;
+    }
+    if (check_celestial_position(coords, ganymede_data)) {
+      handle_body_click(3, ganymede_data);
+      return true;
+    }
+    return false;
+  };
+
   const handle_click = () => {
     if (!ship.launched) {
       ship.launch();
       return;
     }
 
-    // CLICKING ON JUPITER
-    // check to see if the coords are within the bounds of jupiter
-    if (check_celestial_position(coords, jupiter_data)) {
-      console.log("hi jupiter", jupiter_data);
-
-      // if we are orbiting jupiter and we click on jupiter
-      if (ship.orbit_target === 0 && ship.orbiting) {
-        ship.leave_orbit();
-        return;
-      }
-
-      // if we are not orbiting jupiter but the ship is already over the planet
-      if (!ship.orbiting && check_celestial_position({ x: ship.x, y: ship.y }, jupiter_data)) {
-        ship.set_orbit(0, true);
-        return;
-      }
-
-      ship.set_waypoint(coords.x, coords.y);
-      ship.set_orbit(0);
+    if (detect_celestial_body_click(coords)) {
       return;
     }
 
-    // check to see if the coords are within the bounds of io
-    if (check_celestial_position(coords, io_data)) {
-      console.log("hi io");
-    }
-
-    // check to see if the coords are within the bounds of europa
-    if (check_celestial_position(coords, europa_data)) {
-      console.log("hi europa");
-    }
-
-    // check to see if the coords are within the bounds of ganymede
-    if (check_celestial_position(coords, ganymede_data)) {
-      console.log("hi ganymede");
-    }
-
-    // if we didn't click on a body but we're orbiting
     if (ship.orbiting) {
-      ship.set_waypoint(coords.x, coords.y);
-
       ship.leave_orbit();
       return;
     }
-    //console.log("io", io_data);
-    //console.log("europa", europa_data);
-    //console.log("ganymede", ganymede_data);
     ship.set_waypoint(coords.x, coords.y);
   };
 
@@ -331,30 +389,36 @@
       style:left="{ship.ping_coords.x}px"
     ></div>
   {/if}
+</div>
+<div
+  class="ship"
+  style:z-index={ship.z_i}
+  style:top="{ship.y}px"
+  style:left="{ship.x}px"
+  style:width="{ship.size}px"
+  style:height="{ship.size}px"
+  style:transform="rotate({ship.rotation}deg)"
+>
   <div
-    class="ship"
-    style:top="{ship.y}px"
-    style:left="{ship.x}px"
-    style:width="{ship.size}px"
-    style:height="{ship.size}px"
-    style:transform="rotate({ship.rotation}deg)"
+    class="orbit_modifier"
+    style:width="{ship.ship_conatainer_size}px"
+    style:height="{ship.ship_conatainer_size}px"
+    style:transform="rotate({ship.orbit_rotation_transform}deg)"
   >
-    <div
-      class="orbit_modifier"
-      style:width="{ship.ship_conatainer_size}px"
-      style:height="{ship.ship_conatainer_size}px"
-      style:transform="rotate({ship.orbit_rotation_transform}deg)"
-    >
-      <Rocket
-        ignition={ship.ignition || ship.orbiting || ship.ascent_mode || ship.descent_mode}
-        size={ship.size}
-        launched={ship.launched}
-        decent_mode={ship.descent_mode}
-        orbit_mode={ship.orbiting}
-        orbit_size={40}
-      />
-    </div>
+    <Rocket
+      ignition={ship.ignition || ship.orbiting || ship.ascent_mode || ship.descent_mode}
+      size={ship.size}
+      launched={ship.launched}
+      decent_mode={ship.descent_mode}
+      orbit_mode={ship.orbiting}
+      orbit_size={40}
+    />
+    {#if !ship.launched}
+      <div class="click_me">Hey, click to launch!</div>
+    {/if}
   </div>
+</div>
+{#if debug_mode}
   <div class="debug">
     <p>Mouse X: {coords.x}</p>
     <p>Mouse Y: {coords.y}</p>
@@ -370,7 +434,7 @@
     </p>
     <p>Ship size: {ship.size}</p>
   </div>
-</div>
+{/if}
 
 <style>
   .ping {
@@ -393,7 +457,7 @@
     height: 100%;
     font-size: 2rem;
     overflow: hidden;
-    z-index: 10;
+    z-index: 15;
   }
 
   .ship {
@@ -403,19 +467,33 @@
     transform-origin: center;
     display: flex;
     justify-content: center;
+    z-index: 8;
     align-items: center;
     line-height: 2rem;
   }
 
+  .click_me {
+    position: absolute;
+    top: 125%;
+    left: 41%;
+    transform: rotate(90deg);
+    font-family: "Jost", sans-serif;
+    font-weight: 300;
+    color: white;
+    z-index: 10;
+    font-size: 14px;
+    line-height: 1.4;
+    width: 200px;
+  }
   .orbit_modifier {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid white;
-    border-left: 1px solid blue;
-    border-right: 1px solid red;
-    border-bottom: 1px solid green;
+    /*border-top: 1px solid white;*/
+    /*border-left: 1px solid blue;*/
+    /*border-right: 1px solid red;*/
+    /*border-bottom: 1px solid green;*/
     border-radius: 50%;
     transition:
       2s width ease-out,
