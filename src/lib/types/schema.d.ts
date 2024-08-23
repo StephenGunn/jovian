@@ -20,6 +20,7 @@ export type CelestialBodyFacts = {
   moons: number;
   orbit_days: string;
   orbit_years?: string;
+  moons_not_shown?: number;
 };
 
 export type FactsMap = {

@@ -8,18 +8,6 @@
   import { onMount } from "svelte";
   import type { CelestialBodyData } from "$lib/types/schema";
 
-  type CelestialBody = "Jupiter" | "Io" | "Europa" | "Ganymede";
-  let showing: CelestialBody | undefined = $state(undefined);
-
-  $inspect(showing);
-
-  let timeout: ReturnType<typeof setTimeout>;
-  const set_visible_facts = (body: CelestialBody) => {
-    showing = body;
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => (showing = undefined), 5000);
-  };
-
   let jupiter: HTMLDivElement | undefined = $state();
   let io: HTMLDivElement | undefined = $state();
   let europa: HTMLDivElement | undefined = $state();
@@ -39,6 +27,11 @@
     }
     requestAnimationFrame(checkPosition);
   };
+
+  $inspect(jupiter_data.show_info, "jupiter_data");
+  $inspect(io_data.show_info, "io_data");
+  $inspect(europa_data.show_info, "europa_data");
+  $inspect(ganymede_data.show_info, "ganymede_data");
 
   onMount(() => {
     if (!jupiter || !io || !europa || !ganymede) return;
@@ -68,6 +61,7 @@
       <MoonFacts facts={facts.Jupiter} title="Jupiter" distance="from Sun" />
     {/if}
   </div>
+
   <div class="io orbit bound circle absolute">
     <div use:orbital_telemetry={io_data} bind:this={io} class="moon" role="button" tabindex="0">
       <MoonShadow />
@@ -77,6 +71,7 @@
     </div>
   </div>
   <div class="io orbit absolute ignore"></div>
+
   <div class="europa orbit bound circle absolute">
     <div class="moon" use:orbital_telemetry={europa_data} bind:this={europa} role="button" tabindex="0">
       <MoonShadow />
@@ -86,6 +81,7 @@
     </div>
   </div>
   <div class="europa orbit absolute ignore"></div>
+
   <div class="ganymede orbit bound circle absolute">
     <div class="moon" use:orbital_telemetry={ganymede_data} bind:this={ganymede} role="button" tabindex="0">
       <MoonShadow />

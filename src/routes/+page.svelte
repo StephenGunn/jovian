@@ -1,7 +1,6 @@
 <script lang="ts">
   import Waves from "$lib/homepage/Waves.svelte";
   import Orbits from "$lib/homepage/Orbits.svelte";
-  import StarField from "$lib/layout/art/StarField.svelte";
   import Ship from "$lib/homepage/Ship.svelte";
 </script>
 
@@ -11,7 +10,6 @@
     <div class="tagline">Digital playground of Stephen Gunn</div>
   </div>
   <Ship />
-  <StarField />
   <Waves />
   <Orbits />
 </div>

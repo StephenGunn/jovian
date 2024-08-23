@@ -28,9 +28,17 @@
     Orbit <span>{days ? facts.orbit_days : facts.orbit_years ? facts.orbit_years : facts.orbit_days}</span>
   </div>
 
-  {#if facts.moons > 0}
-    <div in:fly={{ delay: duration * 6, duration, x }}>Moons <span>{facts.moons}</span></div>
-  {/if}
+  <div in:fly={{ delay: duration * 6, duration, x }}>
+    {#if facts.moons > 0}
+      Moons <span>{facts.moons}</span>
+    {/if}
+  </div>
+
+  <div in:fly={{ delay: duration * 7, duration, x }}>
+    {#if facts.moons > 0}
+      Moons not shown <span>{facts.moons_not_shown}</span>
+    {/if}
+  </div>
 </div>
 
 <style>

@@ -1,5 +1,7 @@
 import type { FactsMap } from "$lib/types/schema";
 
+export const debug_mode = false;
+
 export const menu = [
   {
     id: 1,
@@ -33,6 +35,7 @@ export const facts: FactsMap = {
     temperature_c: "-145°C",
     temperature_f: "-229°F",
     moons: 95,
+    moons_not_shown: 92,
     orbit_days: "4333 days",
     orbit_years: "11.86 years"
   },
