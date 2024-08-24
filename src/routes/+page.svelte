@@ -2,6 +2,7 @@
   import Waves from "$lib/homepage/Waves.svelte";
   import Orbits from "$lib/homepage/Orbits.svelte";
   import Ship from "$lib/homepage/Ship.svelte";
+  import MeteorShower from "$lib/homepage/MeteorShower.svelte";
 </script>
 
 <div class="scene">
@@ -11,6 +12,7 @@
   </div>
   <Ship />
   <Waves />
+  <MeteorShower />
   <Orbits />
 </div>
 

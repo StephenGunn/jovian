@@ -25,7 +25,7 @@
     descent_mode = $state(false);
 
     // movement
-    speed = 0.4;
+    speed = 0.4; // this is changed after launch
     ping = $state(false);
     orbiting = $state(false);
     in_motion = $state(false);
@@ -40,7 +40,7 @@
     size = $derived(this.large ? 150 : 50);
 
     /////////////////////////////////////////////////////////////////
-    // helper for anitmation sequencing
+    // helpers for anitmation sequencing & positioning
     private delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
     // set the ship's position without flight or animation
@@ -49,7 +49,7 @@
       this.y = y;
     }
 
-    // if the ship is in motion, add the coords to the queue
+    // handle navigation commands, if the ship is in motion, add the coords to the queue
     set_waypoint = (x: number, y: number) => {
       if (this.in_motion || this.orbiting || this.ascent_mode || this.descent_mode) {
         this.waypoint_queue.push({ x, y });
@@ -85,11 +85,14 @@
 
       await this.delay(this.trip_duration);
 
-      // push the ship behind the text characters
+      // push the ship behind the text
       this.z_i = 5;
 
+      // change ship appearance and speed
       this.large = false;
       this.speed = 0.2;
+
+      // fly to the center of the screen
       this.fly(w * 0.5, h * 0.5, false);
     }
 
@@ -428,7 +431,7 @@
   </div>
 </div>
 {#if ship.trip_counter === 1 && !ship.in_motion}
-  <div class="where_to" transition:fly={{ duration: 100, x: 30 }}>Where to, boss?</div>
+  <div class="where_to" transition:fly={{ duration: 100, x: 30 }}>Where to, hoss?</div>
 {/if}
 {#if debug_mode}
   <div class="debug">

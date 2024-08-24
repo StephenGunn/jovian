@@ -28,11 +28,6 @@
     requestAnimationFrame(checkPosition);
   };
 
-  $inspect(jupiter_data.show_info, "jupiter_data");
-  $inspect(io_data.show_info, "io_data");
-  $inspect(europa_data.show_info, "europa_data");
-  $inspect(ganymede_data.show_info, "ganymede_data");
-
   onMount(() => {
     if (!jupiter || !io || !europa || !ganymede) return;
     jupiter_data.x = jupiter.getBoundingClientRect().left;

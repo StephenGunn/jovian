@@ -1,8 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
 
-  $inspect(page);
-
   let width = $state(0);
   let left = $state(0);
   let scroll = $state(0);
@@ -19,7 +17,6 @@
     left = offsetLeft;
   };
 
-  $inspect($page);
   $effect(() => {
     switch ($page.route.id) {
       case "/":
