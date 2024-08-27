@@ -6,23 +6,10 @@ site and contact me if you have any questions.
 It's built with SvelteKit and was developed during the beta phases of Svelte 5 as an exercise to learn the new
 framework.
 
-## Creating a Project
+## Running Locally
 
-If you're reading this, you've probably already set up the project. But just in case, here’s how you can
-create a new Svelte project:
-
-```bash
-# Create a new project in the current directory
-npm create svelte@latest
-
-# Or, create a new project in a directory named my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), you
-can start a development server:
+If you clone this project you can attempt to run it locally. This may or may not work depending on the state
+of site and if I am using any private APIs or services.
 
 ```bash
 npm run dev
@@ -30,19 +17,6 @@ npm run dev
 # Or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> **Note:** To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for
-> your target environment.
 
 ## Important Notes
 
