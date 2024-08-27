@@ -6,6 +6,16 @@ site and contact me if you have any questions.
 It's built with SvelteKit and was developed during the beta phases of Svelte 5 as an exercise to learn the new
 framework.
 
+## Todo List
+
+- [ ] Add Projects to the site
+- [ ] Add a simple commenting system using Lucia Auth, Drizzle, and Turso
+- [ ] Add a simple contact form
+- [ ] Add a simple newsletter signup form
+- [ ] Add a simple search feature
+- [ ] Add a simple RSS feed
+- [ ] Add a simple sitemap
+
 ## Running Locally
 
 If you clone this project you can attempt to run it locally. This may or may not work depending on the state
