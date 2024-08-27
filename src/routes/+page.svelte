@@ -3,7 +3,14 @@
   import Orbits from "$lib/homepage/Orbits.svelte";
   import Ship from "$lib/homepage/Ship.svelte";
   import MeteorShower from "$lib/homepage/MeteorShower.svelte";
+  import StarField from "$lib/layout/art/StarField.svelte";
+  import Seo from "sk-seo";
 </script>
+
+<Seo
+  title="JovianMoon.io"
+  description="Digital playground for Stephen Gunn featuring blog posts, projects, expiriments, and links to web development resources."
+/>
 
 <div class="scene">
   <div class="text">
@@ -13,6 +20,7 @@
   <Ship />
   <Waves />
   <MeteorShower />
+  <StarField />
   <Orbits />
 </div>
 

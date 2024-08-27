@@ -3,24 +3,29 @@
   import "$lib/css/app.css";
 
   // meta
-  import Seo from "sk-seo";
 
-  import StarField from "$lib/layout/art/StarField.svelte";
   import Header from "$lib/layout/Header.svelte";
   import Footer from "$lib/layout/Footer.svelte";
 </script>
 
-<Seo
-  title="JovianMoon.io"
-  description="Digital playground for Stephen Gunn featuring blog posts, projects, expiriments, and links to web development resources."
-/>
-
-<StarField />
-<Header />
-<main>
-  <slot></slot>
-</main>
-<Footer />
+<div class="app">
+  <Header />
+  <main>
+    <slot></slot>
+  </main>
+  <Footer />
+</div>
 
 <style>
+  .app {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
+  }
 </style>

@@ -2,7 +2,7 @@
 </script>
 
 <footer>
-  &copy; {new Date().getFullYear()} JovianMoon.io, all rights reserved.
+  &copy; {new Date().getFullYear()} JovianMoon.io. All rights reserved.
 </footer>
 
 <style>

@@ -1,9 +1,9 @@
 import { error } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
+import type { PageLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params }) => {
   try {
-    const post = await import(`../../../posts/${params.slug}.md`);
+    const post = await import(`./../../../content/posts/${params.slug}.md`);
 
     // can we pass a component from the server to the client?
     return {

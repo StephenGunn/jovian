@@ -4,6 +4,23 @@
   let width = $state(0);
   let left = $state(0);
   let scroll = $state(0);
+  let last_scroll = $state(0);
+  let show_header = $state(true);
+
+  const determine_header_visibility = (scroll: number) => {
+    if (scroll > last_scroll && show_header === true) {
+      show_header = false;
+    } else if (scroll < last_scroll && show_header === false) {
+      show_header = true;
+    }
+    last_scroll = scroll;
+  };
+
+  $inspect(show_header, "show_header");
+
+  $effect(() => {
+    determine_header_visibility(scroll);
+  });
 
   let home: HTMLAnchorElement | undefined = $state();
   let posts: HTMLAnchorElement | undefined = $state();
@@ -45,7 +62,7 @@
 
 <svelte:window bind:scrollY={scroll} />
 <header>
-  <nav class:scrolled={scroll > 100}>
+  <nav class:scrolled={scroll > 100} class:hide={!show_header}>
     <ul>
       <li><a bind:this={home} href="/">Home</a></li>
       <li><a bind:this={posts} href="/posts">Posts</a></li>
@@ -62,15 +79,15 @@
     position: absolute;
     bottom: 2px;
     height: 3px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-accent-3);
     z-index: 10;
     transition: all 200ms ease-in-out;
   }
   header {
     position: fixed;
     top: 1rem;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     z-index: 20;
@@ -80,12 +97,17 @@
     position: relative;
     padding: 0 1rem;
     border-radius: 2rem;
+    transition: all 200ms ease-in-out;
   }
 
   nav.scrolled {
-    outline: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    outline: 1px solid var(--subtle-highlight);
+    background-color: var(--semi-transparent);
+    backdrop-filter: blur(3px);
+  }
+
+  nav.hide {
+    transform: translateY(-130%);
   }
 
   nav ul {

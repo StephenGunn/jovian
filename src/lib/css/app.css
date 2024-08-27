@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
@@ -13,6 +12,9 @@
   --light-secondary: #c2eabd;
   --light-accent: #f7aef8;
   --light-highlight: #c3bef7;
+  --light-subtle-highlight: rgba(41, 39, 55, 0.3);
+  --light-semi-transparent: rgba(18, 17, 23, 0.5);
+  --light-muted-color: #6e738d;
 
   --dark-bg: #121117;
   --dark-bg-accent-1: #282f44;
@@ -21,18 +23,86 @@
   --dark-font-color: #f1f0e9;
   --dark-primary: #f4845f;
   --dark-secondary: #c2eabd;
-  --dark-accent: #f7aef8;
+  --dark-accent: #eb5967;
   --dark-highlight: #c3bef7;
+  --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
+  --dark-semi-transparent: rgba(18, 17, 23, 0.9);
+  --dark-muted-color: #6e738d;
+
+  --column-width: 1000px;
+
+  /* light-dark combinator */
+  --accent: light-dark(var(--light-accent), var(--dark-accent));
+  --bg: light-dark(var(--light-bg), var(--dark-bg));
+  --bg-accent-1: light-dark(var(--light-bg-accent-1), var(--dark-bg-accent-1));
+  --bg-accent-2: light-dark(var(--light-bg-accent-2), var(--dark-bg-accent-2));
+  --bg-accent-3: light-dark(var(--light-bg-accent-3), var(--dark-bg-accent-3));
+  --font-color: light-dark(var(--light-font-color), var(--dark-font-color));
+  --primary: light-dark(var(--light-primary), var(--dark-primary));
+  --secondary: light-dark(var(--light-secondary), var(--dark-secondary));
+  --highlight: light-dark(var(--light-highlight), var(--dark-highlight));
+  --subtle-highlight: light-dark(var(--light-subtle-highlight), var(--dark-subtle-highlight));
+  --semi-transparent: light-dark(var(--light-semi-transparent), var(--dark-semi-transparent));
+  --muted-color: light-dark(var(--light-muted-color), var(--dark-muted-color));
+}
+
+html {
+  font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem);
 }
 
 body {
-  font-family: "Merriweather", "Georgia", serif;
+  font-family: "Jost", "Arial", sans-serif;
   background-color: light-dark(var(--light-bg), var(--dark-bg));
   color: light-dark(var(--light-color), var(--dark-color));
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Jost", sans-serif;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 2vw + 1rem, 3.5rem);
   font-weight: 200;
-  font-size: 5rem;
+}
+
+h2 {
+  font-size: clamp(1.25rem, 1.5vw + 0.75rem, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.125rem, 1vw + 0.5rem, 1.75rem);
+}
+
+/* Further down you can reduce the scaling effect */
+h4 {
+  font-size: clamp(1rem, 0.75vw + 0.5rem, 1.5rem);
+}
+
+h5 {
+  font-size: clamp(0.875rem, 0.5vw + 0.5rem, 1.25rem);
+}
+
+h6 {
+  font-size: clamp(0.75rem, 0.5vw + 0.25rem, 1rem);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.column {
+  width: var(--column-width);
+  margin: 0 auto;
+  padding: 8rem 5rem 4rem 5rem;
 }

@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { dev } from "$app/environment";
-  import { debug_mode } from "$lib/data";
+  import { browser } from "$app/environment";
   import Star from "./Star.svelte";
 
   let width: number = $state(0);
@@ -8,9 +7,11 @@
 
   // we want to serverside render the starfield
   // we will render more stars than we need to, on the server, so we don't have to wait for the
-  // window dimensions to be available
-  const star_count = 20;
-  const tiny_star_count = 300;
+  // window dimensions to be available to generate the dom elements
+  let {
+    large_star_count = 20,
+    tiny_star_count = 300
+  }: { large_star_count?: number; tiny_star_count?: number } = $props();
 
   // random numbers
   const random = (min: number, max: number): number => {
@@ -27,11 +28,11 @@
 
   // generate an array of random positions for the stars that are between 3000 x 1500
   let stars: StarData[] = $state(
-    Array.from({ length: star_count }).map(() => ({
+    Array.from({ length: large_star_count }).map(() => ({
       size: `${random(0.1, 1)}rem`,
       left: `${random(0, 3000)}px`,
       top: `${random(0, 1500)}px`,
-      opacity: 1
+      opacity: 1 // big stars are always full brightness
     }))
   );
 
@@ -48,7 +49,7 @@
   // a function to make sure our stars aren't too close together
   const check_star_positions = (stars: StarData[]) => {
     let max_attempts = 10;
-    let threshold = 150;
+    let threshold = 150; // the minimum distance between big stars
 
     return stars.map((star, index) => {
       let new_star = { ...star };
@@ -80,8 +81,8 @@
         }
 
         // Reposition star
-        new_star.left = `${Math.random() * 3000}px`;
-        new_star.top = `${Math.random() * 1500}px`;
+        new_star.left = `${random(0, 3000)}px`;
+        new_star.top = `${random(0, 1500)}px`;
         attempts++;
       }
 
@@ -91,6 +92,7 @@
 
   // check to see if stars are in the viewbox, so we can unrender the dom elements if they arent
   const in_view_box = (star: StarData) => {
+    if (!browser) return true; // we don't need to check this on the server
     const left = Number(star.left.replace("px", ""));
     const top = Number(star.top.replace("px", ""));
     return left > 0 && left < width && top > 0 && top < height;
@@ -98,12 +100,8 @@
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
+
 <div class="star-field">
-  {#if dev && debug_mode}
-    <div class="debug">
-      {width} x {height}
-    </div>
-  {/if}
   {#each check_star_positions(stars) as star}
     {#if in_view_box(star)}
       <Star size={star.size} left={star.left} top={star.top} opacity={star.opacity} />
@@ -118,22 +116,9 @@
 
 <style>
   .star-field {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
     z-index: 1;
-  }
-
-  .debug {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0.5rem;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 1rem;
   }
 </style>

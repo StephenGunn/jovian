@@ -16,7 +16,9 @@
   style:left
   style:top
   style:opacity
-  style="width: {size}; height: {size};"
+  style:width={size}
+  style:height={size}
+  style="position: absolute; z-index: 1;"
   viewBox="0 0 50 50"
   version="1.1"
   xmlns="http://www.w3.org/2000/svg"
@@ -28,10 +30,3 @@
     transform="translate(10.819344,13.687611)"
   />
 </svg>
-
-<style>
-  svg {
-    position: absolute;
-    z-index: 1;
-  }
-</style>
