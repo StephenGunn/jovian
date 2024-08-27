@@ -1,11 +1,7 @@
-Here’s an updated README with the additional information:
-
-````markdown
 # JovianMoon.io - My Personal Site and Blog
 
-Welcome to my Svelte project! This project powers [JovianMoon.io](https://jovianmoon.io), my personal site and
-blog. My name is Stephen Gunn, and I’ve built this project to share my thoughts, projects, and ideas. Feel
-free to browse the site and contact me if you have any questions.
+This project powers [JovianMoon.io](https://jovianmoon.io), my personal site and blog. Feel free to browse the
+site and contact me if you have any questions.
 
 ## Creating a Project
 
@@ -19,7 +15,6 @@ npm create svelte@latest
 # Or, create a new project in a directory named my-app
 npm create svelte@latest my-app
 ```
-````
 
 ## Developing
 
@@ -56,5 +51,3 @@ this README. Please be aware that you’re using this project at your own risk.
 Feel free to explore [JovianMoon.io](https://jovianmoon.io) and reach out to me if you have any questions or
 feedback. You can contact me through the site’s contact form or via
 [Twitter](https://twitter.com/jovianmoonio).
-
-Happy coding!
