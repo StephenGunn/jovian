@@ -47,14 +47,14 @@ appealing.
 
 ## The Components
 
-The starfield is made up of two components: the `StarField` and the `Star`. The `StarField` component
-generates the stars and renders them on the screen, while the `Star` component is responsible for rendering an
-individual star.
+The starfield is made up of two components: the `Starfield.svelte` and the `Star.svelte`. The
+`Starfield.svelte` component generates the stars and renders them on the screen, while the `Star` component is
+responsible for rendering an individual star.
 
 ### The Star Component
 
-The `Star` component is a simple SVG that can accept a size, position, and opacity as props. The SVG shape was
-made in [Inkscape](https://inkscape.org/) and then copied into the component.
+The `Star.svelte` component is a simple SVG that can accept a size, position, and opacity as props. The SVG
+shape was made in [Inkscape](https://inkscape.org/) and then copied into the component.
 
 ```svelte:Star.svelte
 <script lang="ts">
@@ -93,8 +93,8 @@ made in [Inkscape](https://inkscape.org/) and then copied into the component.
 
 ### The Starfield Component
 
-The `StarField` is a bit more complex, so I will post the whole thing and then break down the sections and
-give justifications for the choices made.
+The `Starfield.svelte` is a bit more complex, so I will post the whole thing and then break down the sections
+and give justifications for the choices made.
 
 ```svelte:Starfield.svelte
 <script lang="ts">

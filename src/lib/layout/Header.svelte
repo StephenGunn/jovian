@@ -16,7 +16,7 @@
     last_scroll = scroll;
   };
 
-  $inspect(show_header, "show_header");
+  $inspect($page);
 
   $effect(() => {
     determine_header_visibility(scroll);
@@ -35,27 +35,21 @@
   };
 
   $effect(() => {
-    switch ($page.route.id) {
-      case "/":
-        if (!home) return;
-        set_underline(home);
-        break;
-      case "/posts":
-        if (!posts) return;
-        set_underline(posts);
-        break;
-      case "/projects":
-        if (!projects) return;
-        set_underline(projects);
-        break;
-      case "/about":
-        if (!about) return;
-        set_underline(about);
-        break;
-      case "/contact":
-        if (!contact) return;
-        set_underline(contact);
-        break;
+    if ($page.route.id === "/") {
+      if (!home) return;
+      set_underline(home);
+    } else if ($page.route.id?.includes("/posts")) {
+      if (!posts) return;
+      set_underline(posts);
+    } else if ($page.route.id?.includes("/projects")) {
+      if (!projects) return;
+      set_underline(projects);
+    } else if ($page.route.id?.includes("/about")) {
+      if (!about) return;
+      set_underline(about);
+    } else if ($page.route.id?.includes("/contact")) {
+      if (!contact) return;
+      set_underline(contact);
     }
   });
 </script>

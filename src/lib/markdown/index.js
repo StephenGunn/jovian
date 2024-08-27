@@ -15,6 +15,8 @@ import remarkSmartypants from "remark-smartypants";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodeTitles from "rehype-code-titles";
+import rehypeHighlight from "rehype-highlight";
+import rehypeHighlightCodeLines from "rehype-highlight-code-lines";
 import rehypeShiki from "@shikijs/rehype";
 import { transformerMetaHighlight } from "@shikijs/transformers";
 import { rehypeCopyCode, rehypeUnwrapImages } from "./plugins.js";
@@ -30,6 +32,10 @@ const markdownProcessor = unified()
   .use(rehypeShiki, {
     theme: "catppuccin-macchiato",
     transformers: [transformerMetaHighlight()]
+  })
+  .use(rehypeHighlight)
+  .use(rehypeHighlightCodeLines, {
+    showLineNumbers: true
   })
   .use(rehypeUnwrapImages)
   .use(rehypeCopyCode)

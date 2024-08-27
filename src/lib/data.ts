@@ -25,6 +25,8 @@ export const menu = [
   }
 ] as const;
 
+export type Sections = "home" | "about" | "posts" | "projects" | "contact";
+
 export const facts: FactsMap = {
   Jupiter: {
     distance_km: "778.5 million km",

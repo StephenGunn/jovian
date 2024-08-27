@@ -2,7 +2,8 @@
 </script>
 
 <footer>
-  &copy; {new Date().getFullYear()} JovianMoon.io. All rights reserved.
+  &copy; {new Date().getFullYear()} JovianMoon.io. All rights reserved. |
+  <a href="/privacy-policy">Privacy Policy</a> | <a href="/terms-and-conditions">Terms and Conditions</a>
 </footer>
 
 <style>
