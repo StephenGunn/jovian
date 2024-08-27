@@ -1,7 +1,10 @@
-# JovianMoon.io - My Personal Site and Blog
+# JovianMoon.io - Personal Site and Blog
 
 This project powers [JovianMoon.io](https://jovianmoon.io), my personal site and blog. Feel free to browse the
 site and contact me if you have any questions.
+
+It's built with SvelteKit and was developed during the beta phases of Svelte 5 as an exercise to learn the new
+framework.
 
 ## Creating a Project
 
