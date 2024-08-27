@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "$lib/css/fonts.css";
   import "$lib/css/reset.css";
   import "$lib/css/app.css";
 

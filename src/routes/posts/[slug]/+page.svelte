@@ -5,6 +5,7 @@
   import "$lib/css/blog.css";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import Seo from "sk-seo";
+  import ContactLink from "./ContactLink.svelte";
 
   let { data } = $props();
   let { content, meta } = data;
@@ -48,7 +49,15 @@
   </div>
 </div>
 
+<div class="contact">
+  <ContactLink />
+</div>
+
 <style>
+  .contact {
+    max-width: 800px;
+    margin: 1rem auto;
+  }
   .categories {
     display: flex;
     align-items: center;
