@@ -31,7 +31,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgb(41, 39, 55);
     overflow: hidden;
     background: radial-gradient(
       circle,
@@ -63,5 +62,22 @@
     position: relative;
     top: -0.5rem;
     left: 10%;
+  }
+
+  @media (max-width: 1300px) {
+    .text {
+      top: 10%;
+      left: 10%;
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .tagline {
+      position: relative;
+      top: initia;
+      left: initial;
+    }
   }
 </style>

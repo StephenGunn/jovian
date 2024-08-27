@@ -1,7 +1,7 @@
 <svg
   class="waves"
+  preserveAspectRatio="xMidYMid meet"
   viewBox="0 0 960 540"
-  preserveAspectRatio="none"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   version="1.1"
@@ -23,9 +23,9 @@
 <style>
   .waves {
     width: 100%;
-    height: 100%;
+    height: auto;
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     z-index: 8;
     pointer-events: none;

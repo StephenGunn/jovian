@@ -351,6 +351,7 @@
     }
   }
 
+  // normal component logic
   const ship = new Ship();
 
   const x_move = tweened(0, {
@@ -380,7 +381,16 @@
   let h = $state(0);
 
   onMount(() => {
-    ship.set_launch_position(w * 0.22, h * 0.745);
+    // setup breakpoints based on the w/h
+    if (w <= 1300) {
+      ship.set_launch_position(w * 0.22, h * 0.745);
+    } else if (w <= 1000) {
+      ship.set_launch_position(w * 0.22, h * 0.83);
+    } else if (w <= 800) {
+      ship.set_launch_position(w * 0.15, h * 0.97);
+    } else {
+      ship.set_launch_position(w * 0.22, h * 0.745);
+    }
   });
 </script>
 

@@ -13,7 +13,7 @@
 </script>
 
 <div class="facts">
-  <h2 transition:fly={{ duration, x }}>{title}</h2>
+  <div class="title" transition:fly={{ duration, x }}>{title}</div>
   <div transition:fly={{ delay: duration, duration, x }}>
     Dist. {distance}<span>{metric ? facts.distance_km : facts.distance_miles}</span>
   </div>
@@ -44,7 +44,7 @@
 <style>
   .facts {
     color: white;
-    font-size: 1em;
+    font-size: 1rem;
     position: absolute;
     top: calc(50% - 2rem);
     left: calc(100% + 1.5em);
@@ -55,11 +55,16 @@
     pointer-events: none;
   }
 
-  .facts > div {
+  .title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .facts > div:not(.title) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 0.8em;
+    font-size: 0.6rem;
     color: #a0a0a0;
     position: relative;
   }

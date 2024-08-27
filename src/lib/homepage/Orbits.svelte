@@ -129,7 +129,7 @@
     z-index: 4;
   }
   .moon {
-    width: 2rem;
+    width: 1.5rem;
     border-radius: 50%;
     left: calc(50% - 1.2rem);
     top: -1rem;
@@ -179,6 +179,15 @@
     animation: rotate_backwards 360s linear infinite;
     background: radial-gradient(circle at 20% 30%, rgba(167, 149, 226, 1) 0%, rgba(106, 134, 140, 1) 73%);
   }
+
+  @media (max-width: 1300px) {
+    .map {
+      width: 80%;
+      right: 10%;
+      top: 20%;
+    }
+  }
+
   @keyframes rotate {
     from {
       transform: rotate(0deg);
