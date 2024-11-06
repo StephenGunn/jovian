@@ -132,7 +132,7 @@
     width: 1.5rem;
     border-radius: 50%;
     left: calc(50% - 1.2rem);
-    top: -1rem;
+    top: -0.75rem;
     aspect-ratio: 1;
     position: absolute;
     z-index: 2;

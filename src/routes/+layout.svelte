@@ -3,8 +3,6 @@
   import "$lib/css/reset.css";
   import "$lib/css/app.css";
 
-  // meta
-
   import Header from "$lib/layout/Header.svelte";
   import Footer from "$lib/layout/Footer.svelte";
 </script>

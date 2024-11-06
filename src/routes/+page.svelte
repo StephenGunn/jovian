@@ -4,6 +4,7 @@
   import Ship from "$lib/homepage/Ship.svelte";
   import MeteorShower from "$lib/homepage/MeteorShower.svelte";
   import StarField from "$lib/layout/art/StarField.svelte";
+  import FlightDirections from "$lib/homepage/FlightDirections.svelte";
   import Seo from "sk-seo";
 </script>
 
@@ -22,6 +23,7 @@
   <MeteorShower />
   <StarField />
   <Orbits />
+  <FlightDirections />
 </div>
 
 <style>

@@ -1,12 +1,20 @@
 <script lang="ts">
+  import Confetti from "svelte-confetti";
   import Rocket from "./Rocket.svelte";
   import type { CelestialBodyData, Coords } from "$lib/types/schema";
-  import { fly } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
   import { onMount } from "svelte";
   import { tweened } from "svelte/motion";
   import { debug_mode } from "$lib/data";
   import { sineInOut, sineIn } from "svelte/easing";
-  import { coords, jupiter_data, io_data, europa_data, ganymede_data } from "$lib/stores/homepage.svelte.js";
+  import {
+    coords,
+    jupiter_data,
+    io_data,
+    europa_data,
+    ganymede_data,
+    directions
+  } from "$lib/stores/homepage.svelte.js";
 
   class Ship {
     // positioning - start ship off screen to avoid a weird visual jump
@@ -23,6 +31,7 @@
     ascent_mode = $state(false);
     orbit_radius = $state(0);
     descent_mode = $state(false);
+    slow_fade = $state(false);
 
     // movement
     speed = 0.4; // this is changed after launch
@@ -34,6 +43,7 @@
     trip_duration = $state(2000);
     orbit_rotation_transform = $state(0);
     waypoint_queue: { x: number; y: number }[] = $state([]);
+    target_coords = $state({ x: -1, y: -1 });
 
     // derrived state
     ship_conatainer_size = $derived(this.large ? 150 : this.orbiting ? this.orbit_radius : 50);
@@ -51,10 +61,19 @@
 
     // handle navigation commands, if the ship is in motion, add the coords to the queue
     set_waypoint = (x: number, y: number) => {
+      // increment the directions
+      directions.next(2);
+
       if (this.in_motion || this.orbiting || this.ascent_mode || this.descent_mode) {
         this.waypoint_queue.push({ x, y });
+
+        // update the directions text
+        if (this.waypoint_queue.length > 0) {
+          directions.next(3);
+        }
         return;
       }
+
       this.fly(x, y);
     };
 
@@ -94,18 +113,32 @@
 
       // fly to the center of the screen
       this.fly(w * 0.5, h * 0.5, false);
+
+      // increment the directions
+      directions.next(1);
+    }
+
+    private check_target_coords_for_removal() {
+      if (this.waypoint_queue.length === 0) {
+        this.target_coords = { x: -1, y: -1 };
+        this.slow_fade = true;
+      }
     }
 
     // fly the ship to the target coords
     private async fly(x: number, y: number, ping: boolean = true) {
       this.set_rotation_angle(x, y);
       this.calculate_trip_duration(x, y);
+      this.slow_fade = false;
 
       const coords = { x: x - this.size / 2, y: y - this.size / 2 };
 
       if (ping) {
         this.ping_location(coords.x, coords.y);
       }
+
+      // this will allow us to set the visual representation of where we're flying
+      this.target_coords = { x, y };
 
       await this.delay(200);
       this.in_motion = true;
@@ -127,6 +160,8 @@
       this.ignition = false;
       await this.delay(this.trip_duration / 16);
       this.ignition = true;
+
+      this.check_target_coords_for_removal();
 
       await this.delay(this.trip_duration / 2);
 
@@ -209,15 +244,19 @@
       switch (true) {
         case this.check_celestial_position(centered_ship, jupiter_data):
           this.set_orbit(0);
+          directions.next(4);
           return true;
         case this.check_celestial_position(centered_ship, io_data):
           this.set_orbit(1);
+          directions.hide();
           return true;
         case this.check_celestial_position(centered_ship, europa_data):
           this.set_orbit(2);
+          directions.hide();
           return true;
         case this.check_celestial_position(centered_ship, ganymede_data):
           this.set_orbit(3);
+          directions.hide();
           return true;
         default:
           return false;
@@ -396,6 +435,32 @@
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
 
+{#each ship.waypoint_queue as waypoint}
+  <div
+    class="waypoint"
+    style:width="{ship.size}px"
+    style:height="{ship.size}px"
+    style:top="{waypoint.y}px"
+    style:left="{waypoint.x}px"
+    transition:fade={{ duration: 100 }}
+  >
+    &times;
+  </div>
+{/each}
+
+{#if ship.target_coords.x !== -1 && ship.target_coords.y !== -1 && ship.trip_counter > 0}
+  <div
+    class="waypoint target"
+    style:width="{ship.size}px"
+    style:height="{ship.size}px"
+    style:top="{ship.target_coords.y}px"
+    style:left="{ship.target_coords.x}px"
+    transition:fade={{ duration: 100 }}
+  >
+    &times;
+  </div>
+{/if}
+
 <div
   class="box"
   onmousemove={handle_mouse_position}
@@ -438,6 +503,21 @@
     {#if !ship.launched}
       <div class="click_me" transition:fly={{ duration: 100, x: 30 }}>Hey, click to launch!</div>
     {/if}
+    {#if ship.ignition}
+      <div class="sparks" in:fade={{ duration: 25 }} out:fade={{ duration: ship.slow_fade ? 200 : 20 }}>
+        <Confetti
+          infinite
+          cone
+          noGravity
+          size={4}
+          colorArray={["#ff6c34", "#ffdb2b"]}
+          fallDistance="20px"
+          xSpread={0.1}
+          x={[0.2, -0.2]}
+          y={[0.25, 0.25]}
+        />
+      </div>
+    {/if}
   </div>
 </div>
 {#if ship.trip_counter === 1 && !ship.in_motion}
@@ -462,6 +542,34 @@
 {/if}
 
 <style>
+  .sparks {
+    position: absolute;
+    left: 0;
+    bottom: 40%;
+    width: 20%;
+    height: 20%;
+    z-index: 2;
+    pointer-events: none;
+    transform: rotate(-90deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .waypoint {
+    position: absolute;
+    color: var(--primary);
+    font-size: 1rem;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .waypoint.target {
+    color: var(--secondary);
+  }
   .ping {
     position: absolute;
     border: 2px solid white;
