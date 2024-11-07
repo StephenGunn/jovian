@@ -16,101 +16,112 @@ export let io_data: CelestialBodyData = $state({ x: 0, y: 0, width: 0, height: 0
 export let europa_data: CelestialBodyData = $state({ x: 0, y: 0, width: 0, height: 0, show_info: false });
 export let ganymede_data: CelestialBodyData = $state({ x: 0, y: 0, width: 0, height: 0, show_info: false });
 
-const quest_chain = [
-  "Launch the ship.",
-  "Click to set your first waypoint.",
-  "Queue multiple waypoints.",
-  "Enter into Jupiter's orbit.",
-  "Enter into the orbit of one of Jupiter's moons."
-] as const;
+type QuestStep = {
+  id: number;
+  description: string;
+  next_id?: number;
+  completed: boolean;
+};
 
-// Utility type to create a union of numeric indices up to the length of a tuple
-type CreateTupleIndices<
-  T extends readonly any[],
-  Result extends number[] = []
-> = Result["length"] extends T["length"]
-  ? Result[number]
-  : CreateTupleIndices<T, [...Result, Result["length"]]>;
+// Define the quest chain as an array of steps
+const quest_chain: QuestStep[] = [
+  { id: 1, description: "Launch the ship.", next_id: 2, completed: false },
+  { id: 2, description: "Click to set your first waypoint.", next_id: 3, completed: false },
+  { id: 3, description: "Queue multiple waypoints.", next_id: 4, completed: false },
+  { id: 4, description: "Enter into Jupiter's orbit.", next_id: 5, completed: false },
+  { id: 5, description: "Enter into the orbit of one of Jupiter's moons.", completed: false }
+];
 
-// Type representing valid indices of the quest_chain array
-type ValidIndex = CreateTupleIndices<typeof quest_chain>;
-
-// Type guard to check if a number is a ValidIndex
-function isValidIndex(index: number): index is ValidIndex {
-  return index >= 0 && index < quest_chain.length;
-}
+// Create a map for quick lookup by ID
+const quest_map = new Map(quest_chain.map((step) => [step.id, step]));
 
 export class Quest {
   public show = $state(true);
-  private index = $state(0);
-  private maxIndex = quest_chain.length - 1;
-  private startTime = $state(0);
-  private finalTime = $state(0);
-  private completed = $state(false);
+  private current_step_id = $state(1);
+  private start_time = $state(0);
+  private final_time = $state(0);
+  private finished = $state(false);
 
   current() {
-    if (this.completed) {
+    if (this.finished) {
       return "Quest complete! Your time was " + this.time() + " seconds.";
     }
-    return `[ Quest ${this.index + 1} / ${this.maxIndex + 1} ] ${quest_chain[this.index]}`;
+
+    const current_step = quest_map.get(this.current_step_id);
+    if (current_step) {
+      return `[ Quest ${current_step.id} / ${quest_map.size} ] ${current_step.description}`;
+    }
+    return "No current quest step.";
   }
 
-  next(n: number) {
-    if (!isValidIndex(n)) {
+  completed(step_id: number) {
+    const current_step = quest_map.get(this.current_step_id);
+    const step_to_complete = quest_map.get(step_id);
+
+    if (!step_to_complete) {
       if (dev) {
-        console.log(`Invalid step index: ${n}`);
+        console.log(`Step with ID ${step_id} not found.`);
       }
       return;
     }
 
-    // Allow the first call to be `next(0)`
-    if (this.index === 0 && n === 0) {
+    if (step_id !== this.current_step_id) {
       if (dev) {
-        console.log("Starting quest at step 0.");
-      }
-      this.index = n;
-      return;
-    }
-
-    // Check if the step is in the correct order
-    if (n !== this.index + 1) {
-      if (dev) {
-        console.log(`Attempted to move to step ${n}, but the next step should be ${this.index + 1}.`);
+        console.log(
+          `Attempted to complete step ${step_id}, but the current step is ${this.current_step_id}.`
+        );
       }
       return;
     }
 
-    // Progress to the next step if it's in the correct order
-    this.index = n;
+    // Mark the step as complete and set the start time if it's the first step
+    step_to_complete.completed = true;
+    if (step_id === 1) {
+      this.start_time = Date.now();
+      if (dev) {
+        console.log("Quest started at step 1.");
+      }
+    }
 
     if (dev) {
-      console.log(`Progressed to step ${this.index}.`);
+      console.log(`Step ${step_id} marked as complete.`);
     }
 
-    // Check if the last step is reached
-    if (this.index === this.maxIndex) {
+    // Progress to the next step if there is one
+    if (current_step && current_step.next_id) {
+      this.current_step_id = current_step.next_id;
+      if (dev) {
+        console.log(
+          `Progressed to step ${this.current_step_id}: ${quest_map.get(this.current_step_id)?.description}`
+        );
+      }
+    } else {
       this.end();
     }
   }
 
   reset() {
-    this.index = 0;
+    this.current_step_id = 1;
+    this.finished = false;
+    this.start_time = 0;
+    this.final_time = 0;
+    quest_chain.forEach((step) => (step.completed = false));
     if (dev) {
-      console.log("Quest has been reset.");
+      console.log("Quest has been reset. All steps are marked as incomplete.");
     }
   }
 
   end() {
-    this.completed = true;
-    this.finalTime = Date.now() - this.startTime;
+    this.finished = true;
+    this.final_time = Date.now() - this.start_time;
     if (dev) {
       console.log("Quest complete!");
     }
   }
 
   time() {
-    // format time into seconds and milliseconds to the nearest hundredth
-    return this.finalTime / 1000;
+    // Format time into seconds with milliseconds to the nearest hundredth
+    return (this.final_time / 1000).toFixed(2);
   }
 }
 

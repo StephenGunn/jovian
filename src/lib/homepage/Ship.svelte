@@ -65,14 +65,14 @@
     // handle navigation commands, if the ship is in motion, add the coords to the queue
     set_waypoint = (x: number, y: number) => {
       // increment the directions
-      quest.next(2);
+      quest.completed(2);
 
       if (this.in_motion || this.orbiting || this.ascent_mode || this.descent_mode) {
         this.waypoint_queue.push({ x, y });
 
         // update the directions text
         if (this.waypoint_queue.length > 0) {
-          quest.next(3);
+          quest.completed(3);
         }
         return;
       }
@@ -118,7 +118,7 @@
       this.fly(w * 0.5, h * 0.5, false);
 
       // increment the directions
-      quest.next(1);
+      quest.completed(1);
     }
 
     // fly the ship to the target coords
@@ -240,19 +240,19 @@
       switch (true) {
         case this.check_celestial_position(centered_ship, jupiter_data):
           this.set_orbit(0);
-          quest.next(4);
+          quest.completed(4);
           return true;
         case this.check_celestial_position(centered_ship, io_data):
           this.set_orbit(1);
-          quest.next(5);
+          quest.completed(5);
           return true;
         case this.check_celestial_position(centered_ship, europa_data):
           this.set_orbit(2);
-          quest.next(5);
+          quest.completed(5);
           return true;
         case this.check_celestial_position(centered_ship, ganymede_data):
           this.set_orbit(3);
-          quest.next(5);
+          quest.completed(5);
           return true;
         default:
           return false;
@@ -369,9 +369,6 @@
 
     // interactive click handler
     receive_orders(coords: Coords) {
-      // start the quest
-      quest.next(0);
-
       if (!this.landed) {
         return;
       }
@@ -437,7 +434,7 @@
 
     setTimeout(() => {
       ship.show_hint = true;
-    }, 4000);
+    }, 3000);
   });
 </script>
 
