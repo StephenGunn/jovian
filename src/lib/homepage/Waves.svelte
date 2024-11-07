@@ -29,5 +29,11 @@
     left: 0;
     z-index: 8;
     pointer-events: none;
+    min-width: 1000px;
+  }
+
+  @media (max-width: 768px) {
+    .waves {
+    }
   }
 </style>

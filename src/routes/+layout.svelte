@@ -27,4 +27,11 @@
   main {
     flex: 1;
   }
+
+  @media (max-width: 768px) {
+    .app {
+      max-width: 100vw;
+      overflow: hidden;
+    }
+  }
 </style>

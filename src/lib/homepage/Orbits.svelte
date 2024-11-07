@@ -2,7 +2,12 @@
   import Jupiter from "./Jupiter.svelte";
   import MoonFacts from "./MoonFacts.svelte";
   import MoonShadow from "./MoonShadow.svelte";
-  import { jupiter_data, io_data, europa_data, ganymede_data } from "$lib/stores/homepage.svelte.js";
+  import {
+    jupiter_data,
+    io_data,
+    europa_data,
+    ganymede_data
+  } from "$lib/stores/homepage.svelte.js";
 
   import { facts } from "$lib/data";
   import { onMount } from "svelte";
@@ -58,7 +63,13 @@
   </div>
 
   <div class="io orbit bound circle absolute">
-    <div use:orbital_telemetry={io_data} bind:this={io} class="moon" role="button" tabindex="0">
+    <div
+      use:orbital_telemetry={io_data}
+      bind:this={io}
+      class="moon"
+      role="button"
+      tabindex="0"
+    >
       <MoonShadow />
       {#if io_data.show_info}
         <MoonFacts facts={facts.Io} title="Io" distance="from Jupiter" />
@@ -68,7 +79,13 @@
   <div class="io orbit absolute ignore"></div>
 
   <div class="europa orbit bound circle absolute">
-    <div class="moon" use:orbital_telemetry={europa_data} bind:this={europa} role="button" tabindex="0">
+    <div
+      class="moon"
+      use:orbital_telemetry={europa_data}
+      bind:this={europa}
+      role="button"
+      tabindex="0"
+    >
       <MoonShadow />
       {#if europa_data.show_info}
         <MoonFacts facts={facts.Europa} title="Europa" distance="from Jupiter" />
@@ -78,7 +95,13 @@
   <div class="europa orbit absolute ignore"></div>
 
   <div class="ganymede orbit bound circle absolute">
-    <div class="moon" use:orbital_telemetry={ganymede_data} bind:this={ganymede} role="button" tabindex="0">
+    <div
+      class="moon"
+      use:orbital_telemetry={ganymede_data}
+      bind:this={ganymede}
+      role="button"
+      tabindex="0"
+    >
       <MoonShadow />
       {#if ganymede_data.show_info}
         <MoonFacts facts={facts.Ganymede} title="Ganymede" distance="from Jupiter" />
@@ -151,7 +174,11 @@
   }
   .io .moon {
     animation: rotate_backwards 90s linear infinite;
-    background: radial-gradient(circle at 20% 30%, rgba(255, 226, 142, 1) 0%, rgba(236, 188, 1, 1) 62%);
+    background: radial-gradient(
+      circle at 20% 30%,
+      rgba(255, 226, 142, 1) 0%,
+      rgba(236, 188, 1, 1) 62%
+    );
   }
   .europa.orbit {
     width: 60%;
@@ -160,7 +187,11 @@
   }
   .europa .moon {
     animation: rotate_backwards 185s linear infinite;
-    background: radial-gradient(circle at 30% 30%, rgba(209, 192, 176, 1) 0%, rgba(64, 84, 110, 1) 73%);
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(209, 192, 176, 1) 0%,
+      rgba(64, 84, 110, 1) 73%
+    );
   }
   .europa.bound {
     animation: rotate 185s linear infinite;
@@ -177,14 +208,33 @@
   }
   .ganymede .moon {
     animation: rotate_backwards 360s linear infinite;
-    background: radial-gradient(circle at 20% 30%, rgba(167, 149, 226, 1) 0%, rgba(106, 134, 140, 1) 73%);
+    background: radial-gradient(
+      circle at 20% 30%,
+      rgba(167, 149, 226, 1) 0%,
+      rgba(106, 134, 140, 1) 73%
+    );
   }
 
+  @media (max-width: 1500px) {
+    .map {
+      width: 70%;
+      right: 15%;
+      top: 10%;
+    }
+  }
   @media (max-width: 1300px) {
     .map {
-      width: 80%;
-      right: 10%;
-      top: 20%;
+      width: 60%;
+      right: 20%;
+      top: 25%;
+    }
+  }
+  @media (max-width: 768px) {
+    .map {
+      width: 150%;
+      right: -25%;
+      top: auto;
+      bottom: 0%;
     }
   }
 

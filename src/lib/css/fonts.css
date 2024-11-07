@@ -2,12 +2,16 @@
   font-family: "Jost";
   src: url("/fonts/jost-v.ttf") format("truetype");
   font-weight: 100 900;
+  /* Specify the weight range for variable fonts */
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Jost";
   src: url("/fonts/jost-v-i.ttf") format("truetype");
   font-weight: 100 900;
+  /* Specify the weight range for variable fonts */
   font-style: italic;
+  font-display: swap;
 }

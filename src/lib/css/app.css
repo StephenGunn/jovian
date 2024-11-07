@@ -39,8 +39,10 @@
   --primary: light-dark(var(--light-primary), var(--dark-primary));
   --secondary: light-dark(var(--light-secondary), var(--dark-secondary));
   --highlight: light-dark(var(--light-highlight), var(--dark-highlight));
-  --subtle-highlight: light-dark(var(--light-subtle-highlight), var(--dark-subtle-highlight));
-  --semi-transparent: light-dark(var(--light-semi-transparent), var(--dark-semi-transparent));
+  --subtle-highlight: light-dark(var(--light-subtle-highlight),
+      var(--dark-subtle-highlight));
+  --semi-transparent: light-dark(var(--light-semi-transparent),
+      var(--dark-semi-transparent));
   --muted-color: light-dark(var(--light-muted-color), var(--dark-muted-color));
 }
 
@@ -52,6 +54,7 @@ body {
   font-family: "Jost", "Arial", sans-serif;
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
   background-color: light-dark(var(--light-bg), var(--dark-bg));
   color: light-dark(var(--light-color), var(--dark-color));
 }

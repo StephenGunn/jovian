@@ -6,19 +6,17 @@
   import StarField from "$lib/layout/art/StarField.svelte";
   import FlightDirections from "$lib/homepage/FlightDirections.svelte";
   import Seo from "sk-seo";
+  import HeroText from "$lib/homepage/HeroText.svelte";
 </script>
 
 <Seo
-  title="JovianMoon.io"
+  title="JovianMoon.io - Stephen Gunn's Digital Playground"
   description="Digital playground for Stephen Gunn featuring blog posts, projects, expiriments, and links to web development resources."
 />
 
 <div class="scene">
-  <div class="text">
-    <h1>Jovian Moon</h1>
-    <div class="tagline">Digital playground of Stephen Gunn</div>
-  </div>
   <Ship />
+  <HeroText />
   <Waves />
   <MeteorShower />
   <StarField />
@@ -45,41 +43,9 @@
     aspect-ratio: 16 / 9;
   }
 
-  .text {
-    position: absolute;
-    top: 20%;
-    left: 12%;
-    z-index: 7;
-  }
-
-  h1 {
-    font-size: clamp(3.125rem, 11.547vw + 0.137rem, 9.375rem);
-    line-height: 1.2;
-  }
-
-  .tagline {
-    font-family: "Jost", sans-serif;
-    font-weight: 300;
-    font-size: clamp(1.25rem, 3.125vw + 0.137rem, 2rem);
-    position: relative;
-    top: -0.5rem;
-    left: 10%;
-  }
-
-  @media (max-width: 1300px) {
-    .text {
-      top: 10%;
-      left: 10%;
-      width: 80%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .tagline {
-      position: relative;
-      top: initia;
-      left: initial;
+  @media (max-width: 768px) {
+    .scene {
+      aspect-ratio: 1;
     }
   }
 </style>

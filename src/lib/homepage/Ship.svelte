@@ -515,12 +515,12 @@
             infinite
             cone
             noGravity
-            size={ship.size < 100 ? 3 : 5}
+            size={ship.size < 100 ? 3 : 6}
             colorArray={["#ff6c34", "#ffdb2b"]}
             fallDistance="20px"
             xSpread={0.1}
-            x={ship.size < 100 ? [0.3, -0.3] : [0.4, -0.4]}
-            y={ship.size < 100 ? [0.1, 0.1] : [0.2, 0.2]}
+            x={ship.size < 100 ? [0.2, -0.2] : [0.4, -0.4]}
+            y={ship.size < 100 ? [0.1, 0.1] : [0.4, 0.4]}
           />
         </div>
       {/if}
