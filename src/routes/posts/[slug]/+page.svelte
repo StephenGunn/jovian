@@ -57,6 +57,7 @@
   .contact {
     max-width: 800px;
     margin: 1rem auto;
+    padding: 1rem;
   }
   .categories {
     display: flex;
@@ -65,6 +66,7 @@
     margin-top: 1rem;
     font-size: 80%;
     color: var(--accent);
+    flex-wrap: wrap;
   }
   .categories .title {
     color: var(--font-color);
@@ -106,11 +108,14 @@
     width: var(--column-width);
     margin: 0 auto;
     padding: 8rem 5rem 4rem 5rem;
+    max-width: 100%;
   }
 
   .content {
     display: grid;
     grid-template-columns: 1fr var(--column-width) 1fr;
+    grid-template-areas: "left middle right";
+    max-width: 100%;
   }
 
   .post {
@@ -139,5 +144,76 @@
     background: #444;
     align-self: flex-start;
     background: radial-gradient(circle, rgba(41, 39, 55, 1) 0%, rgba(34, 24, 57, 1) 100%);
+  }
+
+  @media (max-width: 1500px) {
+    .content {
+      max-width: var(--column-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+      grid-template-columns: 1fr 1fr; /* Two equally spaced columns */
+      grid-template-rows: auto auto; /* Two rows: one for outer columns, one for middle column */
+      grid-template-areas:
+        "left right"
+        "middle middle";
+      gap: 2rem;
+    }
+
+    .content > .left {
+      grid-area: left;
+      justify-content: center;
+    }
+
+    .content > article {
+      grid-area: middle;
+    }
+
+    .content > .right {
+      grid-area: right;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .column {
+      padding: 8rem 2rem 4rem 2rem;
+    }
+    .post {
+      padding: 2rem;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .column {
+      padding: 8rem 1rem 4rem 2rem;
+    }
+    .post {
+      padding: 0rem;
+    }
+
+    .intro .column {
+      max-width: 85%;
+    }
+    .intro h1 {
+      font-size: 3rem;
+    }
+  }
+  @media (max-width: 800px) {
+    .content {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "left"
+        "right"
+        "middle";
+      padding: 0 1rem;
+    }
+
+    .content > .left {
+      max-width: fit-content;
+      margin: 0 auto;
+    }
+
+    .content > .right {
+      grid-area: right;
+    }
   }
 </style>

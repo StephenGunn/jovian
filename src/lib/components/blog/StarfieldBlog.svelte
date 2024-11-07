@@ -30,4 +30,10 @@
     border-radius: 1rem;
     border: 1px solid var(--bg-accent-3);
   }
+
+  @media (max-width: 800px) {
+    .starfield {
+      aspect-ratio: 1 / 2;
+    }
+  }
 </style>

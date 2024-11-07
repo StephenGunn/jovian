@@ -217,7 +217,15 @@ html {
   outline: 1px solid var(--bg-accent-3);
 }
 
-/* Responsive adjustments inside .post */
+@media (max-width: 900px) {
+  .post pre {
+    width: calc(100vw - 4rem);
+    max-width: calc(100vw - 4rem);
+    position: relative;
+    margin: 0.5rem 0;
+  }
+}
+
 @media (max-width: 768px) {
   .post {
     padding: 0.5rem;
@@ -234,6 +242,13 @@ html {
   .post>h5:not(:last-child),
   .post>h6:not(:last-child) {
     margin-bottom: 0.75rem;
+  }
+
+  .post pre {
+    width: calc(100vw - 2rem);
+    max-width: calc(100vw - 2rem);
+    position: relative;
+    margin: 0.5rem 0;
   }
 }
 
@@ -253,3 +268,5 @@ html {
 .toc li {
   margin-bottom: 0.5rem;
 }
+
+@media (max-width: 1500px) {}
