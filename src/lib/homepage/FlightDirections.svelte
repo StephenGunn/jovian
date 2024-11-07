@@ -28,4 +28,14 @@
     letter-spacing: 0.1rem;
     color: var(--semi-transparent);
   }
+
+  @media (max-width: 768px) {
+    .quest {
+      bottom: 0.5rem;
+      left: 0rem;
+      padding: 0.5rem;
+      width: 100%;
+      text-align: center;
+    }
+  }
 </style>

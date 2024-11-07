@@ -30,6 +30,15 @@
     determine_header_visibility(scroll);
   });
 
+  $effect(() => {
+    // disable scroll when mobile menu is open
+    if (mobile_menu_open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  });
+
   let home: HTMLAnchorElement | undefined = $state();
   let posts: HTMLAnchorElement | undefined = $state();
   let projects: HTMLAnchorElement | undefined = $state();
@@ -66,6 +75,10 @@
 <button
   onclick={() => (mobile_menu_open = !mobile_menu_open)}
   aria-label="Mobile menu toggle"
+  class:home={$page.route.id === "/"}
+  class:scrolled={scroll > 100}
+  class:hide={!show_header}
+  class:open={mobile_menu_open}
 >
   <svg
     class:open={mobile_menu_open}
@@ -200,13 +213,27 @@
       width: 3rem;
       height: 3rem;
       z-index: 30;
+      outline: 1px solid var(--subtle-highlight);
+      background-color: var(--semi-transparent);
+      backdrop-filter: blur(3px);
+      border: none;
+      border-radius: 3px;
+    }
+
+    button.home {
       border: none;
       background: none;
     }
 
+    button.open {
+      border: none;
+      background: none;
+      outline: none;
+    }
+
     button svg {
       width: 2.5rem;
-      height: 2.5rem;
+      height: 2.2rem;
       color: var(--secondary);
     }
 

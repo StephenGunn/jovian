@@ -49,7 +49,9 @@
     target_coords = $state({ x: -1, y: -1 });
 
     // derrived state
-    ship_conatainer_size = $derived(this.large ? 150 : this.orbiting ? this.orbit_radius : 50);
+    ship_conatainer_size = $derived(
+      this.large ? 150 : this.orbiting ? this.orbit_radius : 50
+    );
     size = $derived(this.large ? 150 : 50);
 
     /////////////////////////////////////////////////////////////////
@@ -304,8 +306,14 @@
 
     // for moons in motion while orbiting
     private adjust_orbit_center(moon: CelestialBodyData) {
-      x_move.set(moon.x + (moon.width / 2 - this.size / 2), { duration: 10, easing: sineIn });
-      y_move.set(moon.y + (moon.height / 2 - this.size / 2), { duration: 10, easing: sineIn });
+      x_move.set(moon.x + (moon.width / 2 - this.size / 2), {
+        duration: 10,
+        easing: sineIn
+      });
+      y_move.set(moon.y + (moon.height / 2 - this.size / 2), {
+        duration: 10,
+        easing: sineIn
+      });
     }
 
     // this prevents weirdness from happening while the ship is maneuvering into orbit
@@ -420,14 +428,15 @@
 
   onMount(() => {
     ship.landed = true;
-    // setup breakpoints based on the w/h
 
-    if (w <= 1300) {
-      ship.set_launch_position(w * 0.22, h * 0.745);
+    // determine where the ship should be launched from
+    // Determine where the ship should be launched from
+    if (w <= 800) {
+      ship.set_launch_position(w * 0.12, h * 0.8);
     } else if (w <= 1000) {
       ship.set_launch_position(w * 0.22, h * 0.83);
-    } else if (w <= 800) {
-      ship.set_launch_position(w * 0.15, h * 0.97);
+    } else if (w <= 1300) {
+      ship.set_launch_position(w * 0.22, h * 0.745);
     } else {
       ship.set_launch_position(w * 0.22, h * 0.745);
     }
@@ -505,12 +514,20 @@
         orbit_size={40}
       />
       {#if !ship.launched && ship.show_hint}
-        <div class="click_me" in:fly={{ duration: 500, x: 30 }} out:fly={{ duration: 100, x: 30 }}>
-          Hey, click to launch!
+        <div
+          class="click_me"
+          in:fly={{ duration: 500, x: 30 }}
+          out:fly={{ duration: 100, x: 30 }}
+        >
+          Hey, {w >= 1000 ? "click" : "tap"} to launch!
         </div>
       {/if}
       {#if ship.ignition}
-        <div class="sparks" in:fade={{ duration: 25 }} out:fade={{ duration: ship.slow_fade ? 200 : 20 }}>
+        <div
+          class="sparks"
+          in:fade={{ duration: 25 }}
+          out:fade={{ duration: ship.slow_fade ? 200 : 20 }}
+        >
           <Confetti
             infinite
             cone
