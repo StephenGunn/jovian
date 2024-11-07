@@ -35,4 +35,10 @@
   .desc {
     margin-bottom: 1.5rem;
   }
+
+  @media (max-width: 1100px) {
+    h1 {
+      font-size: 3rem;
+    }
+  }
 </style>
