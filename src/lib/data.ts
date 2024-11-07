@@ -24,7 +24,6 @@ export const menu = [
     path: "/contact"
   }
 ] as const;
-
 export type Sections = "home" | "about" | "posts" | "projects" | "contact";
 
 export const facts: FactsMap = {

@@ -1,15 +1,23 @@
 <script lang="ts">
-  import { directions } from "$lib/stores/homepage.svelte";
+  import { quest } from "$lib/stores/homepage.svelte";
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
+  let show = $state(false);
+  onMount(() => {
+    setTimeout(() => {
+      show = true;
+    }, 5000);
+  });
 </script>
 
-{#if directions.show}
-  <div class="help">
-    {directions.current()}
+{#if quest.show && show}
+  <div class="quest" transition:fade={{ duration: 500 }}>
+    {quest.current()}
   </div>
 {/if}
 
 <style>
-  .help {
+  .quest {
     position: absolute;
     bottom: 1rem;
     left: 1rem;
@@ -18,6 +26,6 @@
     font-size: 0.8rem;
     font-weight: bold;
     letter-spacing: 0.1rem;
-    color: rgba(0, 0, 0, 0.8);
+    color: var(--semi-transparent);
   }
 </style>

@@ -13,7 +13,7 @@
     io_data,
     europa_data,
     ganymede_data,
-    directions
+    quest
   } from "$lib/stores/homepage.svelte.js";
 
   class Ship {
@@ -24,6 +24,8 @@
     ping_coords = $state({ x: 0, y: 0 });
 
     // visual state
+    show_hint = $state(false);
+    landed = $state(false);
     large = $state(true);
     rotation = $state(-90);
     ignition = $state(false);
@@ -32,6 +34,7 @@
     orbit_radius = $state(0);
     descent_mode = $state(false);
     slow_fade = $state(false);
+    flipped = $state(false);
 
     // movement
     speed = 0.4; // this is changed after launch
@@ -62,14 +65,14 @@
     // handle navigation commands, if the ship is in motion, add the coords to the queue
     set_waypoint = (x: number, y: number) => {
       // increment the directions
-      directions.next(2);
+      quest.next(2);
 
       if (this.in_motion || this.orbiting || this.ascent_mode || this.descent_mode) {
         this.waypoint_queue.push({ x, y });
 
         // update the directions text
         if (this.waypoint_queue.length > 0) {
-          directions.next(3);
+          quest.next(3);
         }
         return;
       }
@@ -115,18 +118,12 @@
       this.fly(w * 0.5, h * 0.5, false);
 
       // increment the directions
-      directions.next(1);
-    }
-
-    private check_target_coords_for_removal() {
-      if (this.waypoint_queue.length === 0) {
-        this.target_coords = { x: -1, y: -1 };
-        this.slow_fade = true;
-      }
+      quest.next(1);
     }
 
     // fly the ship to the target coords
     private async fly(x: number, y: number, ping: boolean = true) {
+      this.flipped = false;
       this.set_rotation_angle(x, y);
       this.calculate_trip_duration(x, y);
       this.slow_fade = false;
@@ -150,18 +147,17 @@
 
       await this.delay(this.trip_duration / 2);
 
+      // flip and burn
+      this.flipped = true;
       if (this.rotation > 360) {
         this.rotation -= 180;
       } else {
         this.rotation += 180;
       }
 
-      // flip and burn
       this.ignition = false;
       await this.delay(this.trip_duration / 16);
       this.ignition = true;
-
-      this.check_target_coords_for_removal();
 
       await this.delay(this.trip_duration / 2);
 
@@ -244,19 +240,19 @@
       switch (true) {
         case this.check_celestial_position(centered_ship, jupiter_data):
           this.set_orbit(0);
-          directions.next(4);
+          quest.next(4);
           return true;
         case this.check_celestial_position(centered_ship, io_data):
           this.set_orbit(1);
-          directions.hide();
+          quest.next(5);
           return true;
         case this.check_celestial_position(centered_ship, europa_data):
           this.set_orbit(2);
-          directions.hide();
+          quest.next(5);
           return true;
         case this.check_celestial_position(centered_ship, ganymede_data):
           this.set_orbit(3);
-          directions.hide();
+          quest.next(5);
           return true;
         default:
           return false;
@@ -373,6 +369,12 @@
 
     // interactive click handler
     receive_orders(coords: Coords) {
+      // start the quest
+      quest.next(0);
+
+      if (!this.landed) {
+        return;
+      }
       if (!this.launched) {
         ship.launch();
         return;
@@ -420,7 +422,9 @@
   let h = $state(0);
 
   onMount(() => {
+    ship.landed = true;
     // setup breakpoints based on the w/h
+
     if (w <= 1300) {
       ship.set_launch_position(w * 0.22, h * 0.745);
     } else if (w <= 1000) {
@@ -430,35 +434,36 @@
     } else {
       ship.set_launch_position(w * 0.22, h * 0.745);
     }
+
+    setTimeout(() => {
+      ship.show_hint = true;
+    }, 4000);
   });
 </script>
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
 
-{#each ship.waypoint_queue as waypoint}
+{#snippet Waypoint(x: number, y: number, target: boolean)}
   <div
     class="waypoint"
+    class:target
+    class:hide={target && ship.flipped}
     style:width="{ship.size}px"
     style:height="{ship.size}px"
-    style:top="{waypoint.y}px"
-    style:left="{waypoint.x}px"
+    style:top="{y}px"
+    style:left="{x}px"
     transition:fade={{ duration: 100 }}
   >
     &times;
   </div>
+{/snippet}
+
+{#each ship.waypoint_queue as waypoint}
+  {@render Waypoint(waypoint.x, waypoint.y, false)}
 {/each}
 
 {#if ship.target_coords.x !== -1 && ship.target_coords.y !== -1 && ship.trip_counter > 0}
-  <div
-    class="waypoint target"
-    style:width="{ship.size}px"
-    style:height="{ship.size}px"
-    style:top="{ship.target_coords.y}px"
-    style:left="{ship.target_coords.x}px"
-    transition:fade={{ duration: 100 }}
-  >
-    &times;
-  </div>
+  {@render Waypoint(ship.target_coords.x, ship.target_coords.y, true)}
 {/if}
 
 <div
@@ -477,49 +482,54 @@
     style:left="{ship.ping_coords.x}px"
   ></div>
 {/if}
-<div
-  class="ship"
-  style:z-index={ship.z_i}
-  style:top="{ship.y}px"
-  style:left="{ship.x}px"
-  style:width="{ship.size}px"
-  style:height="{ship.size}px"
-  style:transform="rotate({ship.rotation}deg)"
->
+{#if ship.landed}
   <div
-    class="orbit_modifier"
-    style:width="{ship.ship_conatainer_size}px"
-    style:height="{ship.ship_conatainer_size}px"
-    style:transform="rotate({ship.orbit_rotation_transform}deg)"
+    class="ship"
+    style:z-index={ship.z_i}
+    style:top="{ship.y}px"
+    style:left="{ship.x}px"
+    style:width="{ship.size}px"
+    style:height="{ship.size}px"
+    style:transform="rotate({ship.rotation}deg)"
+    in:fly={{ delay: 1500, duration: 1500, x: 50 }}
   >
-    <Rocket
-      ignition={ship.ignition || ship.orbiting || ship.ascent_mode || ship.descent_mode}
-      size={ship.size}
-      launched={ship.launched}
-      decent_mode={ship.descent_mode}
-      orbit_mode={ship.orbiting}
-      orbit_size={40}
-    />
-    {#if !ship.launched}
-      <div class="click_me" transition:fly={{ duration: 100, x: 30 }}>Hey, click to launch!</div>
-    {/if}
-    {#if ship.ignition}
-      <div class="sparks" in:fade={{ duration: 25 }} out:fade={{ duration: ship.slow_fade ? 200 : 20 }}>
-        <Confetti
-          infinite
-          cone
-          noGravity
-          size={4}
-          colorArray={["#ff6c34", "#ffdb2b"]}
-          fallDistance="20px"
-          xSpread={0.1}
-          x={[0.2, -0.2]}
-          y={[0.25, 0.25]}
-        />
-      </div>
-    {/if}
+    <div
+      class="orbit_modifier"
+      style:width="{ship.ship_conatainer_size}px"
+      style:height="{ship.ship_conatainer_size}px"
+      style:transform="rotate({ship.orbit_rotation_transform}deg)"
+    >
+      <Rocket
+        ignition={ship.ignition || ship.orbiting || ship.ascent_mode || ship.descent_mode}
+        size={ship.size}
+        launched={ship.launched}
+        decent_mode={ship.descent_mode}
+        orbit_mode={ship.orbiting}
+        orbit_size={40}
+      />
+      {#if !ship.launched && ship.show_hint}
+        <div class="click_me" in:fly={{ duration: 500, x: 30 }} out:fly={{ duration: 100, x: 30 }}>
+          Hey, click to launch!
+        </div>
+      {/if}
+      {#if ship.ignition}
+        <div class="sparks" in:fade={{ duration: 25 }} out:fade={{ duration: ship.slow_fade ? 200 : 20 }}>
+          <Confetti
+            infinite
+            cone
+            noGravity
+            size={ship.size < 100 ? 3 : 5}
+            colorArray={["#ff6c34", "#ffdb2b"]}
+            fallDistance="20px"
+            xSpread={0.1}
+            x={ship.size < 100 ? [0.3, -0.3] : [0.4, -0.4]}
+            y={ship.size < 100 ? [0.1, 0.1] : [0.2, 0.2]}
+          />
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
+{/if}
 {#if ship.trip_counter === 1 && !ship.in_motion}
   <div class="where_to" transition:fly={{ duration: 100, x: 30 }}>Where to, hoss?</div>
 {/if}
@@ -544,7 +554,7 @@
 <style>
   .sparks {
     position: absolute;
-    left: 0;
+    left: 10%;
     bottom: 40%;
     width: 20%;
     height: 20%;
@@ -565,10 +575,15 @@
     align-items: center;
     transform: translate(-50%, -50%);
     z-index: 1;
+    transition: opacity 200ms;
   }
 
   .waypoint.target {
     color: var(--secondary);
+  }
+
+  .waypoint.hide {
+    opacity: 0;
   }
   .ping {
     position: absolute;

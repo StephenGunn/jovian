@@ -37,4 +37,4 @@ this README. Please be aware that you’re using this project at your own risk.
 
 Feel free to explore [JovianMoon.io](https://jovianmoon.io) and reach out to me if you have any questions or
 feedback. You can contact me through the site’s contact form or via
-[Twitter](https://twitter.com/jovianmoonio).
+[BlueSky](https://bsky.app/profile/jovianmoon.io).

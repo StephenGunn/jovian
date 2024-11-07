@@ -1,5 +1,13 @@
 <script lang="ts">
+  import { fadeScale } from "$lib/fade_scale";
   import { fade } from "svelte/transition";
+  import { onMount } from "svelte";
+  onMount(() => {
+    setTimeout(() => {
+      show = true;
+    }, 1000);
+  });
+  let show = $state(false);
   let {
     ignition,
     launched,
@@ -73,15 +81,16 @@
     </clipPath>
   </defs>
 
-  {#if !launched}
+  {#if show && !launched}
     <ellipse
+      in:fadeScale={{ delay: 500, duration: 1000, baseScale: 0.2 }}
+      out:fadeScale={{ duration: 100, baseScale: 0 }}
       id="shadow"
       cx="24.326"
       cy="39.05"
       rx="22.3"
       ry="2.96"
       style="fill:#333;paint-order:fill markers stroke;stroke-width:0;opacity: 0.2"
-      out:fade={{ duration: 50 }}
     />
   {/if}
   <g transform="matrix(.98207 0 0 .98207 4.5473 .44835)">
@@ -113,6 +122,8 @@
         fill="#ff6c34"
         fill-rule="evenodd"
         style="stroke-width:.015628"
+        in:fade={{ duration: 300 }}
+        out:fade={{ duration: 30 }}
       />
       <g transform="matrix(.015627 0 0 .015627 -16.312 -8.9844)" clip-path="url(#rocketh)">
         <g clip-path="url(#rocketg)">
@@ -120,6 +131,8 @@
             d="m2367.4 3513.9c-148.49-195.54-198.05-450.92-128.75-778.22h257.5c51.109 210.44 46.148 400.18-15.48 568.99-26.922 73.742-64.66 143.49-113.27 209.23"
             fill="#ffdb2b"
             fill-rule="evenodd"
+            in:fade={{ duration: 500 }}
+            out:fade={{ duration: 50 }}
           />
         </g>
       </g>
@@ -129,6 +142,8 @@
             d="m2369.1 3278.8c-98.938-130.3-131.97-300.48-85.789-518.58h171.59c48.93 201.49 20.742 374.5-85.801 518.58"
             fill="#ff5"
             fill-rule="evenodd"
+            in:fade={{ duration: 50 }}
+            out:fade={{ duration: 10 }}
           />
         </g>
       </g>
