@@ -5,7 +5,7 @@
   import "$lib/css/blog.css";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import Seo from "sk-seo";
-  import ContactLink from "./ContactLink.svelte";
+  import ContactLink from "$lib/layout/ContactLink.svelte";
 
   let { data } = $props();
   let { content, meta } = data;
@@ -75,7 +75,7 @@
 </div>
 
 <div class="contact">
-  <ContactLink />
+  <ContactLink placement="article" />
 </div>
 
 <style>

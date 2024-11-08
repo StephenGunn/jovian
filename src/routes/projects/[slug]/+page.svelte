@@ -4,7 +4,7 @@
   import Seo from "sk-seo";
   import StarField from "$lib/layout/art/StarField.svelte";
   import Clipboard from "./Clipboard.svelte";
-  import ContactLink from "./ContactLink.svelte";
+  import ContactLink from "$lib/layout/ContactLink.svelte";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
 
   let { data } = $props();
@@ -75,7 +75,7 @@
 </div>
 
 <div class="contact">
-  <ContactLink />
+  <ContactLink placement="project" />
 </div>
 
 <style>
