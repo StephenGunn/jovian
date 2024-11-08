@@ -113,7 +113,11 @@
     </g>
     <g transform="matrix(.015627 0 0 .015627 -16.312 -8.9844)" clip-path="url(#rocketj)">
       <g clip-path="url(#rocketi)">
-        <path d="m2625.1 574.91h-536.87v370.51h536.87v-370.51" fill="var(--fins)" fill-rule="evenodd" />
+        <path
+          d="m2625.1 574.91h-536.87v370.51h536.87v-370.51"
+          fill="var(--fins)"
+          fill-rule="evenodd"
+        />
       </g>
     </g>
     {#if ignition}
@@ -125,7 +129,10 @@
         in:fade={{ duration: 300 }}
         out:fade={{ duration: 30 }}
       />
-      <g transform="matrix(.015627 0 0 .015627 -16.312 -8.9844)" clip-path="url(#rocketh)">
+      <g
+        transform="matrix(.015627 0 0 .015627 -16.312 -8.9844)"
+        clip-path="url(#rocketh)"
+      >
         <g clip-path="url(#rocketg)">
           <path
             d="m2367.4 3513.9c-148.49-195.54-198.05-450.92-128.75-778.22h257.5c51.109 210.44 46.148 400.18-15.48 568.99-26.922 73.742-64.66 143.49-113.27 209.23"
@@ -136,7 +143,10 @@
           />
         </g>
       </g>
-      <g transform="matrix(.015627 0 0 .015627 -16.312 -8.9844)" clip-path="url(#rocketf)">
+      <g
+        transform="matrix(.015627 0 0 .015627 -16.312 -8.9844)"
+        clip-path="url(#rocketf)"
+      >
         <g clip-path="url(#rockete)">
           <path
             d="m2369.1 3278.8c-98.938-130.3-131.97-300.48-85.789-518.58h171.59c48.93 201.49 20.742 374.5-85.801 518.58"
@@ -218,5 +228,12 @@
 
   svg.orbit_mode {
     transform: rotate(46deg) translateX(60%) scale(50%);
+  }
+
+  @media (max-width: 768px) {
+    svg.orbit_mode {
+      left: -1rem;
+      top: -1rem;
+    }
   }
 </style>

@@ -433,7 +433,7 @@
     // determine where the ship should be launched from
     // Determine where the ship should be launched from
     if (w <= 800) {
-      ship.set_launch_position(w * 0.12, h * 0.8);
+      ship.set_launch_position(w * 0.12, h * 0.81);
     } else if (w <= 1000) {
       ship.set_launch_position(w * 0.22, h * 0.83);
     } else if (w <= 1300) {
