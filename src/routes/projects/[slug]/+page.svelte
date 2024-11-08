@@ -270,5 +270,14 @@
     .content > .right {
       grid-area: right;
     }
+    .extra a {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      color: var(--secondary);
+    }
+    .extra a svg {
+      color: var(--primary);
+    }
   }
 </style>
