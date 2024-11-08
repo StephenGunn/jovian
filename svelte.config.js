@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-auto";
+import adapter from "@sveltejs/adapter-vercel";
 import markdown from "./src/lib/markdown/index.js";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
