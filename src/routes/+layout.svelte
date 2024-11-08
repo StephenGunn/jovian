@@ -7,6 +7,14 @@
   import Footer from "$lib/layout/Footer.svelte";
 </script>
 
+<svelte:head>
+  <script
+    defer
+    src="https://stats.craftroulette.live/script.js"
+    data-website-id="e34c081c-f7d3-41ee-9ebf-30baade2e00a"
+  ></script>
+</svelte:head>
+
 <div class="app">
   <Header />
   <main>
