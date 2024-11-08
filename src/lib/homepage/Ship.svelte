@@ -546,7 +546,15 @@
   </div>
 {/if}
 {#if ship.trip_counter === 1 && !ship.in_motion}
-  <div class="where_to" transition:fly={{ duration: 100, x: 30 }}>Where to, hoss?</div>
+  <div
+    class="where_to"
+    style:z-index={ship.z_i}
+    style:top="{ship.y - ship.size * 0.6}px"
+    style:left="{ship.x - ship.size * 0.6}px"
+    transition:fly={{ duration: 100, x: 30 }}
+  >
+    Where to, hoss?
+  </div>
 {/if}
 {#if debug_mode}
   <div class="debug">
@@ -637,9 +645,6 @@
 
   .where_to {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50px);
     font-family: "Jost", sans-serif;
     font-weight: 300;
     color: white;
@@ -673,12 +678,6 @@
     transition:
       2s width ease-out,
       2s height ease-out;
-  }
-
-  @media (max-width: 800px) {
-    .where_to {
-      transform: translate(-50%, -275%);
-    }
   }
 
   @keyframes pulse {
