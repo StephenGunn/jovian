@@ -226,7 +226,8 @@
     .map {
       width: 60%;
       right: 20%;
-      top: 25%;
+      top: auto;
+      bottom: 22%;
     }
   }
   @media (max-width: 768px) {

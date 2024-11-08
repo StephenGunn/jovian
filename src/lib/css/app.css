@@ -1,5 +1,6 @@
 :root {
   /* this has to be set to switch between light or dark */
+  /*
   color-scheme: light dark;
   --light-bg: #f1f0e9;
   --light-bg-accent-1: #282f44;
@@ -14,22 +15,11 @@
   --light-semi-transparent: rgba(18, 17, 23, 0.5);
   --light-muted-color: #6e738d;
 
-  --dark-bg: #121117;
-  --dark-bg-accent-1: #282f44;
-  --dark-bg-accent-2: #453a49;
-  --dark-bg-accent-3: #6d3b47;
-  --dark-font-color: #f1f0e9;
-  --dark-primary: #f4845f;
-  --dark-secondary: #c2eabd;
-  --dark-accent: #eb5967;
-  --dark-highlight: #c3bef7;
-  --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
-  --dark-semi-transparent: rgba(18, 17, 23, 0.9);
-  --dark-muted-color: #6e738d;
 
   --column-width: 1000px;
 
   /* light-dark combinator */
+  /*
   --accent: light-dark(var(--light-accent), var(--dark-accent));
   --bg: light-dark(var(--light-bg), var(--dark-bg));
   --bg-accent-1: light-dark(var(--light-bg-accent-1), var(--dark-bg-accent-1));
@@ -44,6 +34,37 @@
   --semi-transparent: light-dark(var(--light-semi-transparent),
       var(--dark-semi-transparent));
   --muted-color: light-dark(var(--light-muted-color), var(--dark-muted-color));
+*/
+  /* This will still indicate support for dark mode */
+  --dark-bg: #121117;
+  --dark-bg-accent-1: #282f44;
+  --dark-bg-accent-2: #453a49;
+  --dark-bg-accent-3: #6d3b47;
+  --dark-font-color: #f1f0e9;
+  --dark-primary: #f4845f;
+  --dark-secondary: #c2eabd;
+  --dark-accent: #eb5967;
+  --dark-highlight: #c3bef7;
+  --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
+  --dark-semi-transparent: rgba(18, 17, 23, 0.9);
+  --dark-muted-color: #6e738d;
+  color-scheme: dark;
+
+  /* Use only dark mode colors */
+  --bg: var(--dark-bg);
+  --bg-accent-1: var(--dark-bg-accent-1);
+  --bg-accent-2: var(--dark-bg-accent-2);
+  --bg-accent-3: var(--dark-bg-accent-3);
+  --font-color: var(--dark-font-color);
+  --primary: var(--dark-primary);
+  --secondary: var(--dark-secondary);
+  --accent: var(--dark-accent);
+  --highlight: var(--dark-highlight);
+  --subtle-highlight: var(--dark-subtle-highlight);
+  --semi-transparent: var(--dark-semi-transparent);
+  --muted-color: var(--dark-muted-color);
+
+  --column-width: 1000px;
 }
 
 html {
@@ -55,8 +76,8 @@ body {
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-  background-color: light-dark(var(--light-bg), var(--dark-bg));
-  color: light-dark(var(--light-color), var(--dark-color));
+  background-color: var(--bg);
+  color: var(--font-color);
 }
 
 h1,
