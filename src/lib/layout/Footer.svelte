@@ -1,8 +1,8 @@
 <script lang="ts">
 </script>
 
-<footer>
-  <div class="copy">
+<footer class="column">
+  <div class="foot_copy">
     &copy; {new Date().getFullYear()} JovianMoon.io. All rights reserved.
   </div>
   <div class="foot_links">
@@ -24,7 +24,7 @@
     font-size: 0.9rem;
   }
 
-  .copy {
+  .foot_copy {
     color: var(--secondary);
   }
 

@@ -2,17 +2,17 @@ html {
   scroll-behavior: smooth;
 }
 
-.post {
+.project {
   line-height: 1.6;
   color: white;
 }
 
-.post h1,
-.post h2,
-.post h3,
-.post h4,
-.post h5,
-.post h6 {
+.project h1,
+.project h2,
+.project h3,
+.project h4,
+.project h5,
+.project h6 {
   font-weight: bold;
   margin-bottom: 1rem;
   padding-bottom: 0;
@@ -20,61 +20,61 @@ html {
   /* Adjust this value to match the height of your fixed nav */
 }
 
-.post p {
+.project p {
   margin-bottom: 1.5rem;
 }
 
 /* Layout and Spacing */
-.post>*:not(:last-child):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+.project>*:not(:last-child):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
   margin-bottom: 1.5rem;
   /* General spacing for all elements */
   padding-bottom: 1.5rem;
   /* Padding to ensure spacing consistency */
 }
 
-.post>h1:not(:last-child),
-.post>h2:not(:last-child),
-.post>h3:not(:last-child),
-.post>h4:not(:last-child),
-.post>h5:not(:last-child),
-.post>h6:not(:last-child) {
+.project>h1:not(:last-child),
+.project>h2:not(:last-child),
+.project>h3:not(:last-child),
+.project>h4:not(:last-child),
+.project>h5:not(:last-child),
+.project>h6:not(:last-child) {
   margin-bottom: 1rem;
 }
 
-/* Additional Element Styling inside .post */
-.post blockquote {
+/* Additional Element Styling inside .project */
+.project blockquote {
   padding: 1rem;
   border-left: 4px solid #eb5967;
   background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%);
   font-style: italic;
 }
 
-.post blockquote p {
+.project blockquote p {
   margin: 0;
   padding: 0 0 0 0.5rem;
   font-size: 110%;
   line-height: 2;
 }
 
-.post ul,
-.post ol {
+.project ul,
+.project ol {
   margin: 1.5rem 0;
   padding-left: 1.5rem;
 }
 
-.post ul>li,
-.post ol>li {
+.project ul>li,
+.project ol>li {
   margin-bottom: 0.75rem;
 }
 
-.post a {
+.project a {
   color: var(--secondary);
   text-decoration: none;
   display: inline-block;
   position: relative;
 }
 
-.post a::before {
+.project a::before {
   content: "";
   position: absolute;
   bottom: 0;
@@ -87,7 +87,7 @@ html {
   transition: transform 0.3s ease;
 }
 
-.post a::after {
+.project a::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -98,35 +98,35 @@ html {
   z-index: -1;
 }
 
-.post a:hover::before {
+.project a:hover::before {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
 
-.post a:hover {
+.project a:hover {
   color: var(--accent);
   text-decoration: none;
 }
 
-/* Images inside .post */
-.post img {
+/* Images inside .project */
+.project img {
   max-width: 100%;
   height: auto;
   margin-bottom: 1.5rem;
 }
 
-.post pre {
+.project pre {
   border-radius: 4px;
   margin: 0.3rem -3rem 1rem -3rem;
   overflow-x: auto;
   padding: 0 !important;
 }
 
-.post code {
+.project code {
   font-family: "Courier New", Courier, monospace;
 }
 
-.post p code {
+.project p code {
   background: rgba(255, 255, 255, 0.1);
   padding: 0.15rem 0.3rem 0.05rem 0.3rem;
   border-radius: 4px;
@@ -135,7 +135,7 @@ html {
   font-size: 90%;
 }
 
-.post pre code {
+.project pre code {
   position: relative;
   display: flex;
   flex-flow: column;
@@ -182,7 +182,7 @@ html {
   padding-bottom: 1rem;
 }
 
-.post .rehype-code-title {
+.project .rehype-code-title {
   color: var(--muted-color);
   font-size: 0.9rem;
   margin: 0 !important;
@@ -219,7 +219,7 @@ html {
 }
 
 @media (max-width: 900px) {
-  .post pre {
+  .project pre {
     width: calc(100vw - 4rem);
     max-width: calc(100vw - 4rem);
     position: relative;
@@ -228,24 +228,24 @@ html {
 }
 
 @media (max-width: 768px) {
-  .post {
+  .project {
     padding: 0.5rem;
   }
 
-  .post>*:not(:last-child) {
+  .project>*:not(:last-child) {
     margin-bottom: 1rem;
   }
 
-  .post>h1:not(:last-child),
-  .post>h2:not(:last-child),
-  .post>h3:not(:last-child),
-  .post>h4:not(:last-child),
-  .post>h5:not(:last-child),
-  .post>h6:not(:last-child) {
+  .project>h1:not(:last-child),
+  .project>h2:not(:last-child),
+  .project>h3:not(:last-child),
+  .project>h4:not(:last-child),
+  .project>h5:not(:last-child),
+  .project>h6:not(:last-child) {
     margin-bottom: 0.75rem;
   }
 
-  .post pre {
+  .project pre {
     width: calc(100vw - 2rem);
     max-width: calc(100vw - 2rem);
     position: relative;

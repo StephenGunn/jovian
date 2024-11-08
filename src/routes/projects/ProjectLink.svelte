@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
-  import type { Post } from "$lib/types/schema";
+  import type { Project } from "$lib/types/schema";
   import Starfield from "$lib/layout/art/StarField.svelte";
+  import { fade } from "svelte/transition";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import { browser } from "$app/environment";
-  const { post }: { post: Post } = $props();
+  const { project }: { project: Project } = $props();
 
   let link: HTMLAnchorElement | undefined = $state();
   let mouse = $state({ x: 0, y: 0 });
@@ -25,7 +25,7 @@
 </script>
 
 <a
-  href="/posts/{post.slug}"
+  href="/projects/{project.slug}"
   onmouseenter={() => (hover = true)}
   onmouseleave={() => (hover = false)}
   bind:this={link}
@@ -34,20 +34,20 @@
   <div class="background">
     <div class="content">
       <div class="title">
-        {post.title}
+        {project.title}
       </div>
       <div class="date">
-        <span>{blog_update_no_time(post.date)}</span>
+        <span>{blog_update_no_time(project.date)}</span>
         <span>
-          {blog_update_time_since(post.date)}
+          {blog_update_time_since(project.date)}
         </span>
       </div>
       <div class="desc">
-        {post.description}
+        {project.description}
       </div>
       <div class="categories">
-        <span class="cat-title"> Post categories: </span>
-        {#each post.categories as category}
+        <span class="cat-title"> Project categories: </span>
+        {#each project.categories as category}
           <span>{category}</span>
         {/each}
       </div>

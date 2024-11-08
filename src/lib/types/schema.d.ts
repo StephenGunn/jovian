@@ -9,6 +9,15 @@ export type Post = {
   published: boolean;
 };
 
+export type Project = {
+  title: string;
+  slug: string;
+  description: string;
+  date: string;
+  categories: Categories[];
+  published: boolean;
+};
+
 export type CelestialBodyFacts = {
   distance_km: string;
   distance_miles: string;

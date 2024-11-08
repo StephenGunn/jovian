@@ -9,7 +9,6 @@ categories:
   - svelte 5
   - frontend
   - typescript
-
 published: true
 ---
 
@@ -368,4 +367,4 @@ point for how to render markdown/handle code blocks in SvelteKit. I'm excited to
 he does next.
 
 If you have any questions or comments, feel free to reach out to me on
-[Twitter](https://twitter.com/jovianmoonio).
+[BlueSky](https://bsky.app/profile/jovianmoon.io).

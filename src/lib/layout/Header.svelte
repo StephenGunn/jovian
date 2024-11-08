@@ -218,6 +218,12 @@
       backdrop-filter: blur(3px);
       border: none;
       border-radius: 3px;
+      transition: transform 0.3s ease;
+      transform: translateY(0);
+    }
+
+    button.hide {
+      transform: translateY(-200%);
     }
 
     button.home {
@@ -276,6 +282,15 @@
     .open .line-3 {
       /* Rotate bottom line to -45 degrees */
       transform: rotate(-45deg) translate(3px, -3px);
+    }
+    nav.scrolled {
+      outline: none;
+      background-color: none;
+      backdrop-filter: none;
+      background: none;
+    }
+    nav.hide {
+      transform: translateY(0);
     }
 
     header {

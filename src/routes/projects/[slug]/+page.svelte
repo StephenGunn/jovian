@@ -1,17 +1,17 @@
 <script lang="ts">
+  import "$lib/css/projects.css";
+  import TOC from "./TOC.svelte";
+  import Seo from "sk-seo";
   import StarField from "$lib/layout/art/StarField.svelte";
   import Clipboard from "./Clipboard.svelte";
-  import TOC from "./TOC.svelte";
-  import "$lib/css/blog.css";
-  import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
-  import Seo from "sk-seo";
   import ContactLink from "./ContactLink.svelte";
+  import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
 
   let { data } = $props();
   let { content, meta } = data;
 
   // insta component
-  const Post = content;
+  const Project = content;
 </script>
 
 <Seo title="{meta.title} - JovianMoon.io" description={meta.description} />
@@ -28,7 +28,7 @@
         </span>
       </div>
       <div class="categories">
-        <span class="title"> Post categories: </span>
+        <span class="title"> Project categories: </span>
         {#each meta.categories as category}
           <span>{category}</span>
         {/each}
@@ -62,12 +62,12 @@
             stroke-width="16"
           /></svg
         >
-        Back to posts</a
+        Back to projects</a
       >
     </div>
   </div>
-  <article class="post">
-    <Post />
+  <article class="project">
+    <Project />
   </article>
   <div class="right">
     <TOC />
@@ -173,7 +173,7 @@
     max-width: 100%;
   }
 
-  .post {
+  .project {
     padding: 2rem 5rem;
   }
 
@@ -232,7 +232,7 @@
     .column {
       padding: 8rem 2rem 4rem 2rem;
     }
-    .post {
+    .project {
       padding: 2rem;
     }
   }
@@ -241,7 +241,7 @@
     .column {
       padding: 8rem 1rem 4rem 2rem;
     }
-    .post {
+    .project {
       padding: 0rem;
     }
 

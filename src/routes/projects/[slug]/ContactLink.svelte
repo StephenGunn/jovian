@@ -1,10 +1,7 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import type { Post } from "$lib/types/schema";
   import Starfield from "$lib/layout/art/StarField.svelte";
-  import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import { browser } from "$app/environment";
-  const { post }: { post: Post } = $props();
 
   let link: HTMLAnchorElement | undefined = $state();
   let mouse = $state({ x: 0, y: 0 });
@@ -25,32 +22,23 @@
 </script>
 
 <a
-  href="/posts/{post.slug}"
+  href="https://discord.gg/WDnkErt6"
   onmouseenter={() => (hover = true)}
   onmouseleave={() => (hover = false)}
   bind:this={link}
   onmousemove={handle_mousemove}
 >
   <div class="background">
+    <div class="image">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+        ><rect width="256" height="256" fill="none" /><path
+          d="M247.51,174.39,218,58a16.08,16.08,0,0,0-13-11.88l-36.06-5.92a16.22,16.22,0,0,0-18.26,11.88l-.21.85a4,4,0,0,0,3.27,4.93,155.62,155.62,0,0,1,24.41,5.62,8.2,8.2,0,0,1,5.62,9.7,8,8,0,0,1-10.19,5.64,155.4,155.4,0,0,0-90.8-.1,8.22,8.22,0,0,1-10.28-4.81,8,8,0,0,1,5.08-10.33,156.85,156.85,0,0,1,24.72-5.72,4,4,0,0,0,3.27-4.93l-.21-.85A16.21,16.21,0,0,0,87.08,40.21L51,46.13A16.08,16.08,0,0,0,38,58L8.49,174.39a15.94,15.94,0,0,0,9.06,18.51l67,29.71a16.17,16.17,0,0,0,21.71-9.1l3.49-9.45a4,4,0,0,0-3.27-5.35,158.13,158.13,0,0,1-28.63-6.2,8.2,8.2,0,0,1-5.61-9.67,8,8,0,0,1,10.2-5.66,155.59,155.59,0,0,0,91.12,0,8,8,0,0,1,10.19,5.65,8.19,8.19,0,0,1-5.61,9.68,157.84,157.84,0,0,1-28.62,6.2,4,4,0,0,0-3.27,5.35l3.49,9.45a16.18,16.18,0,0,0,21.71,9.1l67-29.71A15.94,15.94,0,0,0,247.51,174.39ZM92,152a12,12,0,1,1,12-12A12,12,0,0,1,92,152Zm72,0a12,12,0,1,1,12-12A12,12,0,0,1,164,152Z"
+        /></svg
+      >
+    </div>
     <div class="content">
-      <div class="title">
-        {post.title}
-      </div>
-      <div class="date">
-        <span>{blog_update_no_time(post.date)}</span>
-        <span>
-          {blog_update_time_since(post.date)}
-        </span>
-      </div>
-      <div class="desc">
-        {post.description}
-      </div>
-      <div class="categories">
-        <span class="cat-title"> Post categories: </span>
-        {#each post.categories as category}
-          <span>{category}</span>
-        {/each}
-      </div>
+      If you liked this article and have any questions or comments, I'd love to hear from you! Join my Discord
+      server to chat with me and connect with other developers. Just click or tap here to join.
     </div>
     {#if hover}
       <div
@@ -67,7 +55,9 @@
       "
       ></div>
     {/if}
-    <Starfield />
+    <div class="stars">
+      <Starfield />
+    </div>
   </div>
   {#if hover}
     <div
@@ -87,11 +77,31 @@
 </a>
 
 <style>
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--bg-accent-3);
+  }
+  .image {
+    flex-grow: 0;
+  }
+  .content {
+    flex-grow: 1;
+  }
   a {
-    color: var(--accent);
+    color: var(--white);
     border-radius: 0.5rem;
     padding: 2px;
-    background: var(--bg-accent-2);
+    background: var(--bg-accent-3);
     position: relative;
     display: block;
     text-decoration: none;
@@ -100,11 +110,10 @@
   .background {
     overflow: hidden;
     border-radius: 0.45rem;
-    gap: 0.25rem;
+    gap: 1.5rem;
     position: relative;
-    flex-flow: column;
-    background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%),
-      black;
+    align-items: center;
+    background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%), black;
     text-decoration: none;
     display: flex;
     padding: 1rem;
@@ -132,39 +141,5 @@
   }
   a .content {
     z-index: 2;
-    display: flex;
-    flex-flow: column;
-  }
-  a .title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--font-color);
-    margin-bottom: 0.5rem;
-  }
-
-  a .date {
-    display: flex;
-    font-size: 80%;
-    align-items: center;
-    gap: 1.5rem;
-    color: var(--accent);
-  }
-  a .desc {
-    padding-top: 1rem;
-    font-size: 1rem;
-    color: var(--font-color);
-  }
-
-  a .categories {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    margin-top: 1rem;
-    font-size: 80%;
-    color: var(--secondary);
-  }
-
-  a .categories .cat-title {
-    color: var(--font-color);
   }
 </style>

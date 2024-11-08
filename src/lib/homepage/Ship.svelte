@@ -428,6 +428,7 @@
 
   onMount(() => {
     ship.landed = true;
+    quest.reset();
 
     // determine where the ship should be launched from
     // Determine where the ship should be launched from
