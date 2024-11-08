@@ -8,13 +8,22 @@
   import ContactLink from "$lib/layout/ContactLink.svelte";
 
   let { data } = $props();
-  let { content, meta } = data;
+  let { content, meta, slug } = data;
 
   // insta component
   const Post = content;
+
+  const open_graph_image = encodeURI(`/api/images/og?title=${meta.title}&link=${slug}`);
+
+  $inspect(meta);
 </script>
 
-<Seo title="{meta.title} - JovianMoon.io" description={meta.description} />
+<Seo
+  title="{meta.title} - JovianMoon.io"
+  description={meta.description}
+  keywords={meta.categories}
+  imageURL={open_graph_image}
+/>
 <Clipboard />
 <div class="intro">
   <div class="column">

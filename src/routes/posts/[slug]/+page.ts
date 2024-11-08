@@ -8,7 +8,8 @@ export const load: PageLoad = async ({ params }) => {
     // can we pass a component from the server to the client?
     return {
       content: post.default,
-      meta: post.metadata
+      meta: post.metadata,
+      slug: params.slug
     };
   } catch (e) {
     error(404, `Could not find ${params.slug}`);
