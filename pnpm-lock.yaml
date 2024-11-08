@@ -118,8 +118,8 @@ importers:
         specifier: ^3.8.6
         version: 3.8.6(postcss-load-config@3.1.4(postcss@8.4.47))(postcss@8.4.47)(svelte@5.1.11)
       svelte-component-to-image:
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.0.5
+        version: 1.0.5
       svelte-confetti:
         specifier: ^2.1.2
         version: 2.1.2(svelte@5.1.11)
@@ -2131,8 +2131,8 @@ packages:
     peerDependencies:
       svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
 
-  svelte-component-to-image@1.0.4:
-    resolution: {integrity: sha512-XKqSOWbIj78f1U5OO03+EAk+ewOj+cbsTLfvh6Bh4+MBJFqscsbKjN+V0k2x06R9VH/96JqQgAq8AJ4DZPZUfw==}
+  svelte-component-to-image@1.0.5:
+    resolution: {integrity: sha512-k25HCrU2tBPEst7VMydI/2N3BsVez9ARVRquETLaigsdE3/KMbvg73o4VP8fSA5E7RnQ+c6QGmLgnnOECzmauQ==}
 
   svelte-confetti@2.1.2:
     resolution: {integrity: sha512-2hZUSmogOkeoKJEuUL75tAmyQQ8J9FEcNq19yzDpL4njBOEpl+cFA97sX9i6okBIhTccsRV1M9FZOkEyTZAMnQ==}
@@ -4702,7 +4702,7 @@ snapshots:
       - stylus
       - sugarss
 
-  svelte-component-to-image@1.0.4:
+  svelte-component-to-image@1.0.5:
     dependencies:
       '@resvg/resvg-js': 2.6.2
       juice: 8.1.0
