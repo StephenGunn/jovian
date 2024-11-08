@@ -9,11 +9,11 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["@resvg/resvg-js"]
   },
-  build: {
-    rollupOptions: {
-      external: ["@resvg/resvg-js"]
-    }
-  },
+  //build: {
+  //  rollupOptions: {
+  //    external: ["@resvg/resvg-js"]
+  //  }
+  //},
   test: {
     include: ["src/**/*.{test,spec}.{js,ts}"]
   }
