@@ -7,6 +7,7 @@
   let mouse = $state({ x: 0, y: 0 });
   let hover = $state(false);
   let glow = $state({ x: "50%", y: "20%" });
+  let { placement }: { placement: string } = $props();
 
   const handle_mousemove = (e: MouseEvent) => {
     if (!link || !browser || !hover) return;
@@ -19,10 +20,14 @@
     glow.x = `${(mouse.x / rect.width) * 100}%`;
     glow.y = `${(mouse.y / rect.height) * 100}%`;
   };
+
+  /* the butterfly is sourced from https://flutterby.philhawksworth.dev/ */
 </script>
 
 <a
-  href="https://discord.gg/WDnkErt6"
+  target="_blank"
+  rel="noopener noreferrer"
+  href="https://bsky.app/profile/jovianmoon.io"
   onmouseenter={() => (hover = true)}
   onmouseleave={() => (hover = false)}
   bind:this={link}
@@ -49,7 +54,7 @@
       </svg>
     </div>
     <div class="content">
-      If you liked this article and have any questions or comments, I'd love to hear from
+      If you liked this {placement} and have any questions or comments, I'd love to hear from
       you! You can reach my on BlueSky.
     </div>
     {#if hover}
@@ -80,7 +85,7 @@
       circle at
       {glow.x} 
       {glow.y},
-      var(--accent),
+      #6ea5ff,
       #00000000
     )
       "
@@ -167,7 +172,7 @@
     color: var(--white);
     border-radius: 0.5rem;
     padding: 2px;
-    background: var(--bg-accent-3);
+    background: var(--bg-accent-2);
     position: relative;
     display: block;
     text-decoration: none;

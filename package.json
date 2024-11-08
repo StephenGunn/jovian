@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@jsdevtools/rehype-toc": "^3.0.2",
+    "@sendgrid/mail": "^8.1.4",
     "@shikijs/rehype": "^1.22.2",
     "@shikijs/transformers": "^1.22.2",
     "@sveltejs/adapter-auto": "^3.3.1",

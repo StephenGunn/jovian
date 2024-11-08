@@ -16,7 +16,7 @@
   });
 
   const determine_header_visibility = (scroll: number) => {
-    if (scroll > last_scroll && show_header === true) {
+    if (scroll > 200 && scroll > last_scroll && show_header === true) {
       show_header = false;
     } else if (scroll < last_scroll && show_header === false) {
       show_header = true;

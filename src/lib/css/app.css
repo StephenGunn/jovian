@@ -23,7 +23,7 @@
   --dark-secondary: #c2eabd;
   --dark-accent: #eb5967;
   --dark-highlight: #c3bef7;
-  --dark-blue: #6ea5ff --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
+  --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
   --dark-semi-transparent: rgba(18, 17, 23, 0.9);
   --dark-muted-color: #6e738d;
 
@@ -39,7 +39,6 @@
   --primary: light-dark(var(--light-primary), var(--dark-primary));
   --secondary: light-dark(var(--light-secondary), var(--dark-secondary));
   --highlight: light-dark(var(--light-highlight), var(--dark-highlight));
-  --blue: light-dark(var(--light-blue), var(--dark-blue));
   --subtle-highlight: light-dark(var(--light-subtle-highlight),
       var(--dark-subtle-highlight));
   --semi-transparent: light-dark(var(--light-semi-transparent),

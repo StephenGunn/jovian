@@ -1,0 +1,39 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0 1.5rem 0;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+button:focus {
+  border: none;
+  outline: 2px solid var(--bg-accent-3);
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--secondary);
+}
+
+button {
+  width: fit-content;
+  padding: 0.5rem 1rem;
+}
