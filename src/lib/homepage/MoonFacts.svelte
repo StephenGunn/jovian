@@ -83,7 +83,8 @@
 
   @media (max-width: 768px) {
     .facts {
-      top: calc(50% - 4.5rem);
+      top: auto;
+      bottom: 120%;
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
