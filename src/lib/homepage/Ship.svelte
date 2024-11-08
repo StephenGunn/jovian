@@ -675,6 +675,12 @@
       2s height ease-out;
   }
 
+  @media (max-width: 800px) {
+    .where_to {
+      transform: translate(-50%, -275%);
+    }
+  }
+
   @keyframes pulse {
     0% {
       transform: scale(0);
