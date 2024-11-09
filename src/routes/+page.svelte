@@ -12,6 +12,7 @@
 <Seo
   title="JovianMoon.io - Stephen Gunn's Digital Playground"
   description="Digital playground for Stephen Gunn featuring blog posts, projects, expiriments, and links to web development resources."
+  imageURL="https://jovianmoon.io/api/images/pages"
 />
 
 <div class="scene">

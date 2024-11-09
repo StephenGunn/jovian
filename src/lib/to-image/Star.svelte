@@ -14,6 +14,7 @@
   style:left
   style:top
   style:fill="white"
+  style:display="flex"
   style:color="white"
   style:width={size}
   style:height={size}

@@ -27,8 +27,7 @@ export const GET: RequestHandler = (async ({ url }) => {
           weight: 400,
           style: "normal"
         }
-      ],
-      debug: true
+      ]
     };
 
     // pass the component and options to the package

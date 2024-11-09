@@ -10,7 +10,7 @@
   let mobile_menu_open = $state(false);
 
   afterNavigate(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       mobile_menu_open = false;
     }, 500);
   });

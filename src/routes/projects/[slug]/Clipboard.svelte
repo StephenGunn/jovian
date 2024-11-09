@@ -49,7 +49,7 @@
 
       buttonElement.innerHTML = check;
 
-      setTimeout(() => {
+      setTimeout(async () => {
         buttonElement.innerHTML = clipboard;
         buttonElement.blur();
       }, 2000);
@@ -60,6 +60,7 @@
       btn.addEventListener("click", copyToClipboard);
     });
 
-    return () => copyBtnElement.forEach((btn) => btn.removeEventListener("click", copyToClipboard));
+    return () =>
+      copyBtnElement.forEach((btn) => btn.removeEventListener("click", copyToClipboard));
   });
 </script>

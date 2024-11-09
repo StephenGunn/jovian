@@ -3,7 +3,7 @@
   import { fade } from "svelte/transition";
   import { onMount } from "svelte";
   onMount(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       show = true;
     }, 1000);
   });

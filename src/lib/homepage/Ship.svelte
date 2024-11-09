@@ -442,7 +442,7 @@
       ship.set_launch_position(w * 0.22, h * 0.745);
     }
 
-    setTimeout(() => {
+    setTimeout(async () => {
       ship.show_hint = true;
     }, 3000);
   });

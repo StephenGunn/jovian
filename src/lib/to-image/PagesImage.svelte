@@ -170,12 +170,12 @@
   }
 
   .io {
-    display: flex;
     bottom: 50px;
     right: 60px;
     width: 70px;
     height: 70px;
     background-color: #ffe090;
+    display: flex;
   }
 
   .jupiter {
@@ -191,7 +191,6 @@
   .moon svg {
     width: 100%;
     height: 100%;
-    display: flex;
   }
   .title {
     display: flex;
@@ -231,7 +230,9 @@
     width: 1200px;
     height: 600px;
     display: flex;
+    align-items: center;
     font-family: "Jost";
+    justify-content: center;
     position: relative;
     background: rgb(26, 33, 56);
     background: linear-gradient(299deg, rgba(26, 33, 56, 1) 0%, rgba(37, 23, 73, 1) 100%);
