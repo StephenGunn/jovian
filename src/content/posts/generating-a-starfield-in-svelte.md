@@ -4,6 +4,7 @@ description:
   An overview of how I generate the random starfield backgrounds on this site using
   SvelteKit SSR.
 date: "2024-8-24"
+updated: "2024-11-8"
 categories:
   - sveltekit
   - svelte 5

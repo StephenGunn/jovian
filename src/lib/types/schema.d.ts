@@ -5,6 +5,7 @@ export type Post = {
   slug: string;
   description: string;
   date: string;
+  updated?: string;
   categories: Categories[];
   published: boolean;
 };
@@ -14,6 +15,7 @@ export type Project = {
   slug: string;
   description: string;
   date: string;
+  updated?: string;
   categories: Categories[];
   published: boolean;
 };
