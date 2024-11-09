@@ -66,6 +66,9 @@ do it.
 
 [Source: Read about what Google says about sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)
 
+I think it's still a good idea to have a sitemap even though this site fits Google's
+latter criteria.
+
 ## Where You Define Your Structure Is Important
 
 The base level navigation for this site is simple. There are only 5 links on the menu, so
