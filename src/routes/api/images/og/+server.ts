@@ -11,8 +11,9 @@ import { dev } from "$app/environment";
 export const GET: RequestHandler = (async ({ url }) => {
   const props = {
     title: url.searchParams.get("title") ?? "",
-    link: url.searchParams.get("link") ?? ""
-  };
+    link: url.searchParams.get("link") ?? "",
+    section: url.searchParams.get("section") ?? ""
+  } as const;
 
   try {
     const options: RenderOptions = {

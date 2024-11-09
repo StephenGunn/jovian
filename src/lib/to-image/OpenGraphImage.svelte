@@ -3,7 +3,8 @@
 <script lang="ts">
   import Star from "./Star.svelte";
 
-  let { title, link }: { title: string; link: string } = $props();
+  let { title, link, section }: { title: string; link: string; section: string } =
+    $props();
 
   // we want to serverside render the starfield
   // we will render more stars than we need to, on the server, so we don't have to wait for the
@@ -44,7 +45,7 @@
     }))
   );
 
-  const rendered_link = link ? "jovianmoon.io/posts/" + link : "jovianmoon.io";
+  const rendered_link = link ? "jovianmoon.io/" + link : "jovianmoon.io";
 </script>
 
 <div id="container">
@@ -154,7 +155,7 @@
   </div>
   <div class="subtitle">
     <div class="site">JovianMoon.io</div>
-    <div class="type">Blog Post</div>
+    <div class="type">{section}</div>
   </div>
 </div>
 
@@ -162,13 +163,12 @@
   .moon {
     display: flex;
     position: absolute;
-    z-index: 3;
     border-radius: 50%;
   }
 
   .io {
-    bottom: 30px;
-    right: 30px;
+    bottom: 50px;
+    right: 60px;
     width: 70px;
     height: 70px;
     background-color: #ffe090;
@@ -177,8 +177,8 @@
   .jupiter {
     display: flex;
     position: absolute;
-    bottom: 100px;
-    right: 20px;
+    bottom: 130px;
+    right: 50px;
     width: 400px;
     height: 400px;
   }
@@ -191,17 +191,17 @@
   .title {
     display: flex;
     position: absolute;
-    top: 5rem;
-    left: 3rem;
-    font-size: 70px;
+    top: 150px;
+    left: 70px;
+    font-size: 62px;
     color: white;
-    width: 680px;
+    width: 660px;
   }
   .url {
     display: flex;
     position: absolute;
-    bottom: 2rem;
-    left: 3rem;
+    top: 470px;
+    left: 70px;
     font-size: 25px;
     color: #eb5967;
     letter-spacing: 1px;
@@ -209,12 +209,12 @@
   .subtitle {
     display: flex;
     position: absolute;
-    bottom: 5rem;
-    left: 3rem;
+    top: 80px;
+    left: 70px;
     font-size: 35px;
     color: #f4845f;
     letter-spacing: 1px;
-    gap: 2rem;
+    gap: 4rem;
   }
 
   .site {
