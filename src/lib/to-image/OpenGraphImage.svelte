@@ -152,6 +152,10 @@
       />
     </svg>
   </div>
+  <div class="subtitle">
+    <div class="site">JovianMoon.io</div>
+    <div class="type">Blog Post</div>
+  </div>
 </div>
 
 <style>
@@ -167,11 +171,7 @@
     right: 30px;
     width: 70px;
     height: 70px;
-    background: radial-gradient(
-      circle at 20% 30%,
-      rgba(255, 226, 142, 1) 0%,
-      rgba(236, 188, 1, 1) 62%
-    );
+    background-color: #ffe090;
   }
 
   .jupiter {
@@ -181,7 +181,6 @@
     right: 20px;
     width: 400px;
     height: 400px;
-    z-index: 1;
   }
 
   .jupiter svg,
@@ -197,7 +196,6 @@
     font-size: 70px;
     color: white;
     width: 680px;
-    z-index: 2;
   }
   .url {
     display: flex;
@@ -208,6 +206,21 @@
     color: #eb5967;
     letter-spacing: 1px;
   }
+  .subtitle {
+    display: flex;
+    position: absolute;
+    bottom: 5rem;
+    left: 3rem;
+    font-size: 35px;
+    color: #f4845f;
+    letter-spacing: 1px;
+    gap: 2rem;
+  }
+
+  .site {
+    color: #c2eabd;
+  }
+
   #container {
     width: 1200px;
     height: 600px;
@@ -226,6 +239,5 @@
     position: absolute;
     display: flex;
     overflow: hidden;
-    z-index: 1;
   }
 </style>

@@ -6,6 +6,7 @@
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import Seo from "sk-seo";
   import ContactLink from "$lib/layout/ContactLink.svelte";
+  import { dev } from "$app/environment";
 
   let { data } = $props();
   let { content, meta, slug } = data;
@@ -13,7 +14,9 @@
   // insta component
   const Post = content;
 
-  const open_graph_image = encodeURI(`/api/images/og?title=${meta.title}&link=${slug}`);
+  const open_graph_image = encodeURI(
+    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=${slug}`
+  );
 
   $inspect(meta);
 </script>

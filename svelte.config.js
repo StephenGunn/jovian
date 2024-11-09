@@ -13,7 +13,9 @@ const config = {
     $styles: "./src/lib/styles"
   },
   kit: {
-    adapter: adapter()
+    adapter: adapter({
+      external: ["@resvg/resvg-js"]
+    })
   }
 };
 

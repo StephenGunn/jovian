@@ -17,6 +17,9 @@ importers:
       pnpm:
         specifier: ^9.12.3
         version: 9.12.3
+      satori:
+        specifier: ^0.11.3
+        version: 0.11.3
       unified:
         specifier: ^11.0.5
         version: 11.0.5
@@ -118,8 +121,8 @@ importers:
         specifier: ^3.8.6
         version: 3.8.6(postcss-load-config@3.1.4(postcss@8.4.47))(postcss@8.4.47)(svelte@5.1.11)
       svelte-component-to-image:
-        specifier: ^1.0.6
-        version: 1.0.6
+        specifier: ^1.0.13
+        version: 1.0.13
       svelte-confetti:
         specifier: ^2.1.2
         version: 2.1.2(svelte@5.1.11)
@@ -2172,8 +2175,8 @@ packages:
     peerDependencies:
       svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
 
-  svelte-component-to-image@1.0.6:
-    resolution: {integrity: sha512-8fE2USIBoiQ9ma4vaYCI7f6VNkhRwlO+5sETrLr7FBQUoMefr++5pWs3GrFUEvHoBm7FJLIE6S/XyiXV6h7fpg==}
+  svelte-component-to-image@1.0.13:
+    resolution: {integrity: sha512-9zMHv+GORf6vTPoJcVHm7LkZzl5rZJMp8bsiqFL+PCBVgqDUNmjxMG2WTq+N5enXKKiT62AcgYVFumrD90ROxA==}
 
   svelte-confetti@2.1.2:
     resolution: {integrity: sha512-2hZUSmogOkeoKJEuUL75tAmyQQ8J9FEcNq19yzDpL4njBOEpl+cFA97sX9i6okBIhTccsRV1M9FZOkEyTZAMnQ==}
@@ -4815,7 +4818,7 @@ snapshots:
       - stylus
       - sugarss
 
-  svelte-component-to-image@1.0.6:
+  svelte-component-to-image@1.0.13:
     dependencies:
       '@resvg/resvg-js': 2.6.2
       juice: 11.0.0

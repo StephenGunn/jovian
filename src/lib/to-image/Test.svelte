@@ -8,7 +8,6 @@
   <h1>
     {text} world!
   </h1>
-  <div>test</div>
 </div>
 
 <style>
@@ -20,7 +19,6 @@
     font-family: "Jost";
     justify-content: center;
     position: relative;
-    background: rgb(63, 94, 251);
     background: radial-gradient(
       circle,
       rgba(63, 94, 251, 1) 0%,

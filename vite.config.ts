@@ -6,14 +6,14 @@ export default defineConfig({
   server: {
     port: 42069
   },
-  optimizeDeps: {
-    exclude: ["@resvg/resvg-js"]
-  },
-  //build: {
-  //  rollupOptions: {
-  //    external: ["@resvg/resvg-js"]
-  //  }
+  //optimizeDeps: {
+  //  exclude: ["@resvg/resvg-js"]
   //},
+  build: {
+    rollupOptions: {
+      external: ["@resvg/resvg-js"]
+    }
+  },
   test: {
     include: ["src/**/*.{test,spec}.{js,ts}"]
   }
