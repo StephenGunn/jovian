@@ -28,8 +28,8 @@ and testing how well [mdsvex](https://github.com/pngwn/MDsveX) integrated with t
 wanted to use markdown more extensively.
 
 I was tempted to use [Astro](https://astro.build) since markdown is a first-class citizen
-there, but I decided to stay with [SvelteKit](https://kit.svelte.dev) to learn more about
-how it interacts with markdown. I've been building with [Svelte](https://svelte.dev) and
+there, but I decided to stay with [SvelteKit](https://svelte.dev) to learn more about how
+it interacts with markdown. I've been building with [Svelte](https://svelte.dev) and
 SvelteKit for a few years and even had a few projects that used
 [Sapper](https://sapper.svelte.dev). So I was very familiar with the ecosystem, but not
 its interaction with markdown.
