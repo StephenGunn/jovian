@@ -247,14 +247,19 @@ the strings if you prefer. Here is my finished `sitemap.xml` for this site.
 
 ```typescript:sitemap.xml/+server.ts
 import type { Post, Project } from "$lib/types/schema";
-import { dev } from "$app/environment";
 import type { RequestHandler } from "./$types";
+import { dev } from "$app/environment";
+import { error } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
   const site = "https://jovianmoon.io/";
 
   const posts: Post[] = await (await fetch("/api/posts")).json();
-  const projects: Project[] = await (await fetch("/api/projects")).json();
+  const projects: Project[] = await (await fetch("/api/posts")).json();
+
+  if (!posts || !projects) {
+    error(500, "Failed to generate the sitemap.");
+  }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

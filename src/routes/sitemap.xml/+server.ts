@@ -1,6 +1,6 @@
 import type { Post, Project } from "$lib/types/schema";
-import { dev } from "$app/environment";
 import type { RequestHandler } from "./$types";
+import { dev } from "$app/environment";
 import { error } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
