@@ -1,15 +1,21 @@
 <script lang="ts">
   import type { Project } from "$lib/types/schema";
   import ProjectLink from "./ProjectLink.svelte";
+  import Seo from "sk-seo";
+  import { dev } from "$app/environment";
+
   let { data }: { data: { projects: Project[] } } = $props();
   let { projects } = data;
 
-  import Seo from "sk-seo";
+  const open_graph_image = encodeURI(
+    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=Projects&link=projects`
+  );
 </script>
 
 <Seo
   title="Projects - JovianMoon.io"
   description="A list of projects I maintain and want to highlight."
+  imageURL={open_graph_image}
 />
 <div class="column">
   <h1>Projects</h1>

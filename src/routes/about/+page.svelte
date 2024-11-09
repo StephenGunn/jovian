@@ -1,11 +1,17 @@
 <script lang="ts">
   import "$lib/css/blog.css";
   import Seo from "sk-seo";
+  import { dev } from "$app/environment";
+
+  const open_graph_image = encodeURI(
+    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=About Me&link=about`
+  );
 </script>
 
 <Seo
   title="About Me - JovianMoon.io"
   description="Hi, I'm Stephen Gunn and I help make the internet."
+  imageURL={open_graph_image}
 />
 <div class="column">
   <h1>About Me</h1>

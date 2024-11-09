@@ -3,8 +3,6 @@
 <script lang="ts">
   import Star from "./Star.svelte";
 
-  let { title, link }: { title: string; link: string } = $props();
-
   // we want to serverside render the starfield
   // we will render more stars than we need to, on the server, so we don't have to wait for the
   // window dimensions to be available to generate the dom elements
@@ -43,15 +41,11 @@
       opacity: random(0.5, 1)
     }))
   );
-
-  const rendered_link = link ? "jovianmoon.io/" + link : "jovianmoon.io";
 </script>
 
 <div id="container">
-  <div class="title">
-    {title}
-  </div>
-  <div class="url">{rendered_link}</div>
+  <div class="title">JovianMoon.io</div>
+  <div class="url">Digital playground of Stephen Gunn</div>
   <div class="star-field">
     {#each stars as star}
       <Star size={star.size} left={star.left} top={star.top} />
@@ -192,7 +186,7 @@
     position: absolute;
     top: 160px;
     left: 70px;
-    font-size: 120px;
+    font-size: 100px;
     color: white;
     width: 660px;
   }
@@ -201,7 +195,7 @@
     position: absolute;
     top: 320px;
     left: 70px;
-    font-size: 40px;
+    font-size: 33px;
     color: #eb5967;
     letter-spacing: 1px;
   }

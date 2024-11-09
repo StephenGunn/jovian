@@ -5,14 +5,13 @@ import type { RequestHandler } from "./$types";
 import { image_from_component, type RenderOptions } from "svelte-component-to-image";
 
 // Normal .svelte component
-import OpenGraphImage from "$lib/to-image/OpenGraphImage.svelte";
+import PagesImage from "$lib/to-image/PagesImage.svelte";
 import { dev } from "$app/environment";
 
 export const GET: RequestHandler = (async ({ url }) => {
   const props = {
     title: url.searchParams.get("title") ?? "",
-    link: url.searchParams.get("link") ?? "",
-    section: url.searchParams.get("section") ?? ""
+    link: url.searchParams.get("link") ?? ""
   } as const;
 
   try {
@@ -31,7 +30,7 @@ export const GET: RequestHandler = (async ({ url }) => {
     };
 
     // pass the component and options to the package
-    const image = await image_from_component(OpenGraphImage, options);
+    const image = await image_from_component(PagesImage, options);
     const response = new Response(image);
     response.headers.append("Content-Type", "image/png");
     if (!dev) {

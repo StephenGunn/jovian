@@ -5,11 +5,17 @@
   let { posts } = data;
 
   import Seo from "sk-seo";
+  import { dev } from "$app/environment";
+
+  const open_graph_image = encodeURI(
+    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=Blog Posts&link=posts`
+  );
 </script>
 
 <Seo
   title="Blog Posts - JovianMoon.io"
   description="Blog posts about the internet, space, svelte, sveltekit, and general web programming."
+  imageURL={open_graph_image}
 />
 <div class="column">
   <h1>Blog Posts</h1>

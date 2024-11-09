@@ -1,18 +1,23 @@
 <script lang="ts">
+  import Seo from "sk-seo";
   import { enhance } from "$app/forms";
-
+  import { dev } from "$app/environment";
   import "$lib/css/blog.css";
   import "$lib/css/forms.css";
-  import Seo from "sk-seo";
 
   let submitting = $state(false);
   let completed = $state(false);
   let error = $state("");
+
+  const open_graph_image = encodeURI(
+    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=Contact&link=contact`
+  );
 </script>
 
 <Seo
   title="Contact - JovianMoon.io"
   description="Contact JovianMoon.io for projects, opportunities, or just to say hi."
+  imageURL={open_graph_image}
 />
 
 <div class="column">
