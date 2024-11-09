@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import type { Project } from "$lib/types/schema";
 
-async function get_posts() {
+async function get_projects() {
   let posts: Project[] = [];
 
   const paths = import.meta.glob("/src/content/projects/*.md", { eager: true });
@@ -25,6 +25,6 @@ async function get_posts() {
 }
 
 export async function GET() {
-  const posts = await get_posts();
-  return json(posts);
+  const projects = await get_projects();
+  return json(projects);
 }

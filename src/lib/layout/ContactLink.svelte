@@ -55,7 +55,7 @@
     </div>
     <div class="content">
       If you liked this {placement} and have any questions or comments, I'd love to hear from
-      you! You can reach my on BlueSky.
+      you! You can reach me on BlueSky.
     </div>
     {#if hover}
       <div
