@@ -223,9 +223,7 @@ export const GET: RequestHandler = ({ setHeaders }) => {
 
   // only cache in production - 1 hour
   if (!dev) {
-    setHeaders({ "Cache-Control": "s-maxage=3600
-
-, stale-while-revalidate" });
+    setHeaders({ "Cache-Control": "s-maxage=3600, stale-while-revalidate" });
   }
 
   return new Response(xml);
