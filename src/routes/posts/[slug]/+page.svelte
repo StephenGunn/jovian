@@ -17,8 +17,6 @@
   const open_graph_image = encodeURI(
     `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=posts/${slug}&section=Blog Post`
   );
-
-  $inspect(meta);
 </script>
 
 <Seo

@@ -6,15 +6,24 @@
   import Clipboard from "./Clipboard.svelte";
   import ContactLink from "$lib/layout/ContactLink.svelte";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
+  import { dev } from "$app/environment";
 
-  let { data } = $props();
-  let { content, meta } = data;
+  let { content, meta, slug } = $props();
 
   // insta component
   const Project = content;
+
+  const open_graph_image = encodeURI(
+    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=projects/${slug}&section=Project`
+  );
 </script>
 
-<Seo title="{meta.title} - JovianMoon.io" description={meta.description} />
+<Seo
+  title="{meta.title} - JovianMoon.io"
+  description={meta.description}
+  keywords={meta.categories}
+  imageURL={open_graph_image}
+/>
 <Clipboard />
 <div class="intro">
   <div class="column">
