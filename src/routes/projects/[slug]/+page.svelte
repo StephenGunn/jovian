@@ -8,7 +8,8 @@
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import { dev } from "$app/environment";
 
-  let { content, meta, slug } = $props();
+  let { data } = $props();
+  let { content, meta, slug } = data;
 
   // insta component
   const Project = content;
