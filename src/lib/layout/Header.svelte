@@ -12,7 +12,7 @@
   afterNavigate(() => {
     setTimeout(async () => {
       mobile_menu_open = false;
-    }, 500);
+    }, 100);
   });
 
   const determine_header_visibility = (scroll: number) => {
