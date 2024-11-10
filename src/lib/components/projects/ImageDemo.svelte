@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "$lib/css/forms.css";
   let text = $state("Demo Text");
   let current_text = $state("Demo Text");
   let disabled = $state(false);
@@ -35,7 +36,7 @@
   <input type="text" bind:value={text} maxlength="120" />
   <button onclick={regenerate} disabled={disabled || text === current_text}>
     {#if disabled}
-      Cool down...
+      Debouncing...
     {:else}
       Regenerate Image
     {/if}
@@ -47,6 +48,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     gap: 1rem;
     margin: 1rem;
   }
@@ -113,6 +115,15 @@
         -38px 6px,
         -14px -6px,
         14px 6px;
+    }
+  }
+
+  @media (min-width: 800px) {
+    .controls {
+      flex-direction: row;
+    }
+    input {
+      max-width: 500px;
     }
   }
 </style>
