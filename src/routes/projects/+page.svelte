@@ -19,7 +19,9 @@
 />
 <div class="column">
   <h1>Projects</h1>
-  <p class="desc">Here are some of the projects I actively maintain.</p>
+  <p class="desc">
+    Here are some of the projects I actively maintain. (I have many more projects to add!)
+  </p>
   <ul>
     {#each projects as project}
       <li>

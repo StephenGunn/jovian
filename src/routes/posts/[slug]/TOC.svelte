@@ -39,6 +39,7 @@
 <style>
   aside {
     margin-top: 2rem;
+    padding-right: 1rem;
   }
   section {
     position: sticky;

@@ -15,14 +15,17 @@ repo_url: "https://github.com/StephenGunn/svelte-component-to-image"
 
 <script lang="ts">
   import Demo from '$lib/components/projects/ImageDemo.svelte';
+  import ProjectLinks from '$lib/layout/ProjectLinks.svelte';
 </script>
+
+<ProjectLinks repo="https://github.com/StephenGunn/svelte-component-to-image" />
 
 ## Svelte Component To Image
 
 A package for easily rendering .png images from svelte components in SvelteKit. Inspired
 by Vercel's
 [`OG Image Generation`](https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation)
-tool.
+tool for NextJs.
 
 Good for rendering dynamic Open Graph images quickly and effeciently without having to use
 canvas.
@@ -42,6 +45,21 @@ SvelteKit.
 
 ## Demo
 
-Check it out in action.
+Check it out in action. The image below is generated from
+[this Svelte Component](https://github.com/StephenGunn/jovian/blob/main/src/lib/to-image/DemoImage.svelte).
 
 <Demo />
+
+## Usage
+
+Please check out the [ NPM package ](https://www.npmjs.com/svelte-component-to-image) or
+the [ Github Repo ](https://github.com/StephenGunn/svelte-component-to-image) for more
+information on how to use it in your project.
+
+Make sure to read the documentation, there are some quirks about what markup and CSS
+[Satori](https://github.com/vercel/satori) supports.
+
+## Troubleshooting
+
+If you have any issues please raise them on the Github Repo and I will get back to you as
+quickly as I can.

@@ -22,7 +22,7 @@
 <Seo
   title="{meta.title} - JovianMoon.io"
   description={meta.description}
-  keywords={meta.categories}
+  keywords={meta.categories.join(", ")}
   imageURL={open_graph_image}
 />
 <Clipboard />

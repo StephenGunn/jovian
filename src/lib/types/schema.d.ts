@@ -18,6 +18,9 @@ export type Project = {
   updated?: string;
   categories: Categories[];
   published: boolean;
+  project_status?: "live" | "in progress" | "archived";
+  repo_url?: string;
+  live_url?: string;
 };
 
 export type CelestialBodyFacts = {
