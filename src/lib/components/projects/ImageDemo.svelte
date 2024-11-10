@@ -1,6 +1,6 @@
 <script lang="ts">
   import "$lib/css/forms.css";
-  let text = $state("Demo Text");
+  let text = $state("Change me!");
   let current_text = $state("Demo Text");
   let disabled = $state(false);
 
