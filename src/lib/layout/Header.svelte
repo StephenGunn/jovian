@@ -73,6 +73,7 @@
 
 <svelte:window bind:scrollY={scroll} />
 <button
+  class="mobile-menu-toggle"
   onclick={() => (mobile_menu_open = !mobile_menu_open)}
   aria-label="Mobile menu toggle"
   class:home={$page.route.id === "/"}
@@ -195,7 +196,7 @@
     transition: background-color 0.5s;
   }
 
-  button {
+  button.mobile-menu-toggle {
     display: none;
   }
 
@@ -203,10 +204,11 @@
     .underline {
       display: none;
     }
-    button {
+    button.mobile-menu-toggle {
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 0;
       position: fixed;
       top: 1.5rem;
       right: 1.5rem;
@@ -222,28 +224,28 @@
       transform: translateY(0);
     }
 
-    button.hide {
+    button.hide.mobile-menu-toggle {
       transform: translateY(-200%);
     }
 
-    button.home {
+    button.home.mobile-menu-toggle {
       border: none;
       background: none;
     }
 
-    button.open {
+    button.open.mobile-menu-toggle {
       border: none;
       background: none;
       outline: none;
     }
 
-    button svg {
+    button.mobile-menu-toggle svg {
       width: 2.5rem;
       height: 2.2rem;
       color: var(--secondary);
     }
 
-    button svg.open {
+    button.mobile-menu-toggle svg.open {
       color: var(--primary);
     }
 

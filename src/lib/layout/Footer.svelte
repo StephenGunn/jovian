@@ -13,6 +13,8 @@
 
 <style>
   footer {
+    position: relative;
+    z-index: 2;
     color: white;
     text-align: center;
     padding: 1rem;
@@ -22,6 +24,7 @@
     gap: 2rem;
     color: var(--muted-color);
     font-size: 0.9rem;
+    bottom: 0;
   }
 
   .foot_copy {

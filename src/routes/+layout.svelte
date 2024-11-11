@@ -2,6 +2,7 @@
   import "$lib/css/fonts.css";
   import "$lib/css/reset.css";
   import "$lib/css/app.css";
+  import "$lib/css/forms.css";
 
   import Header from "$lib/layout/Header.svelte";
   import Footer from "$lib/layout/Footer.svelte";

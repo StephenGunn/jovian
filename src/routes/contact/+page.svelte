@@ -3,7 +3,6 @@
   import { enhance } from "$app/forms";
   import { dev } from "$app/environment";
   import "$lib/css/blog.css";
-  import "$lib/css/forms.css";
 
   let submitting = $state(false);
   let completed = $state(false);
