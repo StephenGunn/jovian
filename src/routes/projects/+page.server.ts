@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import type { Project } from "$lib/types/schema";
 import type { PageServerLoad } from "./$types";
 
