@@ -101,7 +101,7 @@ export const actions = {
       return fail(400, { company, invalid: true, text: "Oops! Something went wrong!" });
     }
 
-    // purposely verbose error messages
+    // purposely verbose error checking
     if (!name) {
       return fail(400, { name, missing: true, text: "Name is missing." });
     }
