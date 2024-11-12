@@ -35,8 +35,8 @@
         <span>
           {#if meta.updated}
             Posted
-            {blog_update_no_time(meta.date)}
           {/if}
+          {blog_update_no_time(meta.date)}
         </span>
 
         {#if meta.updated}

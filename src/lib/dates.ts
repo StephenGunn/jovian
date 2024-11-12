@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { Dayjs } from "dayjs";
+//import type { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 import timezone from "dayjs/plugin/timezone.js";
 import isoWeek from "dayjs/plugin/isoWeek.js";
@@ -22,11 +22,12 @@ dayjs.tz.setDefault("America/Chicago");
 // take a stab the user's timezone
 const guess = dayjs.tz.guess();
 
-export const blog_update_no_time = (date: string) => dayjs.utc(date).local().format("MMMM DD, YYYY");
+export const blog_update_no_time = (date: string) =>
+  dayjs(date).local().format("MMMM DD, YYYY");
 
 export const blog_update_time_since = (date: string) => {
   if (dayjs(date).isToday()) {
     return "Shit hot";
   }
-  return dayjs.tz(date).tz(guess).fromNow();
+  return dayjs(date).tz(guess).fromNow();
 };
