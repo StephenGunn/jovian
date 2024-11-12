@@ -3,6 +3,7 @@ title: My approach to sitemaps in SvelteKit
 description:
   How I programmatically generate sitemaps in SvelteKit using a server endpoint.
 date: "2024-11-9"
+updated: "2024-11-11"
 categories:
   - sveltekit
   - typescript
@@ -17,7 +18,8 @@ of URLs that you want search engines to index. They are important because they h
 engines find all of the pages on your site. If you have a small site, you might not need
 one. But if you have a large site, or a site with a lot of media, you should have one.
 
-[Here is a link to my sitemap.xml](/sitemap.xml) for this site.
+[Here is a link to my sitemap.xml](/sitemap.xml) for this site and the
+[source code that generates it](https://github.com/StephenGunn/jovian/blob/main/src/routes/sitemap.xml/%2Bserver.ts).
 
 ## The Reason Behind This Post
 

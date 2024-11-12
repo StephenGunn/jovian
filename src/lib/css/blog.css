@@ -198,12 +198,13 @@ html {
   background: none;
   padding: 0.25rem;
   position: relative;
+  margin: 0 !important;
 }
 
 .copy svg {
-  width: 1rem;
-  height: 1rem;
-  color: var(--primary);
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--secondary);
 }
 
 .copy:hover {

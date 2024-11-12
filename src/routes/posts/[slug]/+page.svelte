@@ -32,7 +32,16 @@
     <p class="desc">{meta.description}</p>
     <div class="meta">
       <div class="date">
-        <span>{blog_update_no_time(meta.date)}</span>
+        <span>
+          {#if meta.updated}
+            Posted
+            {blog_update_no_time(meta.date)}
+          {/if}
+        </span>
+
+        {#if meta.updated}
+          <span>(updated {blog_update_no_time(meta.updated)})</span>
+        {/if}
         <span>
           {blog_update_time_since(meta.date)}
         </span>
