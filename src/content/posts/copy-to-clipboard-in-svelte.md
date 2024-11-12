@@ -61,9 +61,12 @@ method with basic error handling.
   }
 </script>
 
-<button on:click={copyText}>Click to copy</button>
+<button onclick={copyText}>Click to copy</button>
 
 ```
+
+This is almost vanilla JavaScript. You could easily enhance this component by adding props
+or scoped styles.
 
 ## Conclusion
 
