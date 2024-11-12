@@ -65,8 +65,8 @@ method with basic error handling.
 
 ```
 
-This is almost vanilla JavaScript. You could easily enhance this component by adding props
-or scoped styles.
+This is almost vanilla JavaScript and meant as a starting point. You could easily enhance
+this component by adding props or scoped styles.
 
 ## Conclusion
 
