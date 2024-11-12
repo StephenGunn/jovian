@@ -29,9 +29,9 @@ spam prevention using something like Cloudflare Turnstile or Google reCAPTCHA.
   import { enhance } from "$app/forms";
   import { dev } from "$app/environment";
 
-  let submitting = false;
-  let completed = false;
-  let error = "";
+  let submitting = $state(false);
+  let completed = $state(false);
+  let error = $state("");
 </script>
 
 <h1>Contact</h1>
@@ -55,6 +55,9 @@ spam prevention using something like Cloudflare Turnstile or Google reCAPTCHA.
       };
     }}
   >
+    {#if error !== ""}
+      <p class="error">{error}</p>
+    {/if}
     <label for="name">Name</label>
     <input type="text" id="name" name="name" required />
 
