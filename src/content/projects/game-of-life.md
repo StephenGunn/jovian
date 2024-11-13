@@ -34,8 +34,8 @@ project.
 I purposely chose to use the DOM to see how well Svelte 4 could handle it. I was
 pleasantly surprised by how well it worked.
 
-Granted, I am not redrawing elements but only toggling classes. Here is the code that
-represents a single cell:
+Granted, I am not redrawing elements but only toggling classes. Here is the svelte
+component that represents a single cell:
 
 ```svelte
 <script lang="ts">
@@ -43,9 +43,6 @@ represents a single cell:
 
   export let row: number = 0;
   export let column: number = 0;
-
-  // I use a <button> here to make ARIA happy
-  // what do we say to the god of accessibility warnings? "yes ma'am"
 
   // does this cell still exist on the game board?
   $: available = ($game ?? []).length > row || ($game[column] ?? []).length > column;
