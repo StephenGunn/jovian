@@ -1,5 +1,5 @@
 ---
-title: Conway's Game of Life (Svelte 4)
+title: Conway's Game of Life
 description: "Life implemented in Svelte 4 using the DOM as a way to test the framework."
 date: "2022-07-01"
 categories:

@@ -102,7 +102,8 @@
     padding: 2px;
     background: var(--bg-accent-2);
     position: relative;
-    display: block;
+    display: flex;
+    height: 100%;
     text-decoration: none;
     overflow: hidden;
   }

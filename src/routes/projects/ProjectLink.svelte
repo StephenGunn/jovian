@@ -94,9 +94,10 @@
     padding: 2px;
     background: var(--bg-accent-2);
     position: relative;
-    display: block;
+    display: flex;
     text-decoration: none;
     overflow: hidden;
+    height: 100%;
   }
   .background {
     overflow: hidden;
@@ -163,6 +164,7 @@
     margin-top: 1rem;
     font-size: 80%;
     color: var(--secondary);
+    flex-wrap: wrap;
   }
 
   a .categories .cat-title {

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "$lib/css/display_grid.css";
   import type { Post } from "$lib/types/schema";
   import Seo from "sk-seo";
   import BlogLink from "./BlogLink.svelte";
@@ -71,6 +72,7 @@
   description="Blog posts about the internet, space, svelte, sveltekit, and general web programming."
   imageURL={open_graph_image}
 />
+
 <div class="grid_column">
   <h1>Blog Posts</h1>
   <div class="filters">
@@ -111,83 +113,3 @@
     {/each}
   </ul>
 </div>
-
-<style>
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 0 1.5rem;
-  }
-
-  .sort,
-  .categories {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .filters button {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.9rem;
-    font-weight: 600;
-    margin: 0;
-    background: transparent;
-    outline: 1px solid var(--bg-accent-2);
-    border: none;
-  }
-
-  .filters button.active {
-    background: var(--accent);
-    color: var(--text-color);
-    outline: none;
-  }
-
-  .filters button:hover {
-    outline: 1px solid var(--bg-accent-3);
-  }
-
-  .filters button:focus {
-    outline: 2px solid var(--accent);
-  }
-
-  .filters .sort button.active {
-    background: var(--muted-color);
-  }
-
-  .filters button.active:hover {
-    outline: none;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  }
-  li {
-    margin: 0;
-    padding: 0;
-  }
-
-  @media (max-width: 1100px) {
-    h1 {
-      font-size: 3rem;
-    }
-  }
-  @media (max-width: 768px) {
-    ul {
-      grid-template-columns: 1fr;
-    }
-    .filters {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .sort {
-      border-top: 1px solid var(--bg-accent-2);
-      padding-top: 1rem;
-    }
-  }
-</style>
