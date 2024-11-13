@@ -20,8 +20,17 @@
   let active_filters: string[] = $state([]);
   let active_sort: "date" | "alpha" = $state("date");
 
-  const sort_by_date = (posts: Post[]) => {
-    return posts.sort((a, b) => (a.updated ?? a.date).localeCompare(b.updated ?? b.date));
+  // Parses a "YYYY-MM-DD" string into a sortable ISO date string
+  const parse_date = (date: string): string => {
+    let [year, month, day] = date.split("-");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toISOString();
+  };
+
+  // Sorts posts by the 'updated' date if available, otherwise by 'date'
+  const sort_by_date = (posts: Post[]): Post[] => {
+    return posts.sort((a, b) =>
+      parse_date(b.updated ?? b.date).localeCompare(parse_date(a.updated ?? a.date))
+    );
   };
 
   const sort_by_alpha = (posts: Post[]) => {
