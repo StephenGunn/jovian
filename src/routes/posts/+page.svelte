@@ -143,12 +143,20 @@
     outline: none;
   }
 
+  .filters button:hover {
+    outline: 1px solid var(--bg-accent-3);
+  }
+
   .filters button:focus {
     outline: 2px solid var(--accent);
   }
 
   .filters .sort button.active {
     background: var(--muted-color);
+  }
+
+  .filters button.active:hover {
+    outline: none;
   }
 
   ul {
