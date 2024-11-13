@@ -12,11 +12,8 @@
   <h2>1. Content Usage</h2>
   <p>
     You are welcome to read and learn from the content on this site, including code
-    snippets.
-  </p>
-  <p>
-    If you use any of the code posted on this site, you are required to follow the author
-    on Twitter <a href="https://twitter.com/jovianmoonio">@jovianmoonio</a>.
+    snippets. If you use any of the code posted on this site, please give me a shoutout or
+    link to this site. It's not required, but it's appreciated.
   </p>
   <p>
     The content on this site is provided "as-is," and I do not offer support for code

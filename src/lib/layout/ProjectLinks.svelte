@@ -91,7 +91,7 @@
               stroke-width="16"
             /></svg
           >
-          Live Project
+          Visit Live Project
         </a>
       {/if}
     </div>
@@ -148,6 +148,8 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    justify-content: space-between;
+    flex: 1;
   }
 
   .as a {
@@ -183,7 +185,7 @@
     padding: 2px !important;
     background: var(--bg-accent-2);
     position: relative;
-    display: block;
+    width: 100%;
     text-decoration: none;
     overflow: hidden;
   }
@@ -197,6 +199,7 @@
       black;
     text-decoration: none;
     display: flex;
+    align-items: center;
     padding: 1rem;
     z-index: 1;
   }
