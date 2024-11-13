@@ -2,6 +2,7 @@
   import StarField from "$lib/layout/art/StarField.svelte";
   import MeteorShower from "$lib/homepage/MeteorShower.svelte";
   import { page } from "$app/stores";
+  import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
 
   const messages: { [key: number]: string } = {
     400: "Navigation Error. The request couldn't be processed by mission control. Please review your approach and try again.",
@@ -37,7 +38,7 @@
     {/key}
   </div>
   <MeteorShower />
-  <StarField />
+  <StarField stars={generate_starfield()} />
 </div>
 
 <style>

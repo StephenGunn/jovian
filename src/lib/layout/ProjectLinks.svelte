@@ -1,8 +1,10 @@
 <script lang="ts">
-  const { repo, link }: { repo?: string; link?: string } = $props();
+  import StarField from "$lib/layout/art/StarField.svelte";
   import { fade } from "svelte/transition";
-  import Starfield from "$lib/layout/art/StarField.svelte";
   import { browser } from "$app/environment";
+  import { generate_starfield } from "./generate_starfield.svelte";
+
+  const { repo, link }: { repo?: string; link?: string } = $props();
 
   let box: HTMLElement | undefined = $state();
   let mouse = $state({ x: 0, y: 0 });
@@ -23,13 +25,13 @@
 </script>
 
 <div
+  tabindex="0"
+  role="button"
+  class="links"
+  bind:this={box}
+  onmousemove={handle_mousemove}
   onmouseenter={() => (hover = true)}
   onmouseleave={() => (hover = false)}
-  onmousemove={handle_mousemove}
-  bind:this={box}
-  role="button"
-  tabindex="0"
-  class="links"
 >
   <div class="background">
     <div class="as">
@@ -112,7 +114,7 @@
       ></div>
     {/if}
     <div class="stars">
-      <Starfield />
+      <StarField stars={generate_starfield()} />
     </div>
   </div>
   {#if hover}

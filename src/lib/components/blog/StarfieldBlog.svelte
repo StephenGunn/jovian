@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
   import StarField from "$lib/layout/art/StarField.svelte";
   let count = $state(0);
 </script>
@@ -6,7 +7,7 @@
 <div class="comp">
   <div class="starfield">
     {#key count}
-      <StarField />
+      <StarField stars={generate_starfield()} />
     {/key}
   </div>
   <button onclick={() => (count += 1)}>Rerender & Randomize</button>

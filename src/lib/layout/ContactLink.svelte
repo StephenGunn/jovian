@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import Starfield from "$lib/layout/art/StarField.svelte";
+  import StarField from "$lib/layout/art/StarField.svelte";
+  import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
   import { browser } from "$app/environment";
 
   let link: HTMLAnchorElement | undefined = $state();
@@ -73,7 +74,7 @@
       ></div>
     {/if}
     <div class="stars">
-      <Starfield />
+      <StarField stars={generate_starfield()} />
     </div>
   </div>
   {#if hover}

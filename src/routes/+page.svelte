@@ -7,6 +7,10 @@
   import FlightDirections from "$lib/homepage/FlightDirections.svelte";
   import Seo from "sk-seo";
   import HeroText from "$lib/homepage/HeroText.svelte";
+
+  let { data } = $props();
+
+  let stars = data.stars;
 </script>
 
 <Seo
@@ -20,7 +24,7 @@
   <HeroText />
   <Waves />
   <MeteorShower />
-  <StarField />
+  <StarField {stars} />
   <Orbits />
   <FlightDirections />
 </div>

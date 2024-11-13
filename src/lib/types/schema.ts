@@ -1,3 +1,15 @@
+export type StarData = {
+  size: string;
+  left: string;
+  top: string;
+  opacity?: number;
+};
+
+export type Starfield = {
+  large: StarData[];
+  tiny: StarData[];
+};
+
 export type Category = {
   value: string;
   slug: string;
@@ -19,7 +31,7 @@ export type Project = {
   description: string;
   date: string;
   updated?: string;
-  categories: Categories[];
+  categories: string[];
   published: boolean;
   project_status?: "live" | "in progress" | "archived";
   repo_url?: string;

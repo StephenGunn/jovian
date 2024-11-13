@@ -7,6 +7,7 @@
   import ContactLink from "$lib/layout/ContactLink.svelte";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import { dev } from "$app/environment";
+  import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
 
   let { data } = $props();
   let { content, meta, slug } = data;
@@ -45,7 +46,7 @@
       </div>
     </div>
   </div>
-  <StarField />
+  <StarField stars={generate_starfield()} />
 </div>
 <div class="content">
   <div class="left">
