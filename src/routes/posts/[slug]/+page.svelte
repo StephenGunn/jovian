@@ -7,10 +7,9 @@
   import Seo from "sk-seo";
   import ContactLink from "$lib/layout/ContactLink.svelte";
   import { dev } from "$app/environment";
-  import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
 
   let { data } = $props();
-  let { content, meta, slug } = data;
+  let { content, meta, slug, stars } = data;
 
   // insta component
   const Post = content;
@@ -55,7 +54,7 @@
       </div>
     </div>
   </div>
-  <StarField stars={generate_starfield()} />
+  <StarField {stars} />
 </div>
 <div class="content">
   <div class="left">
