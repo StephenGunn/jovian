@@ -14,7 +14,7 @@
   let { data } = $props();
   let { categories } = data;
 
-  // this prevents errors
+  // making a copy of the posts to prevent possible mutation
   const posts_copy = [...data.posts];
 
   let active_filters: string[] = $state([]);
@@ -32,7 +32,7 @@
     let temp: Post[] = [];
 
     if (active_filters.length <= 0) {
-      temp = posts_copy;
+      temp = [...posts_copy];
     } else {
       temp = posts_copy.filter((post) => {
         return post.categories.some((cat) => active_filters.includes(cat));
