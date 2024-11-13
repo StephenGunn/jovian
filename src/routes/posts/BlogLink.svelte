@@ -30,6 +30,7 @@
   onmouseleave={() => (hover = false)}
   bind:this={link}
   onmousemove={handle_mousemove}
+  transition:fade={{ duration: 200 }}
 >
   <div class="background">
     <div class="content">
@@ -37,16 +38,23 @@
         {post.title}
       </div>
       <div class="date">
-        <span>{blog_update_no_time(post.date)}</span>
         <span>
-          {blog_update_time_since(post.date)}
+          {#if post.updated}
+            updated
+          {:else}
+            posted
+          {/if}
+          {blog_update_no_time(post.updated ?? post.date)}</span
+        >
+        <span>
+          {blog_update_time_since(post.updated ?? post.date)}
         </span>
       </div>
       <div class="desc">
         {post.description}
       </div>
       <div class="categories">
-        <span class="cat-title"> Post categories: </span>
+        <span class="cat-title"> categories: </span>
         {#each post.categories as category}
           <span>{category}</span>
         {/each}
@@ -158,6 +166,7 @@
   a .categories {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 1.2rem;
     margin-top: 1rem;
     font-size: 80%;
@@ -165,6 +174,7 @@
   }
 
   a .categories .cat-title {
-    color: var(--font-color);
+    color: var(--highlight);
+    font-weight: bold;
   }
 </style>

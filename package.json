@@ -57,7 +57,7 @@
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "g": "^2.0.1",
-    "pnpm": "^9.12.3",
+    "pnpm": "^9.13.0",
     "satori": "^0.11.3",
     "unified": "^11.0.5"
   }

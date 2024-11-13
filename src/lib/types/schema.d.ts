@@ -1,4 +1,7 @@
-type Categories = "sveltekit" | "svelte";
+export type Category = {
+  value: string;
+  slug: string;
+};
 
 export type Post = {
   title: string;
@@ -6,7 +9,7 @@ export type Post = {
   description: string;
   date: string;
   updated?: string;
-  categories: Categories[];
+  categories: string[];
   published: boolean;
 };
 
