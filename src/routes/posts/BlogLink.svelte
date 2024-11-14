@@ -117,6 +117,7 @@
       black;
     text-decoration: none;
     display: flex;
+    width: 100%;
     padding: 1rem;
     z-index: 1;
   }

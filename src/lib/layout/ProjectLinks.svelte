@@ -201,6 +201,7 @@
       black;
     text-decoration: none;
     display: flex;
+    width: 100%;
     align-items: center;
     padding: 1rem;
     z-index: 1;
