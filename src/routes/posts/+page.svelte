@@ -106,8 +106,8 @@
       {#each categories as item, index}
         {#if show_filters}
           <button
-            in:fade={{ delay: 25 * index, duration: 100 }}
-            out:fade={{ delay: 25 * (categories.length - index), duration: 100 }}
+            in:fade={{ delay: 20 * index, duration: 50 }}
+            out:fade={{ delay: 20 * (categories.length - index), duration: 50 }}
             onclick={() => set_filter(item.category)}
             class:active={active_filters.includes(item.category)}>{item.category}</button
           >
