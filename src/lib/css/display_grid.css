@@ -31,6 +31,25 @@
   background: transparent;
   outline: 1px solid var(--bg-accent-2);
   border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.categories button svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--highlight);
+  fill: currentColor;
+}
+
+.filters button.no_focus.active_filter svg {
+  color: var(--accent);
+  fill: currentColor;
+}
+
+.filters button.no_focus:focus {
+  outline: 1px solid var(--bg-accent-2);
 }
 
 .filters button.active {

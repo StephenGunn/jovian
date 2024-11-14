@@ -20,6 +20,7 @@
 
   let active_filters: string[] = $state([]);
   let active_sort: "date" | "alpha" = $state("date");
+  let show_filters = $state(false);
 
   // Parses a "YYYY-MM-DD" string into a sortable ISO date string
   const parse_date = (date: string): string => {
@@ -77,17 +78,41 @@
   <h1>Blog Posts</h1>
   <div class="filters">
     <div class="categories">
-      {#each categories as item}
-        <button
-          onclick={() => set_filter(item.category)}
-          class:active={active_filters.includes(item.category)}>{item.category}</button
-        >
+      <button
+        onclick={() => {
+          show_filters = !show_filters;
+          if (!show_filters) {
+            active_filters = [];
+          }
+        }}
+        class="no_focus"
+        class:active_filter={show_filters}
+      >
+        Filter
+        {#if show_filters}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+            ><rect width="256" height="256" fill="none" /><path
+              d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+            /></svg
+          >
+        {:else}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+            ><rect width="256" height="256" fill="none" /><path
+              d="M227.81,66.76l-.08.09L160,139.17v55.49A16,16,0,0,1,152.87,208l-32,21.34A16,16,0,0,1,96,216V139.17L28.27,66.85l-.08-.09A16,16,0,0,1,40,40H216a16,16,0,0,1,11.84,26.76Z"
+            /></svg
+          >
+        {/if}
+      </button>
+      {#each categories as item, index}
+        {#if show_filters}
+          <button
+            in:fade={{ delay: 25 * index, duration: 100 }}
+            out:fade={{ delay: 25 * (categories.length - index), duration: 100 }}
+            onclick={() => set_filter(item.category)}
+            class:active={active_filters.includes(item.category)}>{item.category}</button
+          >
+        {/if}
       {/each}
-      {#if active_filters.length > 0}
-        <button transition:fade={{ duration: 100 }} onclick={() => (active_filters = [])}
-          >&times;</button
-        >
-      {/if}
     </div>
 
     <div class="sort">
