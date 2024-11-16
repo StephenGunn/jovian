@@ -46,7 +46,8 @@ new solution.
 ## LSP Setup
 
 I’m using the Lazy package manager and Mason-lspconfig to manage my LSP setup, so your
-results may vary depending on your configuration.
+results may vary depending on your configuration and OS. I have read that this setup is
+for Linux but might not work for MacOS or Windows.
 
 Here’s my complete Svelte LSP configuration:
 
