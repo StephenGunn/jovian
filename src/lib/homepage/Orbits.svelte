@@ -55,7 +55,7 @@
 </script>
 
 <div class="map" aria-hidden="true">
-  <div class="jupiter" bind:this={jupiter} role="button" tabindex="0">
+  <div class="jupiter" bind:this={jupiter}>
     <Jupiter />
     {#if jupiter_data.show_info}
       <MoonFacts facts={facts.Jupiter} title="Jupiter" distance="from Sun" />
@@ -63,13 +63,7 @@
   </div>
 
   <div class="io orbit bound circle absolute">
-    <div
-      use:orbital_telemetry={io_data}
-      bind:this={io}
-      class="moon"
-      role="button"
-      tabindex="0"
-    >
+    <div use:orbital_telemetry={io_data} bind:this={io} class="moon">
       <MoonShadow />
       {#if io_data.show_info}
         <MoonFacts facts={facts.Io} title="Io" distance="from Jupiter" />
@@ -79,13 +73,7 @@
   <div class="io orbit absolute ignore"></div>
 
   <div class="europa orbit bound circle absolute">
-    <div
-      class="moon"
-      use:orbital_telemetry={europa_data}
-      bind:this={europa}
-      role="button"
-      tabindex="0"
-    >
+    <div class="moon" use:orbital_telemetry={europa_data} bind:this={europa}>
       <MoonShadow />
       {#if europa_data.show_info}
         <MoonFacts facts={facts.Europa} title="Europa" distance="from Jupiter" />
@@ -95,13 +83,7 @@
   <div class="europa orbit absolute ignore"></div>
 
   <div class="ganymede orbit bound circle absolute">
-    <div
-      class="moon"
-      use:orbital_telemetry={ganymede_data}
-      bind:this={ganymede}
-      role="button"
-      tabindex="0"
-    >
+    <div class="moon" use:orbital_telemetry={ganymede_data} bind:this={ganymede}>
       <MoonShadow />
       {#if ganymede_data.show_info}
         <MoonFacts facts={facts.Ganymede} title="Ganymede" distance="from Jupiter" />
