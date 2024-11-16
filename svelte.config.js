@@ -15,7 +15,16 @@ const config = {
   kit: {
     adapter: adapter({
       external: ["@resvg/resvg-js"]
-    })
+    }),
+    csp: {
+      directives: {
+        "script-src": ["self"]
+      },
+      reportOnly: {
+        "script-src": ["self"],
+        "report-uri": ["/"]
+      }
+    }
   }
 };
 

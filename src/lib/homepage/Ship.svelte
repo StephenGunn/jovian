@@ -479,6 +479,7 @@
   onmousedown={handle_click}
   role="button"
   tabindex="-1"
+  aria-hidden="true"
 ></div>
 {#if ship.ping}
   <div
@@ -487,6 +488,7 @@
     style:height="{ship.size}px"
     style:top="{ship.ping_coords.y}px"
     style:left="{ship.ping_coords.x}px"
+    aria-hidden="true"
   ></div>
 {/if}
 {#if ship.landed}
@@ -499,6 +501,7 @@
     style:height="{ship.size}px"
     style:transform="rotate({ship.rotation}deg)"
     in:fly={{ delay: 1500, duration: 1500, x: 50 }}
+    aria-hidden="true"
   >
     <div
       class="orbit_modifier"
@@ -552,6 +555,7 @@
     style:top="{ship.y - ship.size * 0.6}px"
     style:left="{ship.x - ship.size * 0.6}px"
     transition:fly={{ duration: 100, x: 30 }}
+    aria-hidden="true"
   >
     Where to, hoss?
   </div>

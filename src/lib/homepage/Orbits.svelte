@@ -54,7 +54,7 @@
   });
 </script>
 
-<div class="map">
+<div class="map" aria-hidden="true">
   <div class="jupiter" bind:this={jupiter} role="button" tabindex="0">
     <Jupiter />
     {#if jupiter_data.show_info}
