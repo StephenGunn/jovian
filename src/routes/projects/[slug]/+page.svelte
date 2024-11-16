@@ -249,15 +249,12 @@
 
   @media (max-width: 1000px) {
     .column {
-      padding: 8rem 1rem 4rem 2rem;
+      padding: 8rem 2rem 4rem 2rem;
     }
     .project {
       padding: 0rem;
     }
 
-    .intro .column {
-      max-width: 85%;
-    }
     .intro h1 {
       font-size: 3rem;
     }
