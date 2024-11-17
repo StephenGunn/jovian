@@ -19,7 +19,7 @@
     <h1>About Me</h1>
     <div class="post">
       <p>
-        Hi, I'm Stephen Gunn, a Kansas City-based developer with over 20 years of
+        Hi, I'm Stephen Gunn, a Kansas City based developer with over 20 years of
         experience in web development. My journey started with
         <a
           href="https://en.wikipedia.org/wiki/HTML4"
@@ -112,7 +112,7 @@
           href="https://neovim.io/"
           target="_blank"
           rel="noopener noreferrer">Neovim</a
-        >, which is central to my coding setup. I also rely on tools like
+        >, which is central to my development environment. I also rely on tools like
         <a
           href="https://github.com/junegunn/fzf"
           target="_blank"
