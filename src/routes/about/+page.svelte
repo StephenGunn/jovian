@@ -132,6 +132,14 @@
       </p>
 
       <p>
+        I open source my <a
+          href="https://github.com/StephenGunn/dotfiles"
+          target="_blank"
+          rel="noopener noreferrer">dotfiles and configuration scripts</a
+        > for anyone interested in my setup.
+      </p>
+
+      <p>
         That said, I believe in using the right tool for the job. I utilize Windows for
         streaming setups and Apple for specific video creation tasks and screen captures.
         Each platform has its strengths, and I leverage them accordingly to get the best
