@@ -6,17 +6,14 @@
 
   import Header from "$lib/layout/Header.svelte";
   import Footer from "$lib/layout/Footer.svelte";
-  import { dev } from "$app/environment";
 </script>
 
 <svelte:head>
-  {#if !dev}
-    <script
-      defer
-      src="/script.js"
-      data-website-id="e34c081c-f7d3-41ee-9ebf-30baade2e00a"
-    ></script>
-  {/if}
+  <script
+    defer
+    src="https://stats.craftroulette.live/script.js"
+    data-website-id="e34c081c-f7d3-41ee-9ebf-30baade2e00a"
+  ></script>
 </svelte:head>
 
 <div class="app">
