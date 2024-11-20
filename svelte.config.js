@@ -18,10 +18,10 @@ const config = {
     }),
     csp: {
       directives: {
-        "script-src": ["self"]
+        "script-src": ["self", "https://stats.craftroulette.live"]
       },
       reportOnly: {
-        "script-src": ["self"],
+        "script-src": ["self", "https://stats.craftroulette.live"],
         "report-uri": ["/"]
       }
     }
