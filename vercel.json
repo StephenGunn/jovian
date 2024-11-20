@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/script.js",
+      "destination": "https://stats.craftroulette.live/script.js"
+    }
+  ]
+}

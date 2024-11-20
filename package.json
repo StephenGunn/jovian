@@ -23,7 +23,6 @@
     "@types/eslint": "^8.56.12",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
-    "@umami/node": "^0.4.0",
     "dayjs": "^1.11.13",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte": "^2.46.0",
