@@ -17,7 +17,18 @@ html {
   margin-bottom: 1rem;
   padding-bottom: 0;
   scroll-margin-top: 120px;
-  /* Adjust this value to match the height of your fixed nav */
+}
+
+.post h2 {
+  border-bottom: 3px dashed var(--bg-accent-1);
+}
+
+.post h3 {
+  border-bottom: 2px dashed var(--bg-accent-2);
+}
+
+.post h4 {
+  border-bottom: 2px dashed var(--bg-accent-3);
 }
 
 .post p {
@@ -43,7 +54,7 @@ html {
 
 /* Additional Element Styling inside .post */
 .post blockquote {
-  padding: 1rem;
+  padding: 1rem !important;
   border-left: 4px solid #eb5967;
   background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%);
   font-style: italic;
@@ -65,6 +76,41 @@ html {
 .post ul>li,
 .post ol>li {
   margin-bottom: 0.75rem;
+  padding-left: 1rem;
+}
+
+.post ul li::marker,
+.post ol li::marker {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.post strong {
+  position: relative;
+  white-space: nowrap;
+}
+
+.post strong::before {
+  content: "";
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+  background-color: var(--bg-accent-1);
+  z-index: -1;
+  transform: rotate(-1deg);
+}
+
+.post strong:nth-of-type(even)::before {
+  background-color: var(--bg-accent-2);
+  transform: rotate(1deg);
+}
+
+.post *::selection {
+  background-color: var(--bg-accent-3);
+  color: white;
 }
 
 .post a {

@@ -1,5 +1,6 @@
 import { json } from "@sveltejs/kit";
 import type { Post } from "$lib/types/schema";
+import { dev } from "$app/environment";
 
 async function get_posts() {
   let posts: Post[] = [];
@@ -13,6 +14,9 @@ async function get_posts() {
     if (file && typeof file === "object" && "metadata" in file && slug) {
       const metadata = file.metadata as Omit<Post, "slug">;
       const post = { ...metadata, slug } satisfies Post;
+      if (dev) {
+        post.published = true;
+      }
       post.published && posts.push(post);
     }
   }
