@@ -75,7 +75,6 @@
 />
 
 <div class="grid_column">
-  <p>(I have lot's more projects to add! They are coming!)</p>
   <h1>Projects</h1>
   <div class="filters">
     <div class="categories">

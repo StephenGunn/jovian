@@ -2,9 +2,10 @@
   import type { Project } from "$lib/types/schema";
   import Starfield from "$lib/layout/art/StarField.svelte";
   import { fade } from "svelte/transition";
-  import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import { browser } from "$app/environment";
   import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
+  import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
+
   const { project }: { project: Project } = $props();
 
   let link: HTMLAnchorElement | undefined = $state();
@@ -47,7 +48,6 @@
         {project.description}
       </div>
       <div class="categories">
-        <span class="cat-title"> Project categories: </span>
         {#each project.categories as category}
           <span>{category}</span>
         {/each}
@@ -110,7 +110,6 @@
     text-decoration: none;
     display: flex;
     width: 100%;
-    padding: 1rem;
     z-index: 1;
   }
   .glow {
@@ -143,32 +142,63 @@
     font-weight: bold;
     color: var(--font-color);
     margin-bottom: 0.5rem;
+    padding: 1rem;
+    min-height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--bg-accent-1);
   }
 
   a .date {
     display: flex;
+    justify-content: space-between;
     font-size: 80%;
     align-items: center;
     gap: 1.5rem;
     color: var(--accent);
+    padding: 1rem;
   }
   a .desc {
-    padding-top: 1rem;
+    padding: 0rem 1rem;
     font-size: 1rem;
     color: var(--font-color);
+    flex-grow: 1;
   }
 
   a .categories {
     display: flex;
     align-items: center;
     gap: 1.2rem;
-    margin-top: 1rem;
+    padding: 1rem;
     font-size: 80%;
     color: var(--secondary);
     flex-wrap: wrap;
+    font-weight: bold;
   }
 
-  a .categories .cat-title {
-    color: var(--font-color);
+  a .categories span {
+    position: relative;
+    white-space: nowrap;
+  }
+
+  a .categories span::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 110%;
+    background: var(--semi-transparent);
+    left: -10%;
+    top: -5%;
+    z-index: -1;
+    border-radius: 0.25rem;
+  }
+
+  .categories span:nth-of-type(odd)::before {
+    transform: rotate(-1deg);
+  }
+
+  .categories span:nth-of-type(even)::before {
+    transform: rotate(1deg);
   }
 </style>
