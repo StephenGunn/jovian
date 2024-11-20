@@ -98,9 +98,15 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
   }
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 3rem;
+    }
+  }
   @media (max-width: 500px) {
     .split {
       grid-template-columns: 1fr;
+      gap: 0;
     }
   }
 </style>

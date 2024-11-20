@@ -23,6 +23,13 @@
   align-self: flex-start;
 }
 
+.sort button svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: var(--bg-accent-2);
+  fill: currentColor;
+}
+
 .filters button {
   font-size: 0.8rem;
   padding: 0.3rem 0.9rem;
@@ -67,7 +74,13 @@
 }
 
 .filters .sort button.active {
-  background: var(--muted-color);
+  outline: 1px solid var(--bg-accent-3);
+  background: transparent;
+}
+
+.filters .sort button.active svg {
+  color: var(--accent);
+  fill: currentColor;
 }
 
 .filters button.active:hover {

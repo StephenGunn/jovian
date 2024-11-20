@@ -148,6 +148,8 @@
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid var(--bg-accent-1);
+    text-align: center;
+    text-wrap: balance;
   }
 
   a .date {
