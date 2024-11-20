@@ -142,7 +142,7 @@ need a CMS?**
 
 ## How to Tell You Need a CMS
 
-Here is how I would whether a CMS is necessary for a project:
+Here’s a basic starting point for deciding if a CMS is right for a project:
 
 ### Scenarios Where a CMS is Essential
 
@@ -182,6 +182,9 @@ generate Open Graph images. Some of my favorite aspects of working with Markdown
   previous versions of your files.
 - **Future-Proofing**: Markdown files can be rendered by any system, ensuring long-term
   compatibility.
+
+This site is open source and you can see the
+[markdown file this post is generated from](https://github.com/StephenGunn/jovian/blob/main/src/content/posts/do-you-really-need-a-cms.md)
 
 ## Ecosystems and Lock-In
 
