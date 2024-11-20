@@ -6,15 +6,17 @@
 
   import Header from "$lib/layout/Header.svelte";
   import Footer from "$lib/layout/Footer.svelte";
-</script>
 
-<svelte:head>
-  <script
-    defer
-    src="https://stats.craftroulette.live/script.js"
-    data-website-id="e34c081c-f7d3-41ee-9ebf-30baade2e00a"
-  ></script>
-</svelte:head>
+  import umami from "@umami/node";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    umami.init({
+      websiteId: "e34c081c-f7d3-41ee-9ebf-30baade2e00a",
+      hostUrl: "https://stats.craftroulette.live"
+    });
+  });
+</script>
 
 <div class="app">
   <Header />
