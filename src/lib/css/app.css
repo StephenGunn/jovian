@@ -120,9 +120,15 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:focus {
   color: var(--secondary);
   text-decoration: underline;
+}
+
+*:focus {
+  outline: 2px solid var(--accent);
+  border-radius: 0.25rem;
 }
 
 .column {

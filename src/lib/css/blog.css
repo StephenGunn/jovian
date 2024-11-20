@@ -36,19 +36,19 @@ html {
 }
 
 /* Layout and Spacing */
-.post > *:not(:last-child):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+.post>*:not(:last-child):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
   margin-bottom: 1.5rem;
   /* General spacing for all elements */
   padding-bottom: 1.5rem;
   /* Padding to ensure spacing consistency */
 }
 
-.post > h1:not(:last-child),
-.post > h2:not(:last-child),
-.post > h3:not(:last-child),
-.post > h4:not(:last-child),
-.post > h5:not(:last-child),
-.post > h6:not(:last-child) {
+.post>h1:not(:last-child),
+.post>h2:not(:last-child),
+.post>h3:not(:last-child),
+.post>h4:not(:last-child),
+.post>h5:not(:last-child),
+.post>h6:not(:last-child) {
   margin-bottom: 1rem;
 }
 
@@ -73,8 +73,8 @@ html {
   padding-left: 1.5rem;
 }
 
-.post ul > li,
-.post ol > li {
+.post ul>li,
+.post ol>li {
   margin-bottom: 0.75rem;
   padding-left: 1rem;
 }
@@ -279,16 +279,16 @@ html {
     padding: 0.5rem;
   }
 
-  .post > *:not(:last-child) {
+  .post>*:not(:last-child) {
     margin-bottom: 1rem;
   }
 
-  .post > h1:not(:last-child),
-  .post > h2:not(:last-child),
-  .post > h3:not(:last-child),
-  .post > h4:not(:last-child),
-  .post > h5:not(:last-child),
-  .post > h6:not(:last-child) {
+  .post>h1:not(:last-child),
+  .post>h2:not(:last-child),
+  .post>h3:not(:last-child),
+  .post>h4:not(:last-child),
+  .post>h5:not(:last-child),
+  .post>h6:not(:last-child) {
     margin-bottom: 0.75rem;
   }
 
@@ -329,5 +329,4 @@ html {
   text-decoration: none;
 }
 
-@media (max-width: 1500px) {
-}
+@media (max-width: 1500px) {}
