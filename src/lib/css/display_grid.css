@@ -56,7 +56,7 @@
 }
 
 .filters button.no_focus:focus {
-  outline: 1px solid var(--bg-accent-2);
+  outline: 2px solid var(--accent);
 }
 
 .filters button.active {
@@ -69,7 +69,8 @@
   outline: 1px solid var(--bg-accent-3);
 }
 
-.filters button:focus {
+.filters button:focus,
+.filters .sort button.active:focus {
   outline: 2px solid var(--accent);
 }
 
@@ -81,10 +82,6 @@
 .filters .sort button.active svg {
   color: var(--accent);
   fill: currentColor;
-}
-
-.filters button.active:hover {
-  outline: none;
 }
 
 .grid_column ul {

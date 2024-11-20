@@ -106,6 +106,9 @@
     text-decoration: none;
     overflow: hidden;
   }
+  a:focus {
+    outline: 2px solid var(--accent);
+  }
   .background {
     overflow: hidden;
     border-radius: 0.45rem;

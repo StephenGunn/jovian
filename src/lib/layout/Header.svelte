@@ -195,6 +195,10 @@
     padding: 1rem;
     transition: background-color 0.5s;
   }
+  nav a:focus {
+    outline: 2px solid var(--accent);
+    border-radius: 0.25rem;
+  }
 
   button.mobile-menu-toggle {
     display: none;

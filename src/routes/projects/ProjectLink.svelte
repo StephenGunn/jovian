@@ -99,6 +99,9 @@
     overflow: hidden;
     height: 100%;
   }
+  a:focus {
+    outline: 2px solid var(--accent);
+  }
   .background {
     overflow: hidden;
     border-radius: 0.45rem;
