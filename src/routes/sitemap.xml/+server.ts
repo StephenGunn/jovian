@@ -4,7 +4,7 @@ import { dev } from "$app/environment";
 import { error } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
-  const site = "https://jovianmoon.io/";
+  const site = "https://jovianmoon.io";
 
   const posts: Post[] = await (await fetch("/api/posts")).json();
   const projects: Project[] = await (await fetch("/api/posts")).json();
@@ -36,23 +36,23 @@ export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
     <lastmod>2024-11-01</lastmod>
   </url>
   ${posts
-      .map(
-        (post) => `
+    .map(
+      (post) => `
   <url>
     <loc>${site}/posts/${post.slug}</loc>
     <lastmod>${post.updated ?? post.date}</lastmod>
   </url>`
-      )
-      .join("")}
+    )
+    .join("")}
   ${projects
-      .map(
-        (project) => `
+    .map(
+      (project) => `
   <url>
     <loc>${site}/projects/${project.slug}</loc>
     <lastmod>${project.updated ?? project.date}</lastmod>
   </url>`
-      )
-      .join("")}
+    )
+    .join("")}
 </urlset>
 `;
   setHeaders({ "Content-Type": "application/xml" });
