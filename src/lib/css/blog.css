@@ -4,7 +4,7 @@ html {
 
 .post {
   line-height: 1.6;
-  color: white;
+  color: var(--font-color);
 }
 
 .post h1,
@@ -55,8 +55,8 @@ html {
 /* Additional Element Styling inside .post */
 .post blockquote {
   padding: 1rem !important;
-  border-left: 4px solid #eb5967;
-  background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%);
+  border-left: 4px solid var(--accent);
+  background: var(--radial-bg);
   font-style: italic;
 }
 
@@ -328,5 +328,3 @@ html {
   color: var(--accent);
   text-decoration: none;
 }
-
-@media (max-width: 1500px) {}

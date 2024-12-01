@@ -1,3 +1,5 @@
+export type Themes = "light" | "dark" | "system";
+
 export type StarData = {
   size: string;
   left: string;

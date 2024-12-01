@@ -1,25 +1,55 @@
 :root {
-  /* this has to be set to switch between light or dark */
-  /*
   color-scheme: light dark;
-  --light-bg: #f1f0e9;
-  --light-bg-accent-1: #282f44;
-  --light-bg-accent-2: #453a49;
-  --light-bg-accent-3: #6d3b47;
-  --light-font-color: #f1f0e9;
-  --light-primary: #f27059;
-  --light-secondary: #c2eabd;
-  --light-accent: #f7aef8;
-  --light-highlight: #c3bef7;
+
+  --light-bg: #f7f5ed;
+  --light-bg-accent-1: #f09cb4;
+  --light-bg-accent-2: #ff847c;
+  --light-bg-accent-3: #fcaea9;
+  --light-font-color: #222;
+  --light-primary: #303841;
+  --light-secondary: #ec7263;
+  --light-accent: #e84a5f;
+  --light-highlight: #3a4750;
   --light-subtle-highlight: rgba(41, 39, 55, 0.3);
-  --light-semi-transparent: rgba(18, 17, 23, 0.5);
+  --light-semi-transparent: rgba(255, 255, 255, 0.5);
+  --light-radial-bg: radial-gradient(circle,
+      rgba(240, 235, 223, 1) 0%,
+      rgba(241, 238, 226, 1) 100%);
   --light-muted-color: #6e738d;
+  --light-star: #000000;
+  --light-space-bg: radial-gradient(circle,
+      rgba(245, 239, 223, 1) 0%,
+      /* Light tan base */
+      rgba(237, 228, 202, 1) 42%,
+      /* Soft mid-tone tan */
+      rgba(223, 210, 179, 1) 100%
+      /* Deeper tan shade */
+    );
 
-
-  --column-width: 1000px;
+  /* This will still indicate support for dark mode */
+  --dark-bg: #121117;
+  --dark-bg-accent-1: #282f44;
+  --dark-bg-accent-2: #453a49;
+  --dark-bg-accent-3: #6d3b47;
+  --dark-font-color: #f1f0e9;
+  --dark-primary: #f4845f;
+  --dark-secondary: #c2eabd;
+  --dark-accent: #eb5967;
+  --dark-highlight: #99c1f1;
+  --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
+  --dark-semi-transparent: rgba(18, 17, 23, 0.9);
+  --dark-radial-bg: radial-gradient(circle,
+      rgba(24, 23, 29, 1) 0%,
+      rgba(22, 20, 28, 1) 100%);
+  --dark-muted-color: #6e738d;
+  --dark-star: #ffffff;
+  --dark-space-bg: radial-gradient(circle,
+      rgba(41, 39, 55, 1) 0%,
+      rgba(48, 42, 23, 1) 42%,
+      rgba(34, 24, 57, 1) 100%);
 
   /* light-dark combinator */
-  /*
+
   --accent: light-dark(var(--light-accent), var(--dark-accent));
   --bg: light-dark(var(--light-bg), var(--dark-bg));
   --bg-accent-1: light-dark(var(--light-bg-accent-1), var(--dark-bg-accent-1));
@@ -34,23 +64,27 @@
   --semi-transparent: light-dark(var(--light-semi-transparent),
       var(--dark-semi-transparent));
   --muted-color: light-dark(var(--light-muted-color), var(--dark-muted-color));
-*/
-  /* This will still indicate support for dark mode */
-  --dark-bg: #121117;
-  --dark-bg-accent-1: #282f44;
-  --dark-bg-accent-2: #453a49;
-  --dark-bg-accent-3: #6d3b47;
-  --dark-font-color: #f1f0e9;
-  --dark-primary: #f4845f;
-  --dark-secondary: #c2eabd;
-  --dark-accent: #eb5967;
-  --dark-highlight: #99c1f1;
-  --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
-  --dark-semi-transparent: rgba(18, 17, 23, 0.9);
-  --dark-muted-color: #6e738d;
-  color-scheme: dark;
+  --radial-bg: light-dark(var(--light-radial-bg), var(--dark-radial-bg));
+  --star: light-dark(var(--light-star), var(--dark-star));
+  --space-bg: light-dark(var(--light-space-bg), var(--dark-space-bg));
 
-  /* Use only dark mode colors */
+  /*/* Use only dark mode colors */
+  /*--bg: var(--dark-bg);*/
+  /*--bg-accent-1: var(--dark-bg-accent-1);*/
+  /*--bg-accent-2: var(--dark-bg-accent-2);*/
+  /*--bg-accent-3: var(--dark-bg-accent-3);*/
+  /*--font-color: var(--dark-font-color);*/
+  /*--primary: var(--dark-primary);*/
+  /*--secondary: var(--dark-secondary);*/
+  /*--accent: var(--dark-accent);*/
+  /*--highlight: var(--dark-highlight);*/
+  /*--subtle-highlight: var(--dark-subtle-highlight);*/
+  /*--semi-transparent: var(--dark-semi-transparent);*/
+  /*--muted-color: var(--dark-muted-color);*/
+  --column-width: 1000px;
+}
+
+html[data-theme="dark"] {
   --bg: var(--dark-bg);
   --bg-accent-1: var(--dark-bg-accent-1);
   --bg-accent-2: var(--dark-bg-accent-2);
@@ -63,8 +97,27 @@
   --subtle-highlight: var(--dark-subtle-highlight);
   --semi-transparent: var(--dark-semi-transparent);
   --muted-color: var(--dark-muted-color);
+  --radial-bg: var(--dark-radial-bg);
+  --star: var(--dark-star);
+  --space-bg: var(--dark-space-bg);
+}
 
-  --column-width: 1000px;
+html[data-theme="light"] {
+  --bg: var(--light-bg);
+  --bg-accent-1: var(--light-bg-accent-1);
+  --bg-accent-2: var(--light-bg-accent-2);
+  --bg-accent-3: var(--light-bg-accent-3);
+  --font-color: var(--light-font-color);
+  --primary: var(--light-primary);
+  --secondary: var(--light-secondary);
+  --accent: var(--light-accent);
+  --highlight: var(--light-highlight);
+  --subtle-highlight: var(--light-subtle-highlight);
+  --semi-transparent: var(--light-semi-transparent);
+  --muted-color: var(--light-muted-color);
+  --radial-bg: var(--light-radial-bg);
+  --star: var(--light-star);
+  --space-bg: var(--light-space-bg);
 }
 
 html {
@@ -87,6 +140,7 @@ h4,
 h5,
 h6 {
   font-family: "Jost", sans-serif;
+  color: var(--font-color);
 }
 
 h1 {

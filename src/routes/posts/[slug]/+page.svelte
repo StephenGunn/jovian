@@ -119,13 +119,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    background: rgb(41, 39, 55);
-    background: radial-gradient(
-      circle,
-      rgba(41, 39, 55, 1) 0%,
-      rgba(48, 42, 23, 1) 42%,
-      rgba(34, 24, 57, 1) 100%
-    );
+    background: var(--space-bg);
   }
 
   .intro h1 {

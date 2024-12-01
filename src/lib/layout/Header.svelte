@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { afterNavigate } from "$app/navigation";
+  import ModeToggle from "./ModeToggle.svelte";
 
   let width = $state(0);
   let left = $state(0);
@@ -138,6 +139,7 @@
         >
       </li>
     </ul>
+    <ModeToggle />
     <div class="underline" style:left="{left}px" style:width="{width}px"></div>
   </nav>
 </header>
@@ -151,6 +153,7 @@
     z-index: 10;
     transition: all 200ms ease-in-out;
   }
+
   header {
     position: fixed;
     top: 1rem;
@@ -166,6 +169,8 @@
     padding: 0 1rem;
     border-radius: 2rem;
     transition: all 200ms ease-in-out;
+    display: flex;
+    align-items: center;
   }
 
   nav.scrolled {
@@ -188,7 +193,7 @@
 
   nav a {
     display: block;
-    color: white;
+    color: var(--font-color);
     text-decoration: none;
     font-family: "Jost", sans-serif;
     font-size: 1.3rem;

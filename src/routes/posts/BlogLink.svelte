@@ -115,8 +115,7 @@
     gap: 0.25rem;
     position: relative;
     flex-flow: column;
-    background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%),
-      black;
+    background: var(--radial-bg) black;
     text-decoration: none;
     display: flex;
     width: 100%;
