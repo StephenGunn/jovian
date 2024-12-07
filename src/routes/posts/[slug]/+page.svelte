@@ -129,7 +129,7 @@
     <article class="post">
       <Post />
     </article>
-    <div class="comments">
+    <div class="comments" id="comments">
       {#if meta.bluesky_thread_id}
         <Comments did={PUBLIC_BLUESKY_DID} threadId={meta.bluesky_thread_id} />
       {:else}
