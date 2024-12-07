@@ -7,7 +7,7 @@ categories:
   - neovim
   - lua
 published: true
-bluesky_thread_id: "3lardrinpms2m"
+bluesky_thread_id: "3lcqprglobk2d"
 ---
 
 ## Svelte and Neovim

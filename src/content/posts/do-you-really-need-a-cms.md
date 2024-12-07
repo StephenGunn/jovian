@@ -6,7 +6,7 @@ categories:
   - webdev
   - commentary
 published: true
-blue_sky_thread_id: "3lcqpodr44s2d"
+bluesky_thread_id: "3lcqpodr44s2d"
 ---
 
 > “If you wish to make an apple pie from scratch, you must first invent the universe.”  

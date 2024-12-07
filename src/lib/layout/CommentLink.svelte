@@ -66,8 +66,8 @@
       </svg>
     </div>
     <div class="content">
-      If you liked this and have any questions or comments, I'd love to hear from you!
-      Click to join the discussion on BlueSky.
+      If you'd like to comment, like, or share this post, just click here to open its
+      corresponding BlueSky thread!
 
       <div class="bsky_report">
         <span class="like-stats box">

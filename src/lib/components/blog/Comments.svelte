@@ -93,7 +93,10 @@
     replies={thread.post.replyCount ?? 0}
   />
 
-  <h2>Comments</h2>
+  {#if thread.replies && thread.replies.length > 0}
+    <h2>Comments</h2>
+  {/if}
+
   <div class="comment-list">
     {#each sortedReplies.slice(0, visibleCount) as reply}
       {#if AppBskyFeedDefs.isThreadViewPost(reply) && AppBskyFeedPost.isRecord(reply.post.record)}
