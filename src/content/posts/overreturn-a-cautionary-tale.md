@@ -6,6 +6,7 @@ categories:
   - sveltekit
   - security
 published: true
+bluesky_thread_id: "3lawvscqsm22y"
 ---
 
 > "A common mistake that people make when trying to design something completely foolproof

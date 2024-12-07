@@ -9,6 +9,7 @@ categories:
   - typescript
   - backend
 published: true
+bluesky_thread_id: "3lcqpxmxm2s2k"
 ---
 
 ## It's a Good Idea to Have a sitemap.xml

@@ -7,9 +7,16 @@
   import Seo from "sk-seo";
   import ContactLink from "$lib/layout/ContactLink.svelte";
   import { dev } from "$app/environment";
+  import Comments from "$lib/components/blog/Comments.svelte";
+  import { PUBLIC_BLUESKY_DID } from "$env/static/public";
+  import { comment_data } from "./comment_store.svelte";
+  import { onDestroy } from "svelte";
+  import CommentReport from "./CommentReport.svelte";
 
   let { data } = $props();
   let { content, meta, slug, stars } = data;
+
+  $inspect(data);
 
   // insta component
   const Post = content;
@@ -17,6 +24,10 @@
   const open_graph_image = encodeURI(
     `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=posts/${slug}&section=Blog Post`
   );
+
+  onDestroy(() => {
+    comment_data.updated = false;
+  });
 </script>
 
 <Seo
@@ -25,9 +36,33 @@
   keywords={meta.categories}
   imageURL={open_graph_image}
 />
+
 <Clipboard />
 <div class="intro">
   <div class="column">
+    <a href="./" class="back_to_posts hide_desktop">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+        ><rect width="256" height="256" fill="none" /><polygon
+          points="120 32 24 128 120 224 120 176 184 176 184 80 120 80 120 32"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="16"
+        /><line
+          x1="216"
+          y1="176"
+          x2="216"
+          y2="80"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="16"
+        /></svg
+      >
+      View all blog posts
+    </a>
     <h1>{meta.title}</h1>
     <p class="desc">{meta.description}</p>
     <div class="meta">
@@ -59,49 +94,62 @@
 <div class="content">
   <div class="left">
     <div class="extra">
-      <div class="logo">JovianMoon.io</div>
-      <a href="./">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
-          ><rect width="256" height="256" fill="none" /><polygon
-            points="120 32 24 128 120 224 120 176 184 176 184 80 120 80 120 32"
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-          /><line
-            x1="216"
-            y1="176"
-            x2="216"
-            y2="80"
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
-          /></svg
-        >
-        Back to posts</a
-      >
+      <div class="sticker">
+        <div class="logo">JovianMoon.io</div>
+        {#if meta.bluesky_thread_id}
+          <CommentReport />
+        {/if}
+        <a href="./" class="back_to_posts hide_mobile">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+            ><rect width="256" height="256" fill="none" /><polygon
+              points="120 32 24 128 120 224 120 176 184 176 184 80 120 80 120 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="16"
+            /><line
+              x1="216"
+              y1="176"
+              x2="216"
+              y2="80"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="16"
+            /></svg
+          >
+          View all blog posts
+        </a>
+      </div>
     </div>
   </div>
-  <article class="post">
-    <Post />
-  </article>
+  <div>
+    <article class="post">
+      <Post />
+    </article>
+    <div class="comments">
+      {#if meta.bluesky_thread_id}
+        <Comments did={PUBLIC_BLUESKY_DID} threadId={meta.bluesky_thread_id} />
+      {:else}
+        <ContactLink placement="article" />
+      {/if}
+    </div>
+  </div>
   <div class="right">
     <TOC />
   </div>
 </div>
 
-<div class="contact">
-  <ContactLink placement="article" />
-</div>
-
 <style>
-  .contact {
-    max-width: 800px;
-    margin: 1rem auto;
-    padding: 1rem;
+  .back_to_posts.hide_desktop {
+    display: none;
+  }
+  .comments {
+    padding: 2rem 2.5rem;
+    margin: 0 2.5rem;
+    border-top: 4px dashed var(--accent);
   }
   .categories {
     display: flex;
@@ -140,29 +188,46 @@
     gap: 1rem;
   }
 
-  .extra a {
+  .back_to_posts {
     margin-top: 1rem;
     display: flex;
-    padding: 0.5rem;
     gap: 1rem;
     align-items: center;
     color: var(--muted-color);
     text-decoration: none;
   }
 
-  .extra a svg {
+  .back_to_posts svg {
     width: 1rem;
     height: 1rem;
     color: var(--bg-accent-1);
   }
 
-  .extra a:hover {
+  .back_to_posts:hover {
     color: var(--font-color);
   }
 
-  .extra a:hover svg {
+  .back_to_posts:hover svg {
     color: var(--accent);
   }
+
+  .back_to_posts {
+    border: 1px solid var(--subtle-highlight);
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+
+  .back_to_posts svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+  }
+
   .intro .desc {
     font-size: 125%;
     padding-bottom: 1rem;
@@ -206,14 +271,17 @@
     justify-content: flex-start;
   }
 
-  .logo {
+  .sticker {
     position: sticky;
     top: 2rem;
+    margin-top: 2rem;
+  }
+
+  .logo {
     font-size: 2rem;
     font-weight: 500;
     font-family: "Jost", sans-serif;
     color: #f0f0f0;
-    margin-top: 2rem;
     padding: 2rem;
     background: #444;
     align-self: flex-start;
@@ -238,10 +306,6 @@
       justify-content: center;
     }
 
-    .content > article {
-      grid-area: middle;
-    }
-
     .content > .right {
       grid-area: right;
     }
@@ -263,12 +327,23 @@
     .post {
       padding: 0rem;
     }
+    .comments {
+      padding: 1rem 0;
+      margin: 0;
+      border-top: 2px dashed var(--bg-accent-3);
+    }
 
     .intro h1 {
       font-size: 3rem;
     }
   }
   @media (max-width: 800px) {
+    .back_to_posts.hide_desktop {
+      display: flex;
+    }
+    .back_to_posts.hide_mobile {
+      display: none;
+    }
     .content {
       grid-template-columns: 1fr;
       grid-template-areas:
@@ -287,13 +362,14 @@
       grid-area: right;
     }
 
-    .extra a {
+    .back_to_posts {
       position: absolute;
       top: 1rem;
       left: 1rem;
       color: var(--secondary);
+      border: none;
     }
-    .extra a svg {
+    .back_to_posts svg {
       color: var(--primary);
     }
   }

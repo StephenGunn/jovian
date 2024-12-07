@@ -1,7 +1,3 @@
-html {
-  scroll-behavior: smooth;
-}
-
 .post {
   line-height: 1.6;
   color: white;
@@ -328,5 +324,3 @@ html {
   color: var(--accent);
   text-decoration: none;
 }
-
-@media (max-width: 1500px) {}
