@@ -13,6 +13,7 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@atproto/api": "^0.13.19",
     "@jsdevtools/rehype-toc": "^3.0.2",
     "@sendgrid/mail": "^8.1.4",
     "@shikijs/rehype": "^1.24.0",
