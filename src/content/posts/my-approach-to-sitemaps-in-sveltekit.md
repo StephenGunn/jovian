@@ -324,6 +324,13 @@ also check for an `updated` date and use that if it exists; otherwise, I use the
 field. This is because I have a field for `updated` on my posts and projects that I use to
 show the last time the content was updated.
 
+> Note: The date needs to be formatted as `YYYY-MM-DD` for the `lastmod` field. I added a
+> helper function to ensure that the date is formatted correctly.
+
+```typescript:helper.ts
+const format_date = (date: string) => dayjs(date).format("YYYY-MM-DD");
+```
+
 ## More Advanced Sitemaps
 
 This is a very basic example of a sitemap. Sitemaps have their limitations, and you will
