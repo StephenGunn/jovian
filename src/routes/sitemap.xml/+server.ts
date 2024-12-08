@@ -2,6 +2,7 @@ import type { Post, Project } from "$lib/types/schema";
 import type { RequestHandler } from "./$types";
 import { dev } from "$app/environment";
 import { error } from "@sveltejs/kit";
+import dayjs from "dayjs";
 
 export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
   const site = "https://jovianmoon.io";
@@ -12,6 +13,10 @@ export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
   if (!posts || !projects) {
     error(500, "Failed to generate the sitemap.");
   }
+
+  // added a helper function to format the date to make sure it's in the correct format
+  // since I manually set the date in the frontmatter of the markdown
+  const format_date = (date: string) => dayjs(date).format("YYYY-MM-DD");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -40,7 +45,7 @@ export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
       (post) => `
   <url>
     <loc>${site}/posts/${post.slug}</loc>
-    <lastmod>${post.updated ?? post.date}</lastmod>
+    <lastmod>${format_date(post.updated ?? post.date)}</lastmod>
   </url>`
     )
     .join("")}
@@ -49,7 +54,7 @@ export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
       (project) => `
   <url>
     <loc>${site}/projects/${project.slug}</loc>
-    <lastmod>${project.updated ?? project.date}</lastmod>
+    <lastmod>${format_date(project.updated ?? project.date)}</lastmod>
   </url>`
     )
     .join("")}
