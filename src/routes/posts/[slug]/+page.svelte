@@ -125,7 +125,7 @@
       </div>
     </div>
   </div>
-  <div>
+  <div class="middle">
     <article class="post">
       <Post />
     </article>
@@ -255,6 +255,18 @@
     grid-template-columns: 1fr var(--column-width) 1fr;
     grid-template-areas: "left middle right";
     max-width: 100%;
+  }
+
+  .left {
+    grid-area: left;
+  }
+
+  .middle {
+    grid-area: middle;
+  }
+
+  .right {
+    grid-area: right;
   }
 
   .post {

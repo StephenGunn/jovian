@@ -87,81 +87,193 @@ waiting until they submit the form.
 `:user-invalid` is a great concept, but it’s limited to styling. To go beyond simple
 visuals, we’ll need JavaScript (TypeScript, in my case) and Svelte.
 
+> **Note:** The `:user-invalid` pseudo-class is part of the CSS Pseudo-Classes Level 4 and
+> not yet widely supported. It’s a great concept, but you might need to rely on JavaScript
+> for more complex interactions.
+
 ## Enhancing the User Experience with Svelte
 
-Imagine a login form that requires a valid email and a password of at least 8 characters.
-Sure, `:user-invalid` can handle basic feedback, but what if you want to prevent
-submission until the inputs are valid? Or provide more detailed feedback?
+While this isn't necessary for a lot of forms, there might be a time where you want to
+listen to the validity state of a form field to provide immediate or more explicit
+feedback to the user. Svelte's reactivity makes this a breeze.
 
 Rather than writing two layers of validation (one in HTML, another in JavaScript), we can
 leverage the browser’s built-in validation states directly. With Svelte 5, you can harness
 reactive state to deliver immediate, dynamic feedback.
 
-## The Svelte 5 Example
+## A Simple Example with a Login Form
 
-Check out this example. It won’t let you submit until both the email and password fields
-are valid. Enter an invalid email and a too-short password, and you’ll see instant
-feedback.
+Check out this simple example of a login form where we can provide immediate feedback to
+the user based on the validity of the email and password fields.
 
 <SampleLoginForm />
+
+Obviously this example is a bit contrived, but I wanted the example to be very obvious.
 
 ## How Does It Work?
 
 Surprisingly, it doesn’t require much JavaScript. The form will still work without
 JavaScript enabled—we’re building on the browser’s native validation.
 
-JavaScript gives us access to the form field’s `validity` state. Combined with Svelte’s
-reactivity, you get instant visual feedback and can prevent form submission until fields
-are valid.
+Every form input element in HTML5 comes with a `validity` property. This property is an
+instance of the
+[`ValidityState`](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+interface, which provides boolean properties indicating the validity of the input based on
+various criteria.
 
-## Svelte 5 Example
+For an input with `type="email"`, the browser checks whether the entered value conforms to
+the standard email format. The `valid` property of the `validity` object will be `true` if
+the input matches the email format and `false` otherwise.
 
-```svelte
+The validity is based off of the input's `type`, `required`, `minlength`, `maxlength`, and
+`pattern` attributes.
+
+## My Svelte 5 Code
+
+```svelte:Login.svelte
 <script lang="ts">
+  import Confetti from "svelte-confetti";
+  import Check from "phosphor-svelte/lib/Check";
+  import X from "phosphor-svelte/lib/X";
+
   let email_valid = $state(false);
   let password_valid = $state(false);
+  let confetti = $state(false);
   let disabled = $derived(!email_valid || !password_valid);
 </script>
 
-<form>
-  <label for="email">Email</label>
-  <input
-    type="email"
-    name="email"
-    id="email"
-    required
-    aria-required="true"
-    oninput={(e: Event) => {
-      const target = e.target as HTMLInputElement;
-      email_valid = target?.validity?.valid || false;
+<div class="comp">
+  <form
+    onsubmit={(e) => {
+      e.preventDefault();
+      if (disabled) return;
+      confetti = true;
+      setTimeout(() => {
+        confetti = false;
+      }, 2000);
     }}
-  />
+  >
+    <label for="email" class:valid={email_valid}>Email</label>
+    <div class="relative">
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Add an email address"
+        required
+        aria-required="true"
+        oninput={(e: Event) => {
+          const target = e.target as HTMLInputElement;
+          email_valid = target?.validity?.valid || false;
+        }}
+      />
+      <div class="icon">
+        {#if email_valid}
+          <Check size="1.5rem" color="var(--secondary)" />
+          <div class="confetti">
+            <Confetti />
+          </div>
+        {:else}
+          <X size="1.5rem" color="var(--accent)" />
+        {/if}
+      </div>
+    </div>
 
-  <label for="password">Password</label>
-  <input
-    type="password"
-    name="password"
-    id="password"
-    minlength="8"
-    required
-    aria-required="true"
-    oninput={(e: Event) => {
-      const target = e.target as HTMLInputElement;
-      password_valid = target?.validity?.valid || false;
-    }}
-  />
-  <button {disabled}>Login</button>
-</form>
+    <label for="password" class:valid={password_valid}>Password</label>
+    <div class="relative">
+      <input
+        type="password"
+        name="password"
+        id="password"
+        minlength="8"
+        placeholder="Add a password (min 8 characters)"
+        required
+        aria-required="true"
+        oninput={(e: Event) => {
+          const target = e.target as HTMLInputElement;
+          password_valid = target?.validity?.valid || false;
+        }}
+      />
+      <div class="icon">
+        {#if password_valid}
+          <Check size="1.5rem" color="var(--secondary)" />
+          <div class="confetti">
+            <Confetti />
+          </div>
+        {:else}
+          <X size="1.5rem" color="var(--accent)" />
+        {/if}
+      </div>
+    </div>
+    <button disabled={confetti}>
+      Login
+      {#if confetti}
+        <div class="confetti">
+          <Confetti />
+        </div>
+      {/if}
+    </button>
+  </form>
+</div>
 
 <style>
+  .relative {
+    position: relative;
+  }
+
+  .icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .comp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--bg-accent-1);
+  }
   form {
     display: flex;
     flex-flow: column;
     max-width: 400px;
   }
-
+  label:not(:first-child) {
+    margin-top: 1rem;
+  }
+  label {
+    color: var(--accent);
+  }
+  label.valid {
+    color: var(--secondary);
+  }
   input {
-    margin-bottom: 1rem;
+    margin: 0;
+    padding: 0.5rem 1rem;
+  }
+
+  button {
+    margin-top: 1rem;
+    position: relative;
+  }
+
+  button .confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    left: 50%;
+  }
+
+  button:disabled {
+    background-color: var(--bg-accent-3);
+    color: var(--bg);
+    cursor: not-allowed;
   }
 </style>
 ```
@@ -175,13 +287,16 @@ oninput={(e: Event) => {
 }}
 ```
 
-We’re simply listening for `input` events, accessing the `validity` property, and updating
-our reactive variables that live in `$state()`. The type of validation performed depends
-on the input’s `type`. For example, `type="email"` tells the browser to validate the input
-as an email address.
-
 Try it out yourself in the
-[Svelte playground](https://svelte.dev/playground/b06268bdf82643e096fe57bb3fe583c9?version=5.12.0).
+[Svelte playground](https://svelte.dev/playground/034205c491b747cd92865751b5cd002d?version=5.13.0).
+Granted, there are some small changes to the code but the idea is the same.
+
+## Server-Side Validation
+
+While the browser’s built-in validation is great for immediate feedback, it’s not a silver
+bullet. You should always validate user input on the server side to ensure data integrity
+and security. Using [SvelteKit's Form Actions](https://svelte.dev/docs/kit/form-actions)
+is a great way to handle server-side form submission and security.
 
 ## Conclusion
 
