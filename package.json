@@ -13,13 +13,13 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@atproto/api": "^0.13.19",
+    "@atproto/api": "^0.13.20",
     "@jsdevtools/rehype-toc": "^3.0.2",
     "@sendgrid/mail": "^8.1.4",
-    "@shikijs/rehype": "^1.24.0",
-    "@shikijs/transformers": "^1.24.0",
-    "@sveltejs/adapter-vercel": "^5.5.0",
-    "@sveltejs/kit": "^2.9.0",
+    "@shikijs/rehype": "^1.24.2",
+    "@shikijs/transformers": "^1.24.2",
+    "@sveltejs/adapter-vercel": "^5.5.2",
+    "@sveltejs/kit": "^2.11.1",
     "@sveltejs/vite-plugin-svelte": "4.0.0-next.6",
     "@types/eslint": "^8.56.12",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
