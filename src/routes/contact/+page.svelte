@@ -3,6 +3,8 @@
   import { enhance } from "$app/forms";
   import { dev } from "$app/environment";
   import "$lib/css/blog.css";
+  import { Turnstile } from "svelte-turnstile";
+  import { PUBLIC_TURNSTILE_KEY } from "$env/static/public";
 
   let submitting = $state(false);
   let completed = $state(false);
@@ -84,6 +86,13 @@
 
         <input type="text" name="company" style="display: none" />
 
+        <Turnstile
+          siteKey={PUBLIC_TURNSTILE_KEY}
+          appearance="always"
+          size="normal"
+          theme="dark"
+        />
+
         <button type="submit">
           {#if submitting}Submitting...{:else}Submit{/if}
         </button>
@@ -93,6 +102,13 @@
 </article>
 
 <style>
+  .error {
+    border: 1px solid var(--accent);
+    padding: 1rem !important;
+    font-size: 0.9rem;
+    font-style: italic;
+    border-radius: 0.25rem;
+  }
   .split {
     display: grid;
     grid-template-columns: 1fr 1fr;

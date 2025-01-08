@@ -232,9 +232,6 @@
   .comment-list {
     margin-top: 0.5rem;
   }
-  .comment-list > * + * {
-    margin-top: 2rem;
-  }
 
   .show-more-button {
     margin-top: 0.5rem;

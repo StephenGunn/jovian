@@ -45,6 +45,7 @@
   --dark-secondary: #c2eabd;
   --dark-accent: #eb5967;
   --dark-highlight: #99c1f1;
+  --dark-input-bg: #1e1f26;
   --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
   --dark-semi-transparent: rgba(18, 17, 23, 0.9);
   --dark-muted-color: #6e738d;
@@ -63,6 +64,7 @@
   --subtle-highlight: var(--dark-subtle-highlight);
   --semi-transparent: var(--dark-semi-transparent);
   --muted-color: var(--dark-muted-color);
+  --input-bg: var(--dark-input-bg);
 
   --column-width: 1000px;
 }

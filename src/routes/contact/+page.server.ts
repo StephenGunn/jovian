@@ -1,7 +1,13 @@
 import sgMail from "@sendgrid/mail";
 import type { Actions } from "./$types";
 import { fail } from "@sveltejs/kit";
-import { CONTACT_EMAIL, FROM_EMAIL, SENDGRID_API_KEY } from "$env/static/private";
+import {
+  CONTACT_EMAIL,
+  FROM_EMAIL,
+  SENDGRID_API_KEY,
+  TURNSTILE_SECRET
+} from "$env/static/private";
+import { validate_token } from "./turnstile";
 
 export const actions = {
   default: async ({ request }) => {
@@ -14,8 +20,24 @@ export const actions = {
     const message = data.get("message") as string;
     const company = data.get("company") as string;
 
+    // dumb honeypot
     if (company !== "") {
       return fail(400, { company, invalid: true, text: "Oops! Something went wrong!" });
+    }
+
+    const captcha = data.get("cf-turnstile-response") as string;
+
+    console.log(data);
+    if (!captcha || typeof captcha !== "string") {
+      return fail(400, { captcha, missing: true, text: "Captcha is missing." });
+    }
+
+    // validate the captcha
+    const { success, error } = await validate_token(captcha, TURNSTILE_SECRET);
+
+    if (!success) {
+      console.error(error);
+      return fail(406, { error, text: "Captcha validation failed." });
     }
 
     if (!name) {

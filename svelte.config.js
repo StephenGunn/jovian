@@ -17,11 +17,32 @@ const config = {
       external: ["@resvg/resvg-js"]
     }),
     csp: {
+      mode: "auto",
       directives: {
-        "script-src": ["self", "https://stats.craftroulette.live"]
+        "script-src": [
+          "self",
+          "https://stats.craftroulette.live",
+          "https://challenges.cloudflare.com",
+          "unsafe-inline" // needed for Turnstile
+        ],
+        "frame-src": [
+          "self",
+          "https://challenges.cloudflare.com" // needed for Turnstile iframe
+        ],
+        "style-src": [
+          "self",
+          "unsafe-inline" // needed for Turnstile styles
+        ]
       },
       reportOnly: {
-        "script-src": ["self", "https://stats.craftroulette.live"],
+        "script-src": [
+          "self",
+          "https://stats.craftroulette.live",
+          "https://challenges.cloudflare.com",
+          "unsafe-inline"
+        ],
+        "frame-src": ["self", "https://challenges.cloudflare.com"],
+        "style-src": ["self", "unsafe-inline"],
         "report-uri": ["/"]
       }
     }
