@@ -25,7 +25,7 @@ inference for all Directus field types.
 Here's a script that automates type generation with environment variable support and user
 prompts:
 
-```javascript:scripts/types.js
+```javascript:scripts/generate-types.js
 import { exec } from 'child_process';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -94,6 +94,9 @@ const askQuestion = (query) => {
 ```
 
 > This was written in JavaScript before Node could run TypeScript files directly
+
+I put this file in a `scripts/` directory that sits in my project root, but you can place
+it anywhere you like as long as you adapt your `package.json` script definition.
 
 You will have to install a few things if you haven't already:
 
