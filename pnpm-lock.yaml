@@ -142,7 +142,7 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       vite:
-        specifier: ^6.0.11
+        specifier: ^6.0.7
         version: 6.0.11
       vitest:
         specifier: ^3.0.4
