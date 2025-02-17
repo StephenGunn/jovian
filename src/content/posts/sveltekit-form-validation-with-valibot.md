@@ -60,32 +60,34 @@ name, email, and password fields - each with their own validation rules. I remov
 custom regex validator to make it a little more clear for the unititiated.
 
 ```typescript:types/forms.ts
-export const RegistrationSchema = v.object({
-  first_name: v.pipe(
-    v.string("You must enter a first name."),
-    v.nonEmpty("First name is required.")
-  ),
-  last_name: v.pipe(
-    v.string("You must enter a last name."),
-    v.nonEmpty("Last name is required.")
-  ),
-  email: v.pipe(
-    v.string("You must enter an email address."),
-    v.nonEmpty("Invalid email address."),
-    v.email("Email address is required.")
-  ),
-  password: v.pipe(
-    v.string("You must enter a password."),
-    v.nonEmpty("Password is required."),
-    v.minLength(8, "Password must be at least 8 characters.")
-  ),
-  confirm_password: v.pipe(
-    v.string("You must confirm your password."),
-    v.nonEmpty("Confirm password is required."),
-    v.minLength(8, "Confirm password must be at least 8 characters.")
-  ),
-  v.check((i) => i.confirm_password === i.password, 'Passwords dont match'),
-});
+export const RegistrationSchema = v.pipe(
+  v.object({
+    first_name: v.pipe(
+      v.string("You must enter a first name."),
+      v.nonEmpty("First name is required.")
+    ),
+    last_name: v.pipe(
+      v.string("You must enter a last name."),
+      v.nonEmpty("Last name is required.")
+    ),
+    email: v.pipe(
+      v.string("You must enter an email address."),
+      v.nonEmpty("Invalid email address."),
+      v.email("Email address is required.")
+    ),
+    password: v.pipe(
+      v.string("You must enter a password."),
+      v.nonEmpty("Password is required."),
+      v.minLength(8, "Password must be at least 8 characters.")
+    ),
+    confirm_password: v.pipe(
+      v.string("You must confirm your password."),
+      v.nonEmpty("Confirm password is required."),
+      v.minLength(8, "Confirm password must be at least 8 characters.")
+    )
+  }),
+  v.check((i) => i.confirm_password === i.password, "Passwords dont match")
+);
 
 export type RegistrationForm = v.InferInput<typeof RegistrationSchema>;
 ```
