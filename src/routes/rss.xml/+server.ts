@@ -14,10 +14,10 @@ export const GET: RequestHandler = async () => {
 				<title>${config.site_name}</title>
 				<description>${config.site_description}</description>
 				<link>${config.site_url}</link>
-				<atom:link href="${config.site_url}rss.xml" rel="self" type="application/rss+xml"/>
+				<atom:link href="${config.site_url}/rss.xml" rel="self" type="application/rss+xml"/>
 				${posts
-          .map(
-            (post) => `
+      .map(
+        (post) => `
 						<item>
 							<title>${post.title}</title>
 							<description>${post.description}</description>
@@ -26,8 +26,8 @@ export const GET: RequestHandler = async () => {
 							<pubDate>${new Date(post.date).toUTCString()}</pubDate>
 						</item>
 					`
-          )
-          .join("")}
+      )
+      .join("")}
 			</channel>
 		</rss>
 	`.trim();
