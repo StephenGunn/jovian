@@ -1,17 +1,20 @@
 <script lang="ts">
+  import "$lib/css/blog.css";
+
+  import Seo from "sk-seo";
+  import Comments from "./Comments.svelte";
   import StarField from "$lib/layout/art/StarField.svelte";
   import Clipboard from "./Clipboard.svelte";
-  import TOC from "./TOC.svelte";
-  import "$lib/css/blog.css";
-  import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
-  import Seo from "sk-seo";
   import ContactLink from "$lib/layout/ContactLink.svelte";
-  import { dev } from "$app/environment";
-  import Comments from "$lib/components/blog/Comments.svelte";
-  import { PUBLIC_BLUESKY_DID } from "$env/static/public";
-  import { comment_data } from "./comment_store.svelte";
-  import { onDestroy } from "svelte";
   import CommentReport from "./CommentReport.svelte";
+
+  import { dev } from "$app/environment";
+  import { comment_data } from "./comment_store.svelte";
+  import { onDestroy, type Component } from "svelte";
+  import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
+
+  import TOC from "./TOC.svelte";
+  import { PUBLIC_BLUESKY_DID } from "$env/static/public";
 
   let { data } = $props();
   let { content, meta, slug, stars } = data;
@@ -19,7 +22,7 @@
   $inspect(data);
 
   // insta component
-  const Post = content;
+  const Post = content as Component;
 
   const open_graph_image = encodeURI(
     `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=posts/${slug}&section=Blog Post`
@@ -28,6 +31,8 @@
   onDestroy(() => {
     comment_data.updated = false;
   });
+
+  let logo_width = $state(0);
 </script>
 
 <Seo
@@ -95,10 +100,7 @@
   <div class="left">
     <div class="extra">
       <div class="sticker">
-        <div class="logo">JovianMoon.io</div>
-        {#if meta.bluesky_thread_id}
-          <CommentReport />
-        {/if}
+        <div class="logo" bind:offsetWidth={logo_width}>JovianMoon.io</div>
         <a href="./" class="back_to_posts hide_mobile">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
             ><rect width="256" height="256" fill="none" /><polygon
@@ -122,6 +124,9 @@
           >
           View all blog posts
         </a>
+        {#if meta.bluesky_thread_id}
+          <CommentReport bluesky_thread_id={meta.bluesky_thread_id} />
+        {/if}
       </div>
     </div>
   </div>
@@ -186,6 +191,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    max-width: 350px;
   }
 
   .back_to_posts {
@@ -298,6 +304,8 @@
     background: #444;
     align-self: flex-start;
     background: radial-gradient(circle, rgba(41, 39, 55, 1) 0%, rgba(34, 24, 57, 1) 100%);
+    text-align: center;
+    width: 100%;
   }
 
   @media (max-width: 1500px) {

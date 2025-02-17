@@ -5,12 +5,14 @@
     type AppBskyFeedGetPostThread
   } from "@atproto/api";
   import type { ThreadViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-  import { comment_data } from "../../../routes/posts/[slug]/comment_store.svelte";
+  import { comment_data } from "./comment_store.svelte";
+  import { onMount } from "svelte";
 
   export type CommentsProps = {
     did: string;
     threadId: string;
   };
+
   export type Reply = {
     post: {
       uri: string;
@@ -35,6 +37,7 @@
 
   let { did, threadId }: CommentsProps = $props();
   let postUrl = `https://bsky.app/profile/${did}/post/${threadId}`;
+  let isHydrated = $state(false);
 
   const getPostThread = async (uri: string) => {
     const params = new URLSearchParams({ uri });
@@ -65,6 +68,7 @@
     comment_data.likes = data.thread.post.likeCount ?? 0;
     comment_data.reposts = data.thread.post.repostCount ?? 0;
     comment_data.replies = data.thread.post.replyCount ?? 0;
+
     return data.thread;
   };
 
@@ -76,44 +80,51 @@
   };
 
   let visibleCount = $state(10);
-  const loader: Promise<ThreadViewPost> = getPostThread(
-    `at://${did}/app.bsky.feed.post/${threadId}`
-  );
+  let loader: Promise<ThreadViewPost> | undefined = $state();
+
+  onMount(() => {
+    isHydrated = true;
+    loader = getPostThread(`at://${did}/app.bsky.feed.post/${threadId}`);
+  });
 </script>
 
-{#await loader}
-  Loading...
-{:then thread}
-  {@const sortedReplies = thread.replies?.sort(sortByLikes) ?? []}
+{#if isHydrated}
+  {#await loader}
+    Loading...
+  {:then thread}
+    {#if thread}
+      {@const sortedReplies = thread.replies?.sort(sortByLikes) ?? []}
 
-  <CommentLink
-    href={postUrl}
-    likes={thread.post.likeCount ?? 0}
-    reposts={thread.post.repostCount ?? 0}
-    replies={thread.post.replyCount ?? 0}
-  />
+      <CommentLink
+        href={postUrl}
+        likes={thread.post.likeCount ?? 0}
+        reposts={thread.post.repostCount ?? 0}
+        replies={thread.post.replyCount ?? 0}
+      />
 
-  {#if thread.replies && thread.replies.length > 0}
-    <h2>Comments</h2>
-  {/if}
-
-  <div class="comment-list">
-    {#each sortedReplies.slice(0, visibleCount) as reply}
-      {#if AppBskyFeedDefs.isThreadViewPost(reply) && AppBskyFeedPost.isRecord(reply.post.record)}
-        {@render renderComment(reply)}
+      {#if thread.replies && thread.replies.length > 0}
+        <h2>Comments</h2>
       {/if}
-    {/each}
-    {#if visibleCount < sortedReplies.length}
-      <button onclick={() => (visibleCount += 5)} class="show-more-button">
-        Show more comments
-      </button>
+
+      <div class="comment-list">
+        {#each sortedReplies.slice(0, visibleCount) as reply}
+          {#if AppBskyFeedDefs.isThreadViewPost(reply) && AppBskyFeedPost.isRecord(reply.post.record)}
+            {@render renderComment(reply)}
+          {/if}
+        {/each}
+        {#if visibleCount < sortedReplies.length}
+          <button onclick={() => (visibleCount += 5)} class="show-more-button">
+            Show more comments
+          </button>
+        {/if}
+      </div>
     {/if}
-  </div>
-{:catch error}
-  <div class="error-box">
-    Something went wrong {error}
-  </div>
-{/await}
+  {:catch error}
+    <div class="error-box">
+      Something went wrong {error}
+    </div>
+  {/await}
+{/if}
 
 {#snippet renderComment(comment: AppBskyFeedDefs.ThreadViewPost)}
   {@const author = comment.post.author}
