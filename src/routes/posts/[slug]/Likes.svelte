@@ -60,6 +60,8 @@
             alt="{like.actor.displayName} - {like.actor.description}"
             width="32"
             height="32"
+            loading="lazy"
+            decoding="async"
           />
         </a>
       {/if}
@@ -92,6 +94,7 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.02);
     object-fit: cover;
   }
 

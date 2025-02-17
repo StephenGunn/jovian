@@ -6,7 +6,6 @@
   import { dev } from "$app/environment";
   import { flip } from "svelte/animate";
   import { fade } from "svelte/transition";
-  import RSS from "phosphor-svelte/lib/Rss";
 
   const open_graph_image = encodeURI(
     `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=Blog Posts&link=posts`
