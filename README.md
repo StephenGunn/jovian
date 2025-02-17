@@ -9,11 +9,11 @@ exercise to learn the new framework.
 ## Todo List
 
 - [x] Add Projects to the site
-- [ ] Add a simple commenting system using Lucia Auth, Drizzle, and Turso
+- [x] Add comments (bluesky)
 - [x] Add a simple contact form
 - [ ] Add a simple newsletter signup form
 - [ ] Add a simple search feature
-- [ ] Add a simple RSS feed
+- [x] Add a simple RSS feed
 - [x] Add a simple sitemap
 
 ## Running Locally
