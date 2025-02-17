@@ -6,6 +6,7 @@
   import { dev } from "$app/environment";
   import { flip } from "svelte/animate";
   import { fade } from "svelte/transition";
+  import RSS from "phosphor-svelte/lib/Rss";
 
   const open_graph_image = encodeURI(
     `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=Blog Posts&link=posts`
@@ -75,7 +76,36 @@
 />
 
 <div class="grid_column">
-  <h1>Blog Posts</h1>
+  <div class="title">
+    <h1>Blog Posts</h1>
+    <a href="/rss.xml" class="rss">
+      RSS Feed
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+        ><rect width="256" height="256" fill="none" /><path
+          d="M56,136a64,64,0,0,1,64,64"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="16"
+        /><path
+          d="M56,88A112,112,0,0,1,168,200"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="16"
+        /><path
+          d="M56,40A160,160,0,0,1,216,200"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="16"
+        /><circle cx="60" cy="196" r="12" /></svg
+      >
+    </a>
+  </div>
   <div class="filters">
     <div class="categories">
       <button
@@ -148,3 +178,42 @@
     {/each}
   </ul>
 </div>
+
+<style>
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title .rss {
+    color: white;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.9rem;
+    font-weight: 600;
+    margin: 0;
+    background: transparent;
+    outline: 1px solid var(--bg-accent-2);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .title .rss svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: var(--primary);
+    fill: currentColor;
+  }
+
+  @media (max-width: 500px) {
+    .title {
+      flex-flow: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+  }
+</style>

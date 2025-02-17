@@ -83,7 +83,8 @@ export const RegistrationSchema = v.object({
     v.string("You must confirm your password."),
     v.nonEmpty("Confirm password is required."),
     v.minLength(8, "Confirm password must be at least 8 characters.")
-  )
+  ),
+  v.check((i) => i.confirm_password === i.password, 'Passwords dont match'),
 });
 
 export type RegistrationForm = v.InferInput<typeof RegistrationSchema>;
@@ -115,13 +116,10 @@ export const actions = {
       request,
       RegistrationSchema
     );
+    // check for error or lack of data, checking for !data will make typescript happy
     if (error || !data) {
       console.error(error);
       return fail(500, { error });
-    }
-
-    if (data.password !== data.confirm_password) {
-      return fail(400, { message: "Passwords do not match" });
     }
 
     try {
@@ -229,6 +227,10 @@ export const extract_form_data = async <T>(
   }
 };
 ```
+
+> note: The reason you have to pass the type with the schema, instead of deriving the type
+> inside of the function, is because the `schema: v.GenericSchema<T>` argument expects a
+> genertic type to function correctly.
 
 I added some extra and perhaps redundant comments to the code to try and explain what
 everything does. If there is a validation error from Valibot, I will return it's value to
