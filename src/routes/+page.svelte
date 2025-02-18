@@ -1,16 +1,92 @@
 <script lang="ts">
+  import Seo from "sk-seo";
+  import Ship from "$lib/homepage/Ship.svelte";
+  import Alien from "$lib/homepage/Alien.svelte";
   import Waves from "$lib/homepage/Waves.svelte";
   import Orbits from "$lib/homepage/Orbits.svelte";
-  import Ship from "$lib/homepage/Ship.svelte";
-  import MeteorShower from "$lib/homepage/MeteorShower.svelte";
-  import StarField from "$lib/layout/art/StarField.svelte";
-  import FlightDirections from "$lib/homepage/FlightDirections.svelte";
-  import Seo from "sk-seo";
   import HeroText from "$lib/homepage/HeroText.svelte";
+  import StarField from "$lib/layout/art/StarField.svelte";
+  import PartySocket from "partysocket";
+  import MeteorShower from "$lib/homepage/MeteorShower.svelte";
+  import FlightDirections from "$lib/homepage/FlightDirections.svelte";
+  import { onDestroy, onMount } from "svelte";
+  import { PUBLIC_WS_SERVER } from "$env/static/public";
+  import { scene_ref } from "$lib/stores/homepage.svelte";
 
   let { data } = $props();
-
   let stars = data.stars;
+
+  type AlienData = {
+    id: string;
+    country: string;
+  };
+
+  let aliens: AlienData[] = $state<AlienData[]>([]);
+  let alien_components: Record<string, Alien> = $state({});
+  let party: PartySocket | undefined = $state();
+
+  onMount(async () => {
+    party = new PartySocket({
+      host: PUBLIC_WS_SERVER,
+      room: "space"
+    });
+
+    party.addEventListener("message", (event: MessageEvent) => {
+      const message = JSON.parse(event.data);
+
+      switch (message.type) {
+        case "init":
+          console.log("init", message);
+          aliens = message.aliens.map((alien: AlienData) => ({
+            id: alien.id,
+            country: alien.country
+          }));
+          break;
+
+        case "new_alien":
+          console.log("new alien joined:", message);
+          aliens = [
+            ...aliens,
+            {
+              id: message.id,
+              country: message.country
+            }
+          ];
+          break;
+
+        case "waypoint":
+          console.log("waypoint", message);
+          const x = message.x * window.innerWidth;
+          const y = message.y * window.innerHeight;
+          if (alien_components[message.alienId]) {
+            alien_components[message.alienId].add_waypoint(message.alienId, x, y);
+          }
+          break;
+
+        case "remove":
+          aliens = aliens.filter((alien) => alien.id !== message.alienId);
+          delete alien_components[message.alienId]; // Clean up the component reference
+          break;
+      }
+    });
+  });
+
+  onDestroy(() => {
+    party?.close();
+  });
+
+  function broadcast_waypoint(x: number, y: number) {
+    if (!party) return;
+    const px = x / window.innerWidth;
+    const py = y / window.innerHeight;
+    party.send(
+      JSON.stringify({
+        type: "waypoint",
+        x: px,
+        y: py
+      })
+    );
+  }
 </script>
 
 <Seo
@@ -19,8 +95,21 @@
   imageURL="https://jovianmoon.io/api/images/home"
 />
 
-<div class="scene">
-  <Ship />
+<div
+  class="scene"
+  bind:offsetWidth={scene_ref.width}
+  bind:offsetHeight={scene_ref.height}
+>
+  <Ship {broadcast_waypoint} />
+  {#each aliens as alien (alien.id)}
+    {#if party?.id !== alien.id}
+      <Alien
+        id={alien.id}
+        country={alien.country}
+        bind:this={alien_components[alien.id]}
+      />
+    {/if}
+  {/each}
   <HeroText />
   <Waves />
   <MeteorShower />

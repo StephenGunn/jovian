@@ -1,4 +1,10 @@
+<script lang="ts">
+  import { wave_ref } from "$lib/stores/homepage.svelte";
+</script>
+
 <svg
+  bind:clientWidth={wave_ref.width}
+  bind:clientHeight={wave_ref.height}
   class="waves"
   preserveAspectRatio="xMidYMid meet"
   viewBox="0 0 960 540"

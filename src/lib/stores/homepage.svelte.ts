@@ -11,10 +11,34 @@ class Coords {
 }
 export const coords = new Coords();
 
-export let jupiter_data: CelestialBodyData = $state({ x: 0, y: 0, width: 0, height: 0, show_info: false });
-export let io_data: CelestialBodyData = $state({ x: 0, y: 0, width: 0, height: 0, show_info: false });
-export let europa_data: CelestialBodyData = $state({ x: 0, y: 0, width: 0, height: 0, show_info: false });
-export let ganymede_data: CelestialBodyData = $state({ x: 0, y: 0, width: 0, height: 0, show_info: false });
+export let jupiter_data: CelestialBodyData = $state({
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 0,
+  show_info: false
+});
+export let io_data: CelestialBodyData = $state({
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 0,
+  show_info: false
+});
+export let europa_data: CelestialBodyData = $state({
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 0,
+  show_info: false
+});
+export let ganymede_data: CelestialBodyData = $state({
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 0,
+  show_info: false
+});
 
 type QuestStep = {
   id: number;
@@ -26,10 +50,19 @@ type QuestStep = {
 // Define the quest chain as an array of steps
 const quest_chain: QuestStep[] = [
   { id: 1, description: "Launch the ship.", next_id: 2, completed: false },
-  { id: 2, description: "Click to set your first waypoint.", next_id: 3, completed: false },
+  {
+    id: 2,
+    description: "Click to set your first waypoint.",
+    next_id: 3,
+    completed: false
+  },
   { id: 3, description: "Queue multiple waypoints.", next_id: 4, completed: false },
   { id: 4, description: "Enter into Jupiter's orbit.", next_id: 5, completed: false },
-  { id: 5, description: "Enter into the orbit of one of Jupiter's moons.", completed: false }
+  {
+    id: 5,
+    description: "Enter into the orbit of one of Jupiter's moons.",
+    completed: false
+  }
 ];
 
 // Create a map for quick lookup by ID
@@ -126,3 +159,19 @@ export class Quest {
 }
 
 export let quest = new Quest();
+
+export let wave_ref: {
+  width: number | undefined;
+  height: number | undefined;
+} = $state({
+  width: undefined,
+  height: undefined
+});
+
+export let scene_ref: {
+  width: number | undefined;
+  height: number | undefined;
+} = $state({
+  width: undefined,
+  height: undefined
+});

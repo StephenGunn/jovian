@@ -1,0 +1,6 @@
+{
+  "$schema": "https://www.partykit.io/schema.json",
+  "name": "jovianmoon-party",
+  "main": "party/index.ts",
+  "compatibilityDate": "2025-02-17"
+}

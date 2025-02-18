@@ -4,7 +4,7 @@
   import type { CelestialBodyData, Coords } from "$lib/types/schema";
   import { fade, fly } from "svelte/transition";
   import { onMount } from "svelte";
-  import { tweened } from "svelte/motion";
+  import { Tween } from "svelte/motion";
   import { debug_mode } from "$lib/data";
   import { sineInOut, sineIn } from "svelte/easing";
   import {
@@ -15,6 +15,9 @@
     ganymede_data,
     quest
   } from "$lib/stores/homepage.svelte.js";
+
+  let { broadcast_waypoint }: { broadcast_waypoint: (x: number, y: number) => void } =
+    $props();
 
   class Ship {
     // positioning - start ship off screen to avoid a weird visual jump
@@ -377,6 +380,8 @@
 
     // interactive click handler
     receive_orders(coords: Coords) {
+      // multiplayer coords
+
       if (!this.landed) {
         return;
       }
@@ -400,17 +405,17 @@
   // normal component logic
   const ship = new Ship();
 
-  const x_move = tweened(0, {
+  const x_move = new Tween(0, {
     duration: ship.trip_duration,
     easing: sineInOut
   });
-  const y_move = tweened(0, {
+  const y_move = new Tween(0, {
     duration: ship.trip_duration,
     easing: sineInOut
   });
 
   $effect(() => {
-    ship.set_position($x_move, $y_move);
+    ship.set_position(x_move.current, y_move.current);
   });
 
   const handle_mouse_position = (event: MouseEvent) => {
@@ -420,6 +425,7 @@
 
   const handle_click = () => {
     ship.receive_orders({ x: coords.x, y: coords.y });
+    broadcast_waypoint(coords.x, coords.y);
   };
 
   // dynamic window position
@@ -430,16 +436,19 @@
     ship.landed = true;
     quest.reset();
 
-    // determine where the ship should be launched from
-    // Determine where the ship should be launched from
-    if (w <= 800) {
-      ship.set_launch_position(w * 0.12, h * 0.81);
+    // Determine where the ship should be launched from, this is not science
+    if (w <= 600) {
+      ship.set_launch_position(w * 0.15, h * 0.785); // mobile has min-height on waves
+    } else if (w <= 800) {
+      ship.set_launch_position(w * 0.18, h * 0.85);
     } else if (w <= 1000) {
       ship.set_launch_position(w * 0.22, h * 0.83);
     } else if (w <= 1300) {
-      ship.set_launch_position(w * 0.22, h * 0.745);
+      ship.set_launch_position(w * 0.25, h * 0.79);
+    } else if (w <= 1600) {
+      ship.set_launch_position(w * 0.28, h * 0.79);
     } else {
-      ship.set_launch_position(w * 0.22, h * 0.745);
+      ship.set_launch_position(w * 0.3, h * 0.73);
     }
 
     setTimeout(async () => {

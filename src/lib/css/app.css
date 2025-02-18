@@ -129,7 +129,7 @@ a:focus {
   text-decoration: underline;
 }
 
-*:focus {
+body>*:focus {
   outline: 2px solid var(--accent);
   border-radius: 0.25rem;
 }
