@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import { afterNavigate } from "$app/navigation";
 
   let width = $state(0);
@@ -23,8 +23,6 @@
     }
     last_scroll = scroll;
   };
-
-  $inspect($page);
 
   $effect(() => {
     determine_header_visibility(scroll);
@@ -52,19 +50,19 @@
   };
 
   $effect(() => {
-    if ($page.route.id === "/") {
+    if (page.route.id === "/") {
       if (!home) return;
       set_underline(home);
-    } else if ($page.route.id?.includes("/posts")) {
+    } else if (page.route.id?.includes("/posts")) {
       if (!posts) return;
       set_underline(posts);
-    } else if ($page.route.id?.includes("/projects")) {
+    } else if (page.route.id?.includes("/projects")) {
       if (!projects) return;
       set_underline(projects);
-    } else if ($page.route.id?.includes("/about")) {
+    } else if (page.route.id?.includes("/about")) {
       if (!about) return;
       set_underline(about);
-    } else if ($page.route.id?.includes("/contact")) {
+    } else if (page.route.id?.includes("/contact")) {
       if (!contact) return;
       set_underline(contact);
     }
@@ -76,7 +74,7 @@
   class="mobile-menu-toggle"
   onclick={() => (mobile_menu_open = !mobile_menu_open)}
   aria-label="Mobile menu toggle"
-  class:home={$page.route.id === "/"}
+  class:home={page.route.id === "/"}
   class:scrolled={scroll > 100}
   class:hide={!show_header}
   class:open={mobile_menu_open}
@@ -106,35 +104,39 @@
 </button>
 
 <header class:open={mobile_menu_open}>
-  <nav class:scrolled={scroll > 100} class:hide={!show_header}>
+  <nav
+    data-sveltekit-preload-code
+    class:scrolled={scroll > 100}
+    class:hide={!show_header}
+  >
     <ul>
-      <li><a bind:this={home} href="/" class:active={$page.route.id === "/"}>Home</a></li>
+      <li><a bind:this={home} href="/" class:active={page.route.id === "/"}>Home</a></li>
       <li>
         <a
           bind:this={posts}
           href="/posts"
-          class:active={$page.route?.id?.includes("/posts")}>Posts</a
+          class:active={page.route?.id?.includes("/posts")}>Posts</a
         >
       </li>
       <li>
         <a
           bind:this={projects}
           href="/projects"
-          class:active={$page.route?.id?.includes("/projects")}>Projects</a
+          class:active={page.route?.id?.includes("/projects")}>Projects</a
         >
       </li>
       <li>
         <a
           bind:this={about}
           href="/about"
-          class:active={$page.route?.id?.includes("/about")}>About</a
+          class:active={page.route?.id?.includes("/about")}>About</a
         >
       </li>
       <li>
         <a
           bind:this={contact}
           href="/contact"
-          class:active={$page.route?.id?.includes("/contact")}>Contact</a
+          class:active={page.route?.id?.includes("/contact")}>Contact</a
         >
       </li>
     </ul>
