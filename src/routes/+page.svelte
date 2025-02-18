@@ -12,6 +12,7 @@
   import { onDestroy, onMount } from "svelte";
   import { PUBLIC_WS_SERVER } from "$env/static/public";
   import { scene_ref } from "$lib/stores/homepage.svelte";
+  import { fade } from "svelte/transition";
 
   let { data } = $props();
   let stars = data.stars;
@@ -101,6 +102,11 @@
   bind:offsetHeight={scene_ref.height}
 >
   <Ship {broadcast_waypoint} />
+  {#if aliens && aliens.length > 1}
+    <div class="players" transition:fade={{ duration: 400 }}>
+      [ {aliens.length - 1} other{aliens.length - 1 > 1 ? "s" : ""} exploring space ]
+    </div>
+  {/if}
   {#each aliens as alien (alien.id)}
     {#if party?.id !== alien.id}
       <Alien
@@ -135,6 +141,17 @@
     max-width: 3000px;
     max-height: 1500px;
     aspect-ratio: 16 / 9;
+  }
+
+  .players {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.7rem;
+    color: white;
+    font-weight: 400;
+    color: var(--secondary);
+    opacity: 0.8;
   }
 
   @media (max-width: 768px) {
