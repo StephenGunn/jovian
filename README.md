@@ -15,6 +15,7 @@ exercise to learn the new framework.
 - [ ] Add a simple search feature
 - [x] Add a simple RSS feed
 - [x] Add a simple sitemap
+- [x] Made the site multiplayer
 
 ## Running Locally
 
