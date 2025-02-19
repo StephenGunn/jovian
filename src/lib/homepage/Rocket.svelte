@@ -30,8 +30,8 @@
   viewBox="0 0 50 50"
   xmlns="http://www.w3.org/2000/svg"
   style="--fins: #6c7b92; --body: #a1abba; --max: {size
-    ? `100%`
-    : `${size}px`}; --orbit_size: {orbit_size}px"
+    ? `${size}px`
+    : `100%`}; --orbit_size: {orbit_size}px"
   class:orbit_mode={orbit_mode || decent_mode}
   class:launched
 >

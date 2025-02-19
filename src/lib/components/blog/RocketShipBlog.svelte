@@ -8,14 +8,7 @@
 <div class="comp">
   <div class="starfield">
     <div class="rocket">
-      <Rocket
-        launched
-        ignition
-        orbit_mode={false}
-        size={200}
-        decent_mode={false}
-        orbit_size={100}
-      />
+      <Rocket launched ignition orbit_mode={false} decent_mode={false} orbit_size={100} />
       <div class="sparks">
         <Confetti
           infinite
