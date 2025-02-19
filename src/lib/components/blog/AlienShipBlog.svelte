@@ -73,7 +73,7 @@
     height: 30%;
     left: 35%;
     top: 35%;
-    z-index: 100;
+    z-index: 4;
   }
 
   .flag {

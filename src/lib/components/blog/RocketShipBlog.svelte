@@ -45,7 +45,7 @@
     height: 50%;
     left: 25%;
     top: 25%;
-    z-index: 100;
+    z-index: 4;
   }
 
   .sparks {
