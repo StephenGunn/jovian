@@ -192,6 +192,7 @@
     align-items: center;
     gap: 1rem;
     max-width: 350px;
+    padding-left: 2rem;
   }
 
   .back_to_posts {
@@ -273,10 +274,9 @@
 
   .right {
     grid-area: right;
-  }
-
-  .post {
-    padding: 2rem 5rem;
+    padding-right: 2rem;
+    display: flex;
+    justify-content: flex-start;
   }
 
   .left {
@@ -284,9 +284,8 @@
     justify-content: flex-end;
   }
 
-  .right {
-    display: flex;
-    justify-content: flex-start;
+  .post {
+    padding: 2rem 5rem;
   }
 
   .sticker {
@@ -376,10 +375,12 @@
     .content > .left {
       max-width: fit-content;
       margin: 0 auto;
+      padding: 1rem;
     }
 
     .content > .right {
       grid-area: right;
+      padding: 1rem;
     }
 
     .back_to_posts {
