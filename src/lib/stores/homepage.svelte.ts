@@ -175,3 +175,43 @@ export let scene_ref: {
   width: undefined,
   height: undefined
 });
+
+class RepelAnimation {
+  prevX = $state(0);
+  prevY = $state(0);
+  targetX = $state(0);
+  targetY = $state(0);
+
+  MAX_DISPLACEMENT = 30;
+  MOVEMENT_MULTIPLIER = 1;
+
+  constructor(options?: { maxDisplacement?: number; multiplier?: number }) {
+    if (options) {
+      this.MAX_DISPLACEMENT = options.maxDisplacement ?? this.MAX_DISPLACEMENT;
+      this.MOVEMENT_MULTIPLIER = options.multiplier ?? this.MOVEMENT_MULTIPLIER;
+    }
+  }
+
+  set_repel(currentX: number, currentY: number) {
+    // Only calculate delta if we have previous positions
+    if (this.prevX !== 0 || this.prevY !== 0) {
+      // Calculate mouse movement delta
+      const deltaX = currentX - this.prevX;
+      const deltaY = currentY - this.prevY;
+
+      // If there's movement, update the targets to max values based on direction
+      if (Math.abs(deltaX) > 0.1 || Math.abs(deltaY) > 0.1) {
+        this.targetX = deltaX > 0 ? -this.MAX_DISPLACEMENT : this.MAX_DISPLACEMENT;
+        this.targetY = deltaY > 0 ? -this.MAX_DISPLACEMENT : this.MAX_DISPLACEMENT;
+      }
+    }
+
+    // Update previous positions
+    this.prevX = currentX;
+    this.prevY = currentY;
+
+    return { x: Math.round(this.targetX), y: Math.round(this.targetY) };
+  }
+}
+
+export const repelAnimation = new RepelAnimation();
