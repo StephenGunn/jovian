@@ -2,6 +2,7 @@ export const prerender = true;
 
 import type { Post } from "$lib/types/schema";
 import type { PageServerLoad } from "./$types";
+
 import { slugify } from "$lib/utility";
 
 export const load: PageServerLoad = async ({ fetch }) => {

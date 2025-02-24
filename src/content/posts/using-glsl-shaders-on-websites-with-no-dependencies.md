@@ -1,13 +1,13 @@
 ---
 title: Using GLSL shaders on the web without dependencies
 description: Wrangling the power of LLMs to create stunning visuals from GLSL shaders.
-date: "2023-4-16"
+date: "2025-2-24"
 categories:
   - svelte
   - canvas
   - shaders
   - GLSL
-published: false
+published: true
 ---
 
 <script lang="ts">
@@ -282,6 +282,9 @@ component to render the shader using canvas and no dependencies. The code it ret
   }
 </style>
 ```
+
+The above component code isn't hard to reason about. The real weight of the code would be
+on the GPU, and not every device has a great one.
 
 ## Notes on WebGL and Shader Usage
 
