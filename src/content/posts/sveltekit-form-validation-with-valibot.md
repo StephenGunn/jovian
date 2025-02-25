@@ -247,8 +247,7 @@ working with the data more fun.
 
 **Update (February 25, 2025):** After some experimentation, I've found a way to improve
 the `extract_form_data` function to eliminate the need to pass the type parameter
-explicitly. This makes the API cleaner and more ergonomic while maintaining full type
-safety.
+explicitly.
 
 Here's the updated version:
 
@@ -325,8 +324,7 @@ const { data, error } = await extract_form_data(request, RegistrationSchema);
 ```
 
 TypeScript will automatically know that `data` is of type `RegistrationForm` without you
-having to specify it explicitly. This creates a more concise API that's less prone to
-errors since you can't accidentally pass the wrong type parameter.
+having to specify it explicitly.
 
 The key differences are:
 
