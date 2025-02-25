@@ -4,6 +4,7 @@ description:
   Creating a formData extraction system that relies on Valibot schemas for simple
   validation
 date: "2025-2-16"
+updated: "2025-2-25"
 categories:
   - sveltekit
   - valibot
@@ -114,7 +115,7 @@ business logic so we can concentrate on the important parts.
 export const actions = {
   register: async ({ request, cookies }) => {
     // process the incoming form data, validate against valibot schema and extract values
-    const { data, error } = await extract_form_data<RegistrationForm>(
+    const { data, error } = await extract_form_data(
       request,
       RegistrationSchema
     );
@@ -242,6 +243,101 @@ kind of low, since I am also validating input - but it does happen.
 The data returned, if successful will be fully typed based on the schema. Which makes
 working with the data more fun.
 
+## UPDATED: Improved Type Inference
+
+**Update (February 25, 2025):** After some experimentation, I've found a way to improve
+the `extract_form_data` function to eliminate the need to pass the type parameter
+explicitly. This makes the API cleaner and more ergonomic while maintaining full type
+safety.
+
+Here's the updated version:
+
+```typescript:extract_form_data.ts
+import { dev } from "$app/environment";
+import * as v from "valibot";
+
+export const extract_form_data = async <
+  TInput = unknown,
+  TOutput = TInput
+>(
+  request: Request,
+  schema: v.BaseSchema<TInput, TOutput, v.BaseIssue<unknown>>
+): Promise<{
+  data: TOutput | undefined;
+  error: string | null;
+}> => {
+  try {
+    const formData = await request.formData();
+    const result: Record<string, any> = {};
+
+    // Convert form data to an object with proper handling of multiple values
+    formData.forEach((value, key) => {
+      // Case 1: First time encountering this key
+      if (result[key] === undefined) {
+        result[key] = value;
+      }
+      // Case 2: Key exists and is already an array, add new value
+      else if (Array.isArray(result[key])) {
+        result[key].push(value);
+      }
+      // Case 3: Key exists but isn't an array yet, convert to array with both values
+      else {
+        result[key] = [result[key], value];
+      }
+    });
+
+    const validation = v.safeParse(schema, result);
+    if (!validation.success) {
+      if (dev) {
+        console.error('Validation errors:');
+        for (const error of validation.issues) {
+          console.error(`- ${error.message}`);
+        }
+      }
+      if (validation.issues && validation.issues.length > 0) {
+        return {
+          data: undefined,
+          error: validation.issues.map((issue) => issue.message).join(', ')
+        };
+      }
+      return {
+        data: undefined,
+        error: 'Error validating form submission, please check everything carefully.'
+      };
+    }
+
+    return { data: validation.output as TOutput, error: null };
+  } catch (error) {
+    if (dev && config.verbose_formaction_logging) {
+      console.error(`Error extracting form data: ${error}`);
+    }
+    return { data: undefined, error: `Error extracting form data: ${error}` };
+  }
+};
+```
+
+With this change, we now use the more specific `BaseSchema` type with its three type
+parameters, allowing TypeScript to automatically infer the output type from the schema
+itself. This means you can now call the function like this:
+
+```typescript
+const { data, error } = await extract_form_data(request, RegistrationSchema);
+```
+
+TypeScript will automatically know that `data` is of type `RegistrationForm` without you
+having to specify it explicitly. This creates a more concise API that's less prone to
+errors since you can't accidentally pass the wrong type parameter.
+
+The key differences are:
+
+1. We're now using `BaseSchema<TInput, TOutput, v.BaseIssue<unknown>>` instead of
+   `GenericSchema<T>`
+2. We've removed the need to pass the type as a generic parameter
+3. TypeScript can infer the return type automatically from the schema
+
+This approach leverages TypeScript's type inference capabilities to make your code more
+DRY while maintaining full type safety.
+
 ## In Conclusion
 
 This approach makes handling form data in SvelteKit both safer and more maintainable. The
@@ -252,6 +348,9 @@ needs you have.
 
 You could extend this further by adding custom validators, creating more complex nested
 schemas, or even building a library of common validation patterns for your project.
+
+With the recent update to improve type inference, the API is now even more ergonomic while
+maintaining all the safety benefits.
 
 Thanks for reading! Feel free to reach out on BlueSky if you build something interesting
 with this pattern.
