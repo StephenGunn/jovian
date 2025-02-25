@@ -112,46 +112,67 @@ Let's take a look at the action that handles the form data. I have removed most 
 business logic so we can concentrate on the important parts.
 
 ```typescript:register/+page.server.ts
-export const actions = {
-  register: async ({ request, cookies }) => {
-    // process the incoming form data, validate against valibot schema and extract values
-    const { data, error } = await extract_form_data(
-      request,
-      RegistrationSchema
-    );
-    // check for error or lack of data, checking for !data will make typescript happy
-    if (error || !data) {
-      console.error(error);
-      return fail(500, { error });
-    }
+export const extract_form_data = async <T>(
+  request: Request,
+  schema: v.GenericSchema<T>
+): Promise<{
+  data: T | undefined;
+  error: string | null;
+}> => {
+  try {
+    const formData = await request.formData();
+    const result: Record<string, any> = {};
 
-    try {
-      const user_data = {
-        first_name: data.first_name,
-        last_name: data.last_name,
-        email: data.email,
-        password: data.password,
-      };
-
-      const new_user = await create_user(user_data);
-
-      return {
-        success: true,
-        message: "User created successfully",
-        email: new_user.email
-      };
-    } catch (error) {
-      console.log("error", error);
-      if (user_exists(error)) {
-        return fail(409, { message: "User already exists with this email address." });
+    // Convert form data to an object with proper handling of multiple values
+    formData.forEach((value, key) => {
+      // Case 1: First time encountering this key
+      if (result[key] === undefined) {
+        result[key] = value;
       }
 
-      const message =
-        error.errors[0]?.message || "An unknown error occurred, please contact support.";
-      return fail(500, { message });
+      // Case 2: Key exists and is already an array, add new value
+      else if (Array.isArray(result[key])) {
+        result[key].push(value);
+      }
+
+      // Case 3: Key exists but isn't an array yet, convert to array with both values
+      else {
+        result[key] = [result[key], value];
+      }
+    });
+
+    const validation = v.safeParse(schema, result);
+
+    if (!validation.success) {
+      // Some extra dev logging that helps with debugging
+      if (dev) {
+        console.error("Validation errors:");
+        for (const error of validation.issues) {
+          console.error(`- ${error.message}`);
+        }
+      }
+
+      if (validation.issues && validation.issues.length > 0) {
+        return {
+          data: undefined,
+          error: validation.issues.map((issue) => issue.message).join(", ")
+        };
+      }
+
+      return {
+        data: undefined,
+        error: "Error validating form submission, please check everything carefully."
+      };
     }
+
+    return { data: validation.output, error: null };
+  } catch (error) {
+    if (dev && config.verbose_formaction_logging) {
+      console.error(`Error extracting form data: ${error}`);
+    }
+    return { data: undefined, error: `Error extracting form data: ${error}` };
   }
-} satisfies Actions;
+};
 ```
 
 If you've hand-rolled your own SvelteKit form actions, you'll notice that I am not doing
