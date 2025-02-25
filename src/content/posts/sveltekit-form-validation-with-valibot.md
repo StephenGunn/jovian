@@ -335,9 +335,6 @@ The key differences are:
 2. We've removed the need to pass the type as a generic parameter
 3. TypeScript can infer the return type automatically from the schema
 
-This approach leverages TypeScript's type inference capabilities to make your code more
-DRY while maintaining full type safety.
-
 ## In Conclusion
 
 This approach makes handling form data in SvelteKit both safer and more maintainable. The
