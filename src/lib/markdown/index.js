@@ -19,7 +19,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeHighlightCodeLines from "rehype-highlight-code-lines";
 import rehypeShiki from "@shikijs/rehype";
 import { transformerMetaHighlight } from "@shikijs/transformers";
-import { rehypeCopyCode, rehypeUnwrapImages } from "./plugins.js";
+import { rehypeCopyCode, rehypeUnwrapImages, rehypeDiffHighlight } from "./plugins.js";
 
 const images = `https://raw.githubusercontent.com/stephengunn/jovian/main/posts`;
 
@@ -31,15 +31,24 @@ const markdownProcessor = unified()
   .use(rehypeCodeTitles)
   .use(rehypeShiki, {
     theme: "catppuccin-macchiato",
-    transformers: [transformerMetaHighlight()]
+    transformers: [
+      transformerMetaHighlight({
+        // @ts-ignore
+        diffAdd: { color: "#a6da95" }, // Green for additions (from Catppuccin theme)
+        diffDelete: { color: "#ed8796" } // Red for deletions (from Catppuccin theme)
+      })
+    ]
   })
   .use(rehypeHighlight)
   .use(rehypeHighlightCodeLines, {
     showLineNumbers: true
   })
+  .use(rehypeDiffHighlight) // Our custom diff highlighter
   .use(rehypeUnwrapImages)
   .use(rehypeCopyCode)
   .use(toHtmlString, { allowDangerousHtml: true });
+
+// Rest of the code remains the same...
 
 /**
  * Returns post slug.
@@ -56,7 +65,6 @@ function getSlug(filename) {
  */
 function searchAndReplace(content, slug) {
   const image = /{% img src="(.*?)" alt="(.*?)" %}/g;
-
   return content.replace(image, (_, src, alt) => {
     return `
       <img
@@ -85,14 +93,12 @@ async function parseMarkdown(content, slug) {
  */
 function escapeHtml(content) {
   content = content.replace(/{/g, "&#123;").replace(/}/g, "&#125;");
-
   const componentRegex = /<[A-Z].*/g;
   const components = content.match(componentRegex);
   components?.forEach((component) => {
     const replaced = component.replace("&#123;", "{").replace("&#125;", "}");
     content = content.replace(component, replaced);
   });
-
   return content;
 }
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
   import { afterNavigate } from "$app/navigation";
+  import { onMount, tick } from "svelte";
 
   let width = $state(0);
   let left = $state(0);
@@ -9,10 +10,13 @@
   let show_header = $state(true);
   let mobile_menu_open = $state(false);
 
-  afterNavigate(() => {
+  afterNavigate(async () => {
     setTimeout(async () => {
       mobile_menu_open = false;
     }, 10);
+
+    await tick();
+    determine_route(page?.route?.id);
   });
 
   const determine_header_visibility = (scroll: number) => {
@@ -49,23 +53,30 @@
     left = offsetLeft;
   };
 
-  $effect(() => {
-    if (page.route.id === "/") {
+  const determine_route = (route: string | null) => {
+    if (!route) return;
+    if (route === "/") {
       if (!home) return;
       set_underline(home);
-    } else if (page.route.id?.includes("/posts")) {
+    } else if (route.includes("/posts")) {
       if (!posts) return;
       set_underline(posts);
-    } else if (page.route.id?.includes("/projects")) {
+    } else if (route.includes("/projects")) {
       if (!projects) return;
       set_underline(projects);
-    } else if (page.route.id?.includes("/about")) {
+    } else if (route.includes("/about")) {
       if (!about) return;
       set_underline(about);
-    } else if (page.route.id?.includes("/contact")) {
+    } else if (route.includes("/contact")) {
       if (!contact) return;
       set_underline(contact);
     }
+  };
+
+  $effect(() => {});
+
+  onMount(() => {
+    determine_route(page?.route?.id);
   });
 </script>
 

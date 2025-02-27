@@ -32,19 +32,19 @@
 }
 
 /* Layout and Spacing */
-.post > *:not(:last-child):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+.post>*:not(:last-child):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
   margin-bottom: 1.5rem;
   /* General spacing for all elements */
   padding-bottom: 1.5rem;
   /* Padding to ensure spacing consistency */
 }
 
-.post > h1:not(:last-child),
-.post > h2:not(:last-child),
-.post > h3:not(:last-child),
-.post > h4:not(:last-child),
-.post > h5:not(:last-child),
-.post > h6:not(:last-child) {
+.post>h1:not(:last-child),
+.post>h2:not(:last-child),
+.post>h3:not(:last-child),
+.post>h4:not(:last-child),
+.post>h5:not(:last-child),
+.post>h6:not(:last-child) {
   margin-bottom: 1rem;
 }
 
@@ -69,8 +69,8 @@
   padding-left: 1.5rem;
 }
 
-.post ul > li,
-.post ol > li {
+.post ul>li,
+.post ol>li {
   margin-bottom: 0.75rem;
   padding-left: 1rem;
 }
@@ -167,7 +167,8 @@
   font-family: "Courier New", Courier, monospace;
 }
 
-.post p code {
+.post p code,
+.post li code {
   background: rgba(255, 255, 255, 0.1);
   padding: 0.15rem 0.3rem 0.05rem 0.3rem;
   border-radius: 4px;
@@ -182,6 +183,10 @@
   flex-flow: column;
   font-size: 0.8rem;
   padding-left: 3rem;
+}
+
+.post pre:not(.shiki) code {
+  border: 1px solid var(--subtle-highlight);
 }
 
 .numbered-code-line {
@@ -274,16 +279,16 @@
     padding: 0.5rem;
   }
 
-  .post > *:not(:last-child) {
+  .post>*:not(:last-child) {
     margin-bottom: 1rem;
   }
 
-  .post > h1:not(:last-child),
-  .post > h2:not(:last-child),
-  .post > h3:not(:last-child),
-  .post > h4:not(:last-child),
-  .post > h5:not(:last-child),
-  .post > h6:not(:last-child) {
+  .post>h1:not(:last-child),
+  .post>h2:not(:last-child),
+  .post>h3:not(:last-child),
+  .post>h4:not(:last-child),
+  .post>h5:not(:last-child),
+  .post>h6:not(:last-child) {
     margin-bottom: 0.75rem;
   }
 
@@ -322,4 +327,54 @@
 .toc a:hover {
   color: var(--accent);
   text-decoration: none;
+}
+
+/* Diff highlighting with separate marker elements */
+
+/* Background colors for diff lines */
+.code-line.diff-add {
+  background-color: rgba(166, 218, 149, 0.15) !important;
+  /* Green background */
+}
+
+.code-line.diff-remove {
+  background-color: rgba(237, 135, 150, 0.15) !important;
+  /* Red background */
+}
+
+/* Reset the line number display to normal */
+.numbered-code-line.diff-add::before,
+.numbered-code-line.diff-remove::before {
+  content: attr(data-line-number);
+  /* Regular line number without the + or - */
+}
+
+/* Style for diff markers */
+.diff-marker {
+  position: absolute;
+  left: 0.5rem;
+  /* Position it at the beginning of the line */
+  font-weight: bold;
+  z-index: 10;
+}
+
+.diff-add-marker {
+  color: #a6da95;
+  /* Green from Catppuccin theme */
+}
+
+.diff-remove-marker {
+  color: #ed8796;
+  /* Red from Catppuccin theme */
+}
+
+/* Match the line number area background color to the diff color */
+.numbered-code-line.diff-add::before {
+  background-color: rgba(166, 218, 149, 0.1);
+  /* Subtle green for line number area */
+}
+
+.numbered-code-line.diff-remove::before {
+  background-color: rgba(237, 135, 150, 0.1);
+  /* Subtle red for line number area */
 }
