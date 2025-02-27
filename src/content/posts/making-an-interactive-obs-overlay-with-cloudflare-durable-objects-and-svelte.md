@@ -63,12 +63,8 @@ stream/channel), with each getting its own isolated instance that automatically 
 with demand. No servers to maintain, no infrastructure headaches - just push your code and
 Cloudflare handles the rest.
 
-> note: I'm using Websocket Hibernation on this project, which should mean that this
-> project will cost next to nothing to host.
-
 The real magic happens in how we'll connect the Stream Deck to our overlay through HTTP
-endpoints that instantly broadcast changes via WebSockets - giving you a professional
-streaming setup with minimal infrastructure.
+endpoints that instantly broadcast changes via WebSockets.
 
 ## Demo & Code
 
@@ -85,7 +81,8 @@ few key features worth highlighting:
   etc.)
 - **HTTP endpoints** for Stream Deck integration via simple POST requests
 - **Isolated rooms** so you can have multiple overlays without interference
-- **WebSocket hibernation** to keep Cloudflare costs minimal
+- **[ Websocket Hibernation ](https://developers.cloudflare.com/durable-objects/best-practices/websockets/#websocket-hibernation-api)**
+  to keep Cloudflare costs minimal
 
 The repository includes detailed setup instructions, but we'll be covering everything
 step-by-step in this post. If you're curious about how it all fits together, stick around
