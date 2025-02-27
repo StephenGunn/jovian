@@ -879,8 +879,6 @@ These types are shared between the frontend and backend, allowing TypeScript to 
 keep everything consistent. The `Message` type defines all the possible data that can be
 sent over WebSockets or HTTP.
 
-I would suggest adding a brief introduction before showing the full component, such as:
-
 ## The Svelte App
 
 Now let's look at our main App component that handles both the UI display and WebSocket
