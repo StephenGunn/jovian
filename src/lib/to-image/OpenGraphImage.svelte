@@ -49,10 +49,10 @@
 </script>
 
 <div id="container">
-  <div class="title">
+  <div class="title" class:small={title.length >= 70}>
     {title}
   </div>
-  <div class="url">{rendered_link}</div>
+  <div class="url" class:small={rendered_link.length >= 70}>{rendered_link}</div>
   <div class="star-field">
     {#each stars as star}
       <Star size={star.size} left={star.left} top={star.top} />
@@ -202,6 +202,9 @@
     color: white;
     width: 660px;
   }
+  .title.small {
+    font-size: 50px;
+  }
   .url {
     display: flex;
     position: absolute;
@@ -210,6 +213,9 @@
     font-size: 25px;
     color: #eb5967;
     letter-spacing: 1px;
+  }
+  .url.small {
+    font-size: 20px;
   }
   .subtitle {
     display: flex;
