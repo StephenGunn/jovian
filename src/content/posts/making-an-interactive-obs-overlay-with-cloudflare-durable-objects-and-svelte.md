@@ -58,10 +58,13 @@ The tech stack we'll be using:
 
 The cool thing about this project is that it deploys entirely to Cloudflare Workers, with
 [Durable Objects](https://developers.cloudflare.com/durable-objects/) maintaining state
-for each stream. This means you can have as many separate overlays as you need (one per
+for each `room`. This means you can have as many separate overlays as you need (one per
 stream/channel), with each getting its own isolated instance that automatically scales
 with demand. No servers to maintain, no infrastructure headaches - just push your code and
 Cloudflare handles the rest.
+
+> note: I'm using Websocket Hibernation on this project, which should mean that this
+> project will cost next to nothing to host.
 
 The real magic happens in how we'll connect the Stream Deck to our overlay through HTTP
 endpoints that instantly broadcast changes via WebSockets - giving you a professional
