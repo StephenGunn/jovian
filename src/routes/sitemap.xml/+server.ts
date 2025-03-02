@@ -8,7 +8,7 @@ export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
   const site = "https://jovianmoon.io";
 
   const posts: Post[] = await (await fetch("/api/posts")).json();
-  const projects: Project[] = await (await fetch("/api/posts")).json();
+  const projects: Project[] = await (await fetch("/api/projects")).json();
 
   if (!posts || !projects) {
     error(500, "Failed to generate the sitemap.");
@@ -41,23 +41,23 @@ export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
     <lastmod>2024-11-01</lastmod>
   </url>
   ${posts
-    .map(
-      (post) => `
+      .map(
+        (post) => `
   <url>
     <loc>${site}/posts/${post.slug}</loc>
     <lastmod>${format_date(post.updated ?? post.date)}</lastmod>
   </url>`
-    )
-    .join("")}
+      )
+      .join("")}
   ${projects
-    .map(
-      (project) => `
+      .map(
+        (project) => `
   <url>
     <loc>${site}/projects/${project.slug}</loc>
     <lastmod>${format_date(project.updated ?? project.date)}</lastmod>
   </url>`
-    )
-    .join("")}
+      )
+      .join("")}
 </urlset>
 `;
   setHeaders({ "Content-Type": "application/xml" });
