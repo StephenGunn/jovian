@@ -1,5 +1,5 @@
 ---
-title: Svelte-Check.nvim
+title: nvim-svelte-check
 description:
   A Neovim plugin that integrates Svelte-Check into the editor and populates the quickfix
   list with it's results.
@@ -11,7 +11,7 @@ categories:
   - open source
 published: true
 project_status: "Live"
-repo_url: "https://github.com/StephenGunn/sveltecheck.nvim"
+repo_url: "https://github.com/nvim-svelte/nvim-svelte-check"
 ---
 
 <script lang="ts">
@@ -19,7 +19,7 @@ repo_url: "https://github.com/StephenGunn/sveltecheck.nvim"
     import ProjectLinks from '$lib/layout/ProjectLinks.svelte';
 </script>
 
-<ProjectLinks repo="https://github.com/StephenGunn/sveltecheck.nvim" />
+<ProjectLinks repo="https://github.com/nvim-svelte/nvim-svelte-check" />
 
 ## Svelte-Check.nvim
 
@@ -29,11 +29,16 @@ and populates the quickfix list with the results.
 I use this tool to quickly check my SvelteKit projects for errors and warnings. I use it
 many times a day when developing SvelteKit projects.
 
-<MediaPlayer video="https://github.com/StephenGunn/sveltecheck.nvim/assets/7240548/99c3549e-2c54-4c1a-ab70-16d463e3e4ad" />
+<MediaPlayer video="https://github.com/user-attachments/assets/570747cf-7016-4e35-a85e-00fa050a63a7" />
 
 Inspired by [dmmulroy/tsc.nvim](https://github.com/dmmulroy/tsc.nvim)
 
 ## How to use
 
-There are instructions in the [ README ](https://github.com/StephenGunn/sveltecheck.nvim)
+There are instructions in the [ README ](https://github.com/nvim-svelte/nvim-svelte-check)
 on the GitHub repository. Please let me know if you if you have any issues.
+
+## nvim-svelte
+
+This plugin moved from my personal github to a community github org called `nvim-svelte`
+that [@JoshNuss](https://github.com/joshnuss) and I started.
