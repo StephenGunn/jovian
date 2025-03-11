@@ -2,6 +2,8 @@
   import "$lib/css/blog.css";
   import Seo from "sk-seo";
   import { dev } from "$app/environment";
+  import RocketShipBlog from "$lib/components/blog/RocketShipBlog.svelte";
+  import AlienShipBlog from "$lib/components/blog/AlienShipBlog.svelte";
 
   const open_graph_image = encodeURI(
     `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=About Me&link=about`
@@ -13,6 +15,15 @@
   description="Hi, I'm Stephen Gunn and I help make the internet."
   imageURL={open_graph_image}
 />
+
+<div class="art">
+  <div class="rocket">
+    <RocketShipBlog />
+  </div>
+  <div class="alien">
+    <AlienShipBlog />
+  </div>
+</div>
 
 <article>
   <div class="column">
@@ -215,3 +226,36 @@
     </div>
   </div>
 </article>
+
+<style>
+  .art {
+    display: none;
+  }
+  @media (min-width: 1800px) {
+    article {
+      position: relative;
+      z-index: 10;
+    }
+    .art {
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      display: block;
+      top: 0;
+      left: 0;
+    }
+    .rocket {
+      width: calc((100vw - 800px) / 2 - 8rem);
+      position: absolute;
+      top: 4rem;
+      left: 4rem;
+    }
+    .alien {
+      width: calc((100vw - 800px) / 2 - 8rem);
+      position: absolute;
+      bottom: 4rem;
+      right: 4rem;
+    }
+  }
+</style>
