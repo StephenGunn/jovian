@@ -49,110 +49,73 @@ export function rehypeCopyCode() {
   };
 }
 
+// Modified rehypeDiffHighlight that uses explicit markers
 export function rehypeDiffHighlight() {
   return (tree) => {
-    // Find code blocks
-    visit(tree, (node) => {
+    visit(tree, "element", (node) => {
+      // Only process pre > code elements
       if (
-        node.tagName === "pre" &&
-        node.children.length === 1 &&
-        node.children[0].tagName === "code"
+        node.tagName !== "pre" ||
+        !node.children.length ||
+        node.children[0].tagName !== "code"
       ) {
-        const codeNode = node.children[0];
+        return;
+      }
 
-        // Get the language to check if it's a diff or explicitly marked
-        let isDiffCodeBlock = false;
-        if (codeNode.properties && codeNode.properties.className) {
-          const classNames = codeNode.properties.className;
-          isDiffCodeBlock = classNames.some(
-            (className) =>
-              typeof className === "string" &&
-              (className === "language-diff" || className.includes("diff"))
-          );
-        }
+      const codeNode = node.children[0];
 
-        // If not a diff block, we'll be more strict about marking lines
-        const strictDiffMode = !isDiffCodeBlock;
+      // Find elements with code-line class
+      const codeLines = codeNode.children.filter(
+        (child) =>
+          child.type === "element" &&
+          child.properties &&
+          child.properties.className &&
+          child.properties.className.includes("code-line")
+      );
 
-        // Process line by line if we have line elements
-        if (
-          codeNode.children &&
-          codeNode.children.some(
-            (child) =>
-              child.type === "element" &&
-              child.properties?.className?.includes("code-line")
-          )
-        ) {
-          // Process each line
-          codeNode.children.forEach((lineNode) => {
-            if (
-              lineNode.type === "element" &&
-              lineNode.properties?.className?.includes("code-line")
-            ) {
-              // Collect all text from the line
-              let fullLineText = "";
-              visit(lineNode, "text", (textNode) => {
-                fullLineText += textNode.value;
-              });
+      if (!codeLines.length) return;
 
-              // Trim whitespace but keep original structure
-              const trimmedLine = fullLineText.trimStart();
+      // Process each line looking for explicit markers
+      for (const lineNode of codeLines) {
+        // Get the text content of the line
+        let lineText = "";
+        visit(lineNode, "text", (textNode) => {
+          lineText += textNode.value;
+        });
 
-              // Check if this is a diff line (starts with + or - and IS the first non-whitespace character)
-              const isDiffLine =
-                (trimmedLine.startsWith("+") || trimmedLine.startsWith("-")) &&
-                // In strict mode, ensure it's ONLY a standalone + or - at the start
-                (!strictDiffMode || /^[+-][^+-]/.test(trimmedLine));
+        // Look for explicit diff markers at the end of lines
+        const hasAddMarker = lineText.trim().endsWith("// [+]");
+        const hasRemoveMarker = lineText.trim().endsWith("// [-]");
 
-              if (isDiffLine) {
-                // First, add the appropriate diff class
-                const diffMarker = trimmedLine.charAt(0);
-                if (diffMarker === "+") {
-                  lineNode.properties.className = [
-                    ...(lineNode.properties.className || []),
-                    "diff-add"
-                  ];
-                } else {
-                  lineNode.properties.className = [
-                    ...(lineNode.properties.className || []),
-                    "diff-remove"
-                  ];
-                }
+        if (hasAddMarker) {
+          // Add the diff-add class
+          lineNode.properties.className = [
+            ...(lineNode.properties.className || []),
+            "diff-add"
+          ];
 
-                // Find and process the first text node to remove the marker
-                let processedFirstNode = false;
-                visit(lineNode, "text", (textNode) => {
-                  if (processedFirstNode) return SKIP;
-                  if (textNode.value.trim()) {
-                    const index = textNode.value.indexOf(diffMarker);
-                    if (index !== -1) {
-                      // Insert marker element before removing it from text
-                      lineNode.children.unshift({
-                        type: "element",
-                        tagName: "span",
-                        properties: {
-                          className: [
-                            "diff-marker",
-                            diffMarker === "+" ? "diff-add-marker" : "diff-remove-marker"
-                          ]
-                        },
-                        children: [{ type: "text", value: diffMarker }]
-                      });
+          // Remove the marker from all text nodes
+          removeMarkerFromLine(lineNode, "// [+]");
+        } else if (hasRemoveMarker) {
+          // Add the diff-remove class
+          lineNode.properties.className = [
+            ...(lineNode.properties.className || []),
+            "diff-remove"
+          ];
 
-                      // Remove the marker from the text
-                      textNode.value =
-                        textNode.value.slice(0, index) + textNode.value.slice(index + 1);
-
-                      processedFirstNode = true;
-                      return SKIP;
-                    }
-                  }
-                });
-              }
-            }
-          });
+          // Remove the marker from all text nodes
+          removeMarkerFromLine(lineNode, "// [-]");
         }
       }
     });
   };
+}
+
+// Helper function to remove markers from text nodes
+function removeMarkerFromLine(lineNode, marker) {
+  visit(lineNode, "text", (textNode) => {
+    if (textNode.value.includes(marker)) {
+      textNode.value = textNode.value.replace(marker, "");
+    }
+  });
 }

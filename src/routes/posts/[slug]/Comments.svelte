@@ -72,8 +72,13 @@
     return data.thread;
   };
 
+  // Type guard function to ensure reply has post property
+  function isThreadViewPostWithPost(obj: unknown): obj is ThreadViewPost {
+    return AppBskyFeedDefs.isThreadViewPost(obj) && "post" in obj;
+  }
+
   const sortByLikes = (a: unknown, b: unknown) => {
-    if (!AppBskyFeedDefs.isThreadViewPost(a) || !AppBskyFeedDefs.isThreadViewPost(b)) {
+    if (!isThreadViewPostWithPost(a) || !isThreadViewPostWithPost(b)) {
       return 0;
     }
     return (b.post.likeCount ?? 0) - (a.post.likeCount ?? 0);
@@ -108,7 +113,7 @@
 
       <div class="comment-list">
         {#each sortedReplies.slice(0, visibleCount) as reply}
-          {#if AppBskyFeedDefs.isThreadViewPost(reply) && AppBskyFeedPost.isRecord(reply.post.record)}
+          {#if isThreadViewPostWithPost(reply) && AppBskyFeedPost.isRecord(reply.post.record)}
             {@render renderComment(reply)}
           {/if}
         {/each}
@@ -126,7 +131,7 @@
   {/await}
 {/if}
 
-{#snippet renderComment(comment: AppBskyFeedDefs.ThreadViewPost)}
+{#snippet renderComment(comment: ThreadViewPost)}
   {@const author = comment.post.author}
   <div class="comment-wrapper">
     <div class="comment-container">
@@ -212,7 +217,7 @@
       {@const sortedReplies = comment.replies.sort(sortByLikes)}
       <div class="nested-replies">
         {#each sortedReplies as reply}
-          {#if AppBskyFeedDefs.isThreadViewPost(reply) && AppBskyFeedPost.isRecord(reply.post.record)}
+          {#if isThreadViewPostWithPost(reply) && AppBskyFeedPost.isRecord(reply.post.record)}
             {@render renderComment(reply)}
           {/if}
         {/each}

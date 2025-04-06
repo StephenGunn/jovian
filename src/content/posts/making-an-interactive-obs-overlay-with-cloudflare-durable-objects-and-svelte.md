@@ -244,18 +244,18 @@ Let's modify our `wrangler.json` to use `StreamChapters` as our Durable Object c
   "durable_objects": {
     "bindings": [
       {
--       "name": "MyServer",
-+       "name": "StreamChapters",
--       "class_name": "MyServer",
-+       "class_name": "StreamChapters"
+-       "name": "MyServer",// [-]
++       "name": "StreamChapters",// [+]
+-       "class_name": "MyServer",// [-]
++       "class_name": "StreamChapters"// [+]
       }
     ]
   },
   "migrations": [
     {
       "tag": "v1",
--     "new_classes": ["MyServer"],
-+     "new_classes": ["StreamChapters"]
+-     "new_classes": ["MyServer"],// [-]
++     "new_classes": ["StreamChapters"]// [+]
     }
   ],
   "observability": {
@@ -288,8 +288,8 @@ type Env = {
 +  StreamChapters: DurableObjectNamespace<StreamChapters>;
 };
 
--export class MyServer extends Server<Env> {
-+export class StreamChapters extends Server<Env> {
+-export class MyServer extends Server<Env> {// [-]
++export class StreamChapters extends Server<Env> {// [+]
   onMessage(conn: Connection, message: string) {
     console.log("message from client:", message);
 
@@ -339,8 +339,8 @@ basics working, we will have to change one line in our connection code.
   const ws = new PartySocket({
     host: window.location.host,
     room: "room1",
--    party: "my-server"
-+    party: "stream-chapters"
+-    party: "my-server"// [-]
++    party: "stream-chapters"// [+]
   });
 
   let message = $state();
@@ -484,40 +484,40 @@ and `<style>` tags to make way for our custom built application. we won't need.
 </script>
 
 <main>
--  <div>
--    <a href="https://vite.dev" target="_blank" rel="noreferrer">
--      <img src="/vite.svg" class="logo" alt="Vite Logo" />
--    </a>
--    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
--      <img src="/svelte.svg" class="logo svelte" alt="Svelte Logo" />
--    </a>
--    <a href="https://partykit.io" target="_blank" rel="noreferrer">
--      <img src="/partykit.png" class="logo" alt="PartyKit Logo" />
--    </a>
--  </div>
--  <h1>Vite + Svelte + PartyKit</h1>
--  <p class="read-the-docs">Click on the PartyKit, Vite and Svelte logos to learn more</p>
--  <div class="card">
--    {message}
--  </div>
+-  <div>// [-]
+-    <a href="https://vite.dev" target="_blank" rel="noreferrer">// [-]
+-      <img src="/vite.svg" class="logo" alt="Vite Logo" />// [-]
+-    </a>// [-]
+-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">// [-]
+-      <img src="/svelte.svg" class="logo svelte" alt="Svelte Logo" />// [-]
+-    </a>// [-]
+-    <a href="https://partykit.io" target="_blank" rel="noreferrer">// [-]
+-      <img src="/partykit.png" class="logo" alt="PartyKit Logo" />// [-]
+-    </a>// [-]
+-  </div>// [-]
+-  <h1>Vite + Svelte + PartyKit</h1>// [-]
+-  <p class="read-the-docs">Click on the PartyKit, Vite and Svelte logos to learn more</p>// [-]
+-  <div class="card">// [-]
+-    {message}// [-]
+-  </div>// [-]
 </main>
 
 <style>
--  .logo {
--    height: 6em;
--    padding: 1.5em;
--    will-change: filter;
--    transition: filter 300ms;
--  }
--  .logo:hover {
--    filter: drop-shadow(0 0 2em #646cffaa);
--  }
--  .logo.svelte:hover {
--    filter: drop-shadow(0 0 2em #ff3e00aa);
--  }
--  .read-the-docs {
--    color: #888;
--  }
+-  .logo {// [-]
+-    height: 6em;// [-]
+-    padding: 1.5em;// [-]
+-    will-change: filter;// [-]
+-    transition: filter 300ms;// [-]
+-  }// [-]
+-  .logo:hover {// [-]
+-    filter: drop-shadow(0 0 2em #646cffaa);// [-]
+-  }// [-]
+-  .logo.svelte:hover {// [-]
+-    filter: drop-shadow(0 0 2em #ff3e00aa);// [-]
+-  }// [-]
+-  .read-the-docs {// [-]
+-    color: #888;// [-]
+-  }// [-]
 </style>
 ```
 
@@ -1444,12 +1444,12 @@ We added a custom deployment target for the worker.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "stream-chapters",
   "main": "./worker/server.ts",
-+  "routes": [
-+    {
-+      "pattern": "chapters.jovianmoon.io",
-+      "custom_domain": true
-+    }
-+  ],
++  "routes": [// [+]
++    {// [+]
++      "pattern": "chapters.jovianmoon.io",// [+]
++      "custom_domain": true// [+]
++    }// [+]
++  ],// [+]
   "compatibility_date": "2025-02-04",
   "assets": {
     "directory": "./public"
