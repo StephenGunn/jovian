@@ -15,6 +15,18 @@
   scroll-margin-top: 120px;
 }
 
+@media (max-width: 800px) {
+
+  .post h1,
+  .post h2,
+  .post h3,
+  .post h4,
+  .post h5,
+  .post h6 {
+    scroll-margin-top: 20px;
+  }
+}
+
 .post h2 {
   border-bottom: 3px dashed var(--bg-accent-1);
 }

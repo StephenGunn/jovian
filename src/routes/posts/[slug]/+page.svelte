@@ -393,5 +393,8 @@
     .back_to_posts svg {
       color: var(--primary);
     }
+    .extra {
+      padding-left: 0;
+    }
   }
 </style>
