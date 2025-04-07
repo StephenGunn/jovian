@@ -23,6 +23,7 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://challenges.cloudflare.com",
+          "https://vercel.live", // Added Vercel's domain
           "unsafe-inline" // needed for Turnstile
         ],
         "frame-src": [
@@ -32,6 +33,10 @@ const config = {
         "style-src": [
           "self",
           "unsafe-inline" // needed for Turnstile styles
+        ],
+        "connect-src": [
+          "self",
+          "https://public.api.bsky.app" // Allow Bluesky API requests
         ]
       },
       reportOnly: {
@@ -39,10 +44,15 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://challenges.cloudflare.com",
+          "https://vercel.live", // Added Vercel's domain
           "unsafe-inline"
         ],
         "frame-src": ["self", "https://challenges.cloudflare.com"],
         "style-src": ["self", "unsafe-inline"],
+        "connect-src": [
+          "self",
+          "https://public.api.bsky.app" // Allow Bluesky API requests
+        ],
         "report-uri": ["/"]
       }
     }
