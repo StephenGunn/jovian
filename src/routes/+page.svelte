@@ -37,7 +37,6 @@
 
       switch (message.type) {
         case "init":
-          console.log("init", message);
           aliens = message.aliens.map((alien: AlienData) => ({
             id: alien.id,
             country: alien.country
@@ -45,7 +44,6 @@
           break;
 
         case "new_alien":
-          console.log("new alien joined:", message);
           aliens = [
             ...aliens,
             {
@@ -56,7 +54,6 @@
           break;
 
         case "waypoint":
-          console.log("waypoint", message);
           const x = message.x * window.innerWidth;
           const y = message.y * window.innerHeight;
           if (alien_components[message.alienId]) {

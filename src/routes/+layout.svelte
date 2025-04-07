@@ -6,14 +6,16 @@
 
   import Header from "$lib/layout/Header.svelte";
   import Footer from "$lib/layout/Footer.svelte";
+  import { onMount } from "svelte";
+  import { initUmami } from "$lib/stats";
+
+  onMount(() => {
+    initUmami();
+  });
 </script>
 
 <svelte:head>
-  <script
-    defer
-    src="https://stats.craftroulette.live/script.js"
-    data-website-id="e34c081c-f7d3-41ee-9ebf-30baade2e00a"
-  ></script>
+  <link rel="preconnect" href="https://stats.craftroulette.live" />
 </svelte:head>
 
 <div class="app">
