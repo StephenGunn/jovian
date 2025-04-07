@@ -19,7 +19,12 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeHighlightCodeLines from "rehype-highlight-code-lines";
 import rehypeShiki from "@shikijs/rehype";
 import { transformerMetaHighlight } from "@shikijs/transformers";
-import { rehypeCopyCode, rehypeUnwrapImages, rehypeDiffHighlight } from "./plugins.js";
+import {
+  rehypeCopyCode,
+  rehypeUnwrapImages,
+  rehypeDiffHighlight,
+  rehypeTableContainer
+} from "./plugins.js";
 
 const images = `https://raw.githubusercontent.com/stephengunn/jovian/main/posts`;
 
@@ -44,6 +49,7 @@ const markdownProcessor = unified()
     showLineNumbers: true
   })
   .use(rehypeDiffHighlight) // Our custom diff highlighter
+  .use(rehypeTableContainer) // Add table container wrapper
   .use(rehypeUnwrapImages)
   .use(rehypeCopyCode)
   .use(toHtmlString, { allowDangerousHtml: true });
