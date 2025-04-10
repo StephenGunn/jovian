@@ -73,7 +73,7 @@ is just ~5KB (compared to Google Analytics at 45KB+), non-blocking, and doesn't 
 cookies. My Core Web Vitals scores remained virtually untouched after adding Umami, which
 was a pleasant surprise after years of fighting with bloated analytics scripts.
 
-## Hardware Requirements
+## Hardware
 
 Here's what I'm using:
 
@@ -84,10 +84,9 @@ Here's what I'm using:
 - Symmetrical 1Gbps fiber internet connection
 
 The total power consumption costs me around $7 per year. In my case, I had a Raspberry Pi
-gathering dust from a previously failed project (we don't talk about my automated plant
-watering system disaster), so this was an excellent way to put it back to work. If you
-need to purchase one, you'll still break even compared to commercial options within a few
-months.
+gathering dust from a previously failed project (we don't talk about that), so this was an
+excellent way to put it back to work. If you need to purchase one, you'll still break even
+compared to commercial options within a few months.
 
 ## Setting Up Umami on the Raspberry Pi
 
