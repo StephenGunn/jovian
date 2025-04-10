@@ -240,11 +240,8 @@ cloud database services with self-hosted applications – you get the best of bo
 ## Performance Considerations
 
 My Raspberry Pi 4B with 8GB RAM handles the workload comfortably, even with peaks of
-around 50-60K events per day. The CPU usage rarely exceeds 20%, and memory usage hovers
-around 1.5GB most of the time.
-
-If you're running multiple services on your Pi, you may want to adjust the resource limits
-in your Docker Compose file:
+around 50-60K events per day. If you're running multiple services on your Pi, you may want
+to adjust the resource limits in your Docker Compose file:
 
 ```yaml
 services:
