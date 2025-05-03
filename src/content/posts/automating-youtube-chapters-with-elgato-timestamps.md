@@ -10,6 +10,7 @@ categories:
   - obs
   - live streaming
 published: True
+bluesky_thread_id: 3lobtci3ezk2l
 ---
 
 <script lang="ts">
@@ -35,6 +36,10 @@ to write this blog post and share the tool so other creators can benefit from it
 ## The Converter
 
 <YouTubeChapterConverter />
+
+If you're curious how this works,
+[click here](https://github.com/StephenGunn/jovian/blob/main/src/lib/components/blog/YouTubeChapterConverter.svelte)
+to view the source code.
 
 ## Setup Guide & How To Use
 
