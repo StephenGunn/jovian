@@ -12,16 +12,69 @@ export function rehypeUnwrapImages() {
       })
     );
   }
+
   return (tree) => {
     visit(tree, containsImage, (node, index, parent) => {
       if (node.type === "element") {
-        parent.children.splice(index, 1, ...node.children);
+        // Extract all images from paragraph
+        const newNodes = node.children.map((child) => {
+          if (child.type === "element" && child.tagName === "img") {
+            // Check for width and height in alt text - format: ![alt|width=500,height=300](src "title")
+            const altText = child.properties.alt || "";
+            let imgWidth = null;
+            let imgHeight = null;
+
+            // Parse dimensions from alt text if they exist
+            if (altText.includes("|")) {
+              const [newAlt, dimensions] = altText.split("|", 2);
+              child.properties.alt = newAlt.trim(); // Update alt text without dimensions
+
+              // Extract width and height
+              const widthMatch = dimensions.match(/width=(\d+)/);
+              const heightMatch = dimensions.match(/height=(\d+)/);
+
+              if (widthMatch) imgWidth = widthMatch[1];
+              if (heightMatch) imgHeight = heightMatch[1];
+            }
+
+            // Add width and height attributes if specified
+            if (imgWidth) child.properties.width = imgWidth;
+            if (imgHeight) child.properties.height = imgHeight;
+
+            // Always add loading="lazy" for better performance
+            child.properties.loading = "lazy";
+
+            // Create figure container for each image
+            return {
+              type: "element",
+              tagName: "figure",
+              properties: { className: ["image-container"] },
+              children: [
+                // Keep the updated image with all properties
+                child,
+                // Add figcaption if title exists
+                ...(child.properties.title
+                  ? [
+                    {
+                      type: "element",
+                      tagName: "figcaption",
+                      children: [{ type: "text", value: child.properties.title }]
+                    }
+                  ]
+                  : [])
+              ]
+            };
+          }
+          return child;
+        });
+
+        // Replace paragraph with new elements
+        parent.children.splice(index, 1, ...newNodes);
         return [SKIP, index];
       }
     });
   };
 }
-
 export function rehypeCopyCode() {
   function codeTitle(node) {
     if (node.tagName === "div") {
