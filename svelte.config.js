@@ -36,7 +36,10 @@ const config = {
         ],
         "connect-src": [
           "self",
-          "https://public.api.bsky.app" // Allow Bluesky API requests
+          "https://public.api.bsky.app", // Allow Bluesky API requests
+          "https://stats.craftroulette.live",
+          "wss://multiplayer.jovianmoon.io",
+          "https://vercel.live"
         ]
       },
       reportOnly: {
