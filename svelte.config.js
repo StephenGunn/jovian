@@ -28,7 +28,8 @@ const config = {
         ],
         "frame-src": [
           "self",
-          "https://challenges.cloudflare.com" // needed for Turnstile iframe
+          "https://challenges.cloudflare.com", // needed for Turnstile iframe
+          "https://vercel.live"
         ],
         "style-src": [
           "self",
