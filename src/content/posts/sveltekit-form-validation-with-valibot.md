@@ -112,67 +112,85 @@ Let's take a look at the action that handles the form data. I have removed most 
 business logic so we can concentrate on the important parts.
 
 ```typescript:register/+page.server.ts
-export const extract_form_data = async <T>(
-  request: Request,
-  schema: v.GenericSchema<T>
-): Promise<{
-  data: T | undefined;
-  error: string | null;
-}> => {
-  try {
-    const formData = await request.formData();
-    const result: Record<string, any> = {};
+import type { Actions } from './$types';
+import { RegistrationSchema } from '$lib/types/data/forms';
+import { dev } from '$app/environment';
+import { config } from '$lib/config/general';
+import { fail, redirect } from '@sveltejs/kit';
+import { passwordStrength } from 'check-password-strength';
+import { password_options } from '$lib/config/password_verification';
+import { extract_form_data } from '$lib/utils/extract_form_data';
 
-    // Convert form data to an object with proper handling of multiple values
-    formData.forEach((value, key) => {
-      // Case 1: First time encountering this key
-      if (result[key] === undefined) {
-        result[key] = value;
-      }
+export const load = (async ({ url, locals }) => {
+  // if the user is logged in, log them out and bring them back here
+  const { approved } = auth_check({
+    locals,
+    url,
+    required_roles: ['admin', 'authorized']
+  });
 
-      // Case 2: Key exists and is already an array, add new value
-      else if (Array.isArray(result[key])) {
-        result[key].push(value);
-      }
-
-      // Case 3: Key exists but isn't an array yet, convert to array with both values
-      else {
-        result[key] = [result[key], value];
-      }
-    });
-
-    const validation = v.safeParse(schema, result);
-
-    if (!validation.success) {
-      // Some extra dev logging that helps with debugging
-      if (dev) {
-        console.error("Validation errors:");
-        for (const error of validation.issues) {
-          console.error(`- ${error.message}`);
-        }
-      }
-
-      if (validation.issues && validation.issues.length > 0) {
-        return {
-          data: undefined,
-          error: validation.issues.map((issue) => issue.message).join(", ")
-        };
-      }
-
-      return {
-        data: undefined,
-        error: "Error validating form submission, please check everything carefully."
-      };
-    }
-
-    return { data: validation.output, error: null };
-  } catch (error) {
-    if (dev && config.verbose_formaction_logging) {
-      console.error(`Error extracting form data: ${error}`);
-    }
-    return { data: undefined, error: `Error extracting form data: ${error}` };
+  if (approved) {
+    return redirect(303, '/logout?return=/create-account');
   }
-};
+}) satisfies PageServerLoad;
+
+export const actions = {
+  register: async ({ request, cookies }) => {
+    // process the incoming form data, validate against valibot schema and extract values
+    const { data, error } = await extract_form_data(request, RegistrationSchema);
+    if (error || !data) {
+      console.error(error);
+      return fail(500, { error });
+    }
+
+    // redundant password check
+    if (data.password !== data.confirm_password) {
+      return fail(400, { message: 'Passwords do not match' });
+    }
+
+    const is_valid_password = passwordStrength(data.password, password_options).id === 3;
+
+    if (!is_valid_password) {
+      return fail(400, { message: 'Password is too weak' });
+    }
+
+    // generate a verification token
+    const verification_token = generate_verification_token(data.email);
+
+    try {
+      const user_data = {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        password: data.password,
+        role: 'unverified',
+        verification_token,
+        verification_url: VERIFICATION_URL
+      };
+
+      const new_user = await createUser(user_data);
+
+      // make sure we have a valid user object
+      if (new_user?.id && new_user?.email) {
+        set_email_verification_cookie(cookies, new_user.email);
+        return { success: true, message: 'User created successfully', email: new_user.email };
+      }
+
+      return fail(500, {
+        message: 'Unexpected error occurred during registration, please contact support.'
+      });
+    } catch (error) {
+        console.error('error', error);
+        return fail(500, { error }); // this is an approximation
+      } else {
+        // Handle any other types of errors
+        return fail(500, {
+          message: 'Unexpected error occurred during login, please contact support.'
+        });
+      }
+    }
+  }
+} satisfies Actions;
 ```
 
 If you've hand-rolled your own SvelteKit form actions, you'll notice that I am not doing
