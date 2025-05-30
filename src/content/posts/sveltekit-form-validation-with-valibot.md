@@ -148,14 +148,11 @@ export const actions = {
       return fail(400, { message: 'Passwords do not match' });
     }
 
+    // serverside password validation check
     const is_valid_password = passwordStrength(data.password, password_options).id === 3;
-
     if (!is_valid_password) {
       return fail(400, { message: 'Password is too weak' });
     }
-
-    // generate a verification token
-    const verification_token = generate_verification_token(data.email);
 
     try {
       const user_data = {
@@ -164,8 +161,6 @@ export const actions = {
         email: data.email,
         password: data.password,
         role: 'unverified',
-        verification_token,
-        verification_url: VERIFICATION_URL
       };
 
       const new_user = await createUser(user_data);
