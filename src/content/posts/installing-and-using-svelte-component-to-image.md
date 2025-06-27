@@ -118,6 +118,7 @@ will request an image from this endpoint, so we can place this file at
 
 ```typescript
 // SvelteKit Stuff
+import { dev } from "$app/environment";
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 
@@ -126,7 +127,6 @@ import { image_from_component, type RenderOptions } from "svelte-component-to-im
 
 // Import the .svelte component that will generate our image from
 import OpenGraphImage from "$lib/to-image/OpenGraphImage.svelte";
-import { dev } from "$app/environment";
 
 export const GET: RequestHandler = (async ({ url, setHeaders }) => {
   // We need to generate a props object to pass to our component
