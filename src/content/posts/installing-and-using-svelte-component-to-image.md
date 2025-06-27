@@ -253,7 +253,8 @@ For this, we're going to use a very basic Svelte 5 component. Notice the
 </style>
 ```
 
-Introduce a few important parts from the code like the \* { display: flex }
+> Note: `* { display: flex; }` is a handy trick to help satisfy Satori's unique CSS
+> requirements
 
 ## We need to setup our font(s).
 
