@@ -3,7 +3,7 @@ title: Installing and using Svelte Component To Image with Svelte 5
 description:
   Generate dynamic raster images on the fly for Open Graph, Email Marketing, or anything
   else.
-date: "2025-03-18"
+date: "2025-06-27"
 categories:
   - sveltekit
   - svelte 5
@@ -32,9 +32,9 @@ SvelteKit.
 ## Why am I writing this blog post?
 
 There are some tricks to getting this package to work in a live environment. If you're not
-used to dealing with errors that only show up when you try and publish this package to a
-platform like Vercel. I needed to update the documentation to include these tricks, so I
-thought I might as well get a blog post out of it.
+used to dealing with errors that only show up when you try and publish a project with this
+package to a platform like Vercel. I needed to update the documentation to include these
+tricks, so I thought I might as well get a blog post out of it.
 
 ## Quick Demo
 
@@ -49,7 +49,7 @@ Check it out in action. The `.png` image below is generated from
 
 If you're still not sold, here are some of the features:
 
-- Works on Svelte 4 (version 1) or Svelte 5 (version 2)
+- Works on Svelte 4 (version 0._) or Svelte 5 (version 1._)
 - Renders a normal svelte component as a png
 - Component props are supported for dynamic image generation
 - Use basic CSS like flexbox and absolute positioning
@@ -65,6 +65,9 @@ but I haven't worked it into the package yet.
 
 Also, you're restricted to a subset of CSS that is specific to Satori. You can
 ([see the valid CSS here.](https://github.com/vercel/satori#css))
+
+ReSVG also ships with platform specific C++ binaries that need some special configuration
+to deploy correctly to serverless platforms.
 
 Lastly, there are some tricks to getting it to work. I am going to walk through the steps
 of setting it up and getting a basic Open Graph social share image working.
@@ -291,3 +294,124 @@ You should notice the URL params that were called in the server endpoint
 You can pass all sorts of data using URL params to your component. You could do something
 like pass an ID of a document to the server endpoint, load the data via a DB call, and
 generate the image using that.
+
+I use this package to do all sorts of stuff like generating images for emails, event
+tickets, open graph images, etc.
+
+## Deploying to Production: The Native Module Challenge
+
+Now comes the tricky part. If you try to deploy this to Vercel or Netlify right now,
+you'll encounter build errors. This is because `@resvg/resvg-js` contains
+platform-specific C++ binaries that serverless platforms can't bundle directly. When Vite
+and your adapter try to bundle your application for deployment, they attempt to include
+these native bindings, which causes the build to fail.
+
+The solution is to tell both Vite and your SvelteKit adapter to treat `@resvg/resvg-js` as
+an external dependency. This means it won't be bundled but will be loaded from
+`node_modules` at runtime.
+
+First, make sure `@resvg/resvg-js` is installed as a regular dependency (not a
+devDependency):
+
+```bash
+pnpm add @resvg/resvg-js
+```
+
+> Note: We do not use the -D flag on this install
+
+## Deploying to Vercel
+
+Update your vite.config.js:
+
+```typescript
+import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [sveltekit()],
+  build: {
+    rollupOptions: {
+      external: ["@resvg/resvg-js"]
+    }
+  }
+});
+```
+
+Update your svelte.config.js:
+
+```typescript
+import adapter from "@sveltejs/adapter-vercel";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+
+export default {
+  preprocess: vitePreprocess(),
+  kit: {
+    adapter: adapter({
+      external: ["@resvg/resvg-js"]
+    })
+  }
+};
+```
+
+## Deploying to Netlify
+
+The configuration is nearly identical, just with the Netlify adapter:
+
+```typescript
+import adapter from "@sveltejs/adapter-netlify";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+
+export default {
+  preprocess: vitePreprocess(),
+  kit: {
+    adapter: adapter({
+      external: ["@resvg/resvg-js"]
+    })
+  }
+};
+```
+
+The vite.config.js remains the same as the Vercel configuration.
+
+## Deploying to a Node.js Server
+
+If you're deploying to a traditional Node.js server (using @sveltejs/adapter-node), you
+don't need any special configuration! The native modules work out of the box in a regular
+Node.js environment.
+
+Platform Support Summary
+
+- ✅ Vercel - Works with configuration
+- ✅ Netlify - Works with configuration
+- ✅ Node.js servers - Works without configuration
+- ❌ Cloudflare Pages - Not supported (no native module support)
+
+## Common Gotchas
+
+1. Svelte 5 CSS Requirements: Always include <svelte:options css="injected" /> at the top
+   of your components
+2. Font Formats: Use WOFF, TTF, or OTF fonts. WOFF2 is not currently supported
+3. CSS Limitations: Only https://github.com/vercel/satori#css work
+4. Radial Gradients: There's a known bug with radial gradients in Svelte 5 production
+   builds - use linear gradients instead
+5. Caching: In development, disable caching to see your changes immediately
+
+## Wrapping Up
+
+With these configurations, you can now generate dynamic images on the fly in your
+SvelteKit applications deployed to serverless platforms. This opens up possibilities for:
+
+- Dynamic Open Graph images for social media sharing
+- Personalized email headers
+- Event tickets and certificates
+- Data visualizations
+- Marketing materials
+
+The key takeaway is that native dependencies require special handling on serverless
+platforms, but with the right configuration, it works seamlessly.
+
+## Minimal Deployable Reproduction
+
+I have created a minimal deployable reproduction that works on Vercel at
+[https://github.com/StephenGunn/skcti](https://github.com/StephenGunn/skcti). Please feel
+free to clone, edit, or destroy this repo if it helps.

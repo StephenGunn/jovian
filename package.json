@@ -14,32 +14,32 @@
     "deploy:party": "./deploy.sh"
   },
   "devDependencies": {
-    "@atproto/api": "^0.15.5",
+    "@atproto/api": "^0.15.12",
     "@jsdevtools/rehype-toc": "^3.0.2",
     "@sendgrid/mail": "^8.1.5",
-    "@shikijs/rehype": "^3.3.0",
-    "@shikijs/transformers": "^3.3.0",
-    "@sveltejs/adapter-vercel": "^5.7.1",
-    "@sveltejs/kit": "^2.20.8",
-    "@sveltejs/vite-plugin-svelte": "5.0.3",
+    "@shikijs/rehype": "^3.6.0",
+    "@shikijs/transformers": "^3.6.0",
+    "@sveltejs/adapter-vercel": "^5.7.2",
+    "@sveltejs/kit": "^2.21.2",
+    "@sveltejs/vite-plugin-svelte": "5.1.0",
     "@types/eslint": "^9.6.1",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "@typescript-eslint/parser": "^8.33.1",
     "dayjs": "^1.11.13",
-    "eslint-config-prettier": "^10.1.2",
-    "eslint-plugin-svelte": "^3.5.1",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-svelte": "^3.9.1",
     "gray-matter": "^4.0.3",
-    "mdsvex": "^0.12.5",
-    "partykit": "0.0.114",
-    "partysocket": "1.1.3",
+    "mdsvex": "^0.12.6",
+    "partykit": "0.0.115",
+    "partysocket": "1.1.4",
     "phosphor-svelte": "^3.0.1",
     "prettier": "^3.5.3",
-    "prettier-plugin-svelte": "^3.3.3",
+    "prettier-plugin-svelte": "^3.4.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-code-titles": "^1.2.0",
     "rehype-external-links": "^3.0.0",
     "rehype-highlight": "^7.0.2",
-    "rehype-highlight-code-lines": "^1.1.3",
+    "rehype-highlight-code-lines": "^1.1.4",
     "rehype-parse": "^9.0.1",
     "rehype-slug": "^6.0.0",
     "rehype-stringify": "^10.0.1",
@@ -47,27 +47,31 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "remark-smartypants": "^3.0.2",
-    "sk-seo": "^0.5.3",
-    "svelte": "5.28.2",
-    "svelte-check": "^4.1.7",
+    "sk-seo": "^0.5.4",
+    "svelte": "5.33.14",
+    "svelte-check": "^4.2.1",
     "svelte-component-to-image": "^1.0.16",
     "svelte-confetti": "^2.3.1",
     "svelte-turnstile": "^0.11.0",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0",
-    "vite": "^6.3.4",
-    "vitest": "^3.1.2"
+    "valibot": "^1.1.0",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.2"
   },
   "pnpm": {
     "overrides": {
       "vite": "^6.0.7"
-    }
+    },
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "type": "module",
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "satori": "^0.12.2",
+    "satori": "^0.14.0",
     "unified": "^11.0.5"
   }
 }
