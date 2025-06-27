@@ -394,9 +394,7 @@ Platform Support Summary
    of your components
 2. Font Formats: Use WOFF, TTF, or OTF fonts. WOFF2 is not currently supported
 3. CSS Limitations: Only https://github.com/vercel/satori#css work
-4. Radial Gradients: There's a known bug with radial gradients in Svelte 5 production
-   builds - use linear gradients instead
-5. Caching: In development, disable caching to see your changes immediately
+4. Caching: In development, disable caching to see your changes immediately
 
 ## Wrapping Up
 
