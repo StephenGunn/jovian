@@ -7,7 +7,7 @@ date: "2025-06-27"
 categories:
   - sveltekit
   - svelte 5
-published: false
+published: true
 ---
 
 <script lang="ts">
