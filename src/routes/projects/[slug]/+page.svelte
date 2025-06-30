@@ -7,15 +7,18 @@
   import ContactLink from "$lib/layout/ContactLink.svelte";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
   import { dev } from "$app/environment";
+  import { type Component } from "svelte";
 
   let { data } = $props();
-  let { content, meta, slug, stars } = data;
+  let { content, meta, slug, stars } = $derived(data);
 
   // insta component
-  const Project = content;
+  const Project = $derived(content as Component);
 
-  const open_graph_image = encodeURI(
-    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=projects/${slug}&section=Project`
+  const open_graph_image = $derived(
+    encodeURI(
+      `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=projects/${slug}&section=Project`
+    )
   );
 </script>
 

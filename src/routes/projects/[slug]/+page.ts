@@ -3,7 +3,6 @@ export const prerender = true;
 import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 import type { Project } from "$lib/types/schema";
-import type { SvelteComponent } from "svelte";
 import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
 
 export const load: PageLoad = async ({ params }) => {
@@ -12,7 +11,7 @@ export const load: PageLoad = async ({ params }) => {
 
     // can we pass a component from the server to the client?
     return {
-      content: post.default as typeof SvelteComponent,
+      content: post.default,
       meta: post.metadata as Project,
       slug: params.slug as string,
       stars: generate_starfield()

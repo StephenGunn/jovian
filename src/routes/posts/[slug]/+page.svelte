@@ -17,15 +17,17 @@
   import { PUBLIC_BLUESKY_DID } from "$env/static/public";
 
   let { data } = $props();
-  let { content, meta, slug, stars } = data;
+  let { content, meta, slug, stars } = $derived(data);
 
   $inspect(data);
 
   // insta component
-  const Post = content as Component;
+  const Post = $derived(content as Component);
 
-  const open_graph_image = encodeURI(
-    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=posts/${slug}&section=Blog Post`
+  const open_graph_image = $derived(
+    encodeURI(
+      `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/og?title=${meta.title}&link=posts/${slug}&section=Blog Post`
+    )
   );
 
   onDestroy(() => {
