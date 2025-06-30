@@ -9,6 +9,7 @@ categories:
   - svelte 5
   - open graph
 published: true
+bluesky_thread_id: "3lstkxttcwc2b"
 ---
 
 <script lang="ts">
