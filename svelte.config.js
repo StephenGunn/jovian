@@ -13,6 +13,7 @@ const config = {
     $styles: "src/lib/styles"
   },
   kit: {
+    adapter: adapter(),
     csp: {
       mode: "auto",
       directives: {
