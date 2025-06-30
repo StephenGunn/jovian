@@ -298,8 +298,8 @@ if (postId) {
 
 The package now works seamlessly on:
 
-- ✅ **Vercel** - No special configuration needed
-- ✅ **Netlify** - No special configuration needed
+- ✅ **Vercel** - Requires vite plugin
+- ✅ **Netlify** - Requires vite plugin
 - ✅ **Node.js servers** - Works out of the box
 - ❌ **Cloudflare Pages** - Not supported (no native module support)
 
@@ -359,6 +359,6 @@ Want to see it in action? Check out the
 [minimal reproduction repo](https://github.com/StephenGunn/skcti) for a complete working
 example you can deploy immediately.
 
-**Update**: This post replaces my previous article on installation workarounds. If you're
-looking for the old deployment configurations, they're no longer needed thanks to Paolo's
-improvements!
+> This post replaces my previous article on installation workarounds. If you're looking
+> for the old deployment configurations, they're no longer needed thanks to Paolo's
+> improvements!
