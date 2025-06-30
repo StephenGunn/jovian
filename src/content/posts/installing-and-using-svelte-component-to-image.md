@@ -1,5 +1,5 @@
 ---
-title: Installing and using Svelte Component To Image with Svelte 5
+title: Installing and using Svelte Component To Image with Svelte 5 (DEPRECATED)
 description:
   Generate dynamic raster images on the fly for Open Graph, Email Marketing, or anything
   else.
@@ -14,6 +14,11 @@ bluesky_thread_id: 3lsmdcgrhb22e
 <script lang="ts">
   import Demo from '$lib/components/projects/ImageDemo.svelte';
 </script>
+
+## DEPRECATED
+
+The information in this post is stale, please see:
+[ Generating Open Graph Images with SvelteKit Components ](/posts/generating-open-graph-images-with-sveltekit-components)
 
 ## What is Svelte Component To Image?
 

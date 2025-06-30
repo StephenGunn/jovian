@@ -7,15 +7,12 @@ const config = {
   extensions: [".svelte", ".md"],
   preprocess: [vitePreprocess(), markdown()],
   alias: {
-    $components: "./src/lib/components",
-    $posts: "./src/content/posts",
-    $stores: "./src/lib/stores",
-    $styles: "./src/lib/styles"
+    $components: "src/lib/components",
+    $posts: "src/content/posts",
+    $stores: "src/lib/stores",
+    $styles: "src/lib/styles"
   },
   kit: {
-    adapter: adapter({
-      external: ["@resvg/resvg-js"]
-    }),
     csp: {
       mode: "auto",
       directives: {
