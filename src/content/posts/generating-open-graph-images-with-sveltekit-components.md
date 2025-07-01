@@ -161,7 +161,7 @@ Svelte 5 is including `<svelte:options css="injected" />`:
 
 Create an API endpoint to serve your generated images:
 
-```typescript:src/routes/api/og.png/+server.ts
+```typescript:api/og.png/+server.ts
 import { dev } from "$app/environment";
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
@@ -226,7 +226,7 @@ Add the generated image to your page's meta tags:
 <script lang="ts">
   let data = $props()
 
-  let ogImageUrl = $derived(`/api/og?title=${encodeURIComponent(data.post.title)}&description=${encodeURIComponent(data.post.excerpt)}&author=${encodeURIComponent(data.post.author)}`));
+  let ogImageUrl = $derived(`/api/og.png?title=${encodeURIComponent(data.post.title)}&description=${encodeURIComponent(data.post.excerpt)}&author=${encodeURIComponent(data.post.author)}`));
 </script>
 
 <svelte:head>
@@ -282,7 +282,9 @@ list.
 
 ## Loading Data from Your Database
 
-```typescript:+server.ts
+```typescript:api/og.png/+server.ts
+
+...
 const postId = url.searchParams.get("postId");
 if (postId) {
   const post = await db.posts.findUnique({ where: { id: postId } });
@@ -293,6 +295,8 @@ if (postId) {
     publishDate: post.publishedAt
   };
 }
+...
+
 ```
 
 ## Deployment
