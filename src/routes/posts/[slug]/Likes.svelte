@@ -74,7 +74,6 @@
     padding-top: 0.5rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
     width: 100%;
     align-items: center;
   }
@@ -83,6 +82,9 @@
     display: block;
     width: 2rem;
     height: 2rem;
+    margin-bottom: 0.25rem;
+    outline: 5px solid var(--bg);
+    border-radius: 50%;
   }
 
   .like-link:hover {

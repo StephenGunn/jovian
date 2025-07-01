@@ -53,6 +53,7 @@ const config = {
         "style-src": ["self", "unsafe-inline"],
         "connect-src": [
           "self",
+          "https://stats.craftroulette.live",
           "https://public.api.bsky.app" // Allow Bluesky API requests
         ],
         "report-uri": ["/"]
