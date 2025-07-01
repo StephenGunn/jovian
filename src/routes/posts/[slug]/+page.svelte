@@ -9,7 +9,6 @@
   import CommentReport from "./CommentReport.svelte";
 
   import { dev } from "$app/environment";
-  import { page } from "$app/state";
   import { comment_data } from "./comment_store.svelte";
   import { onDestroy, type Component } from "svelte";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
@@ -19,6 +18,7 @@
 
   let { data } = $props();
   let { content, meta, slug, stars } = $derived(data);
+  let { bluesky_thread_id } = $derived(meta);
 
   $inspect(data);
 
@@ -126,8 +126,8 @@
           View all blog posts
         </a>
         {#if meta.bluesky_thread_id}
-          {#key page.url}
-            <CommentReport bluesky_thread_id={meta.bluesky_thread_id} />
+          {#key bluesky_thread_id}
+            <CommentReport {bluesky_thread_id} />
           {/key}
         {/if}
       </div>
