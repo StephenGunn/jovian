@@ -9,6 +9,7 @@
   import CommentReport from "./CommentReport.svelte";
 
   import { dev } from "$app/environment";
+  import { page } from "$app/state";
   import { comment_data } from "./comment_store.svelte";
   import { onDestroy, type Component } from "svelte";
   import { blog_update_no_time, blog_update_time_since } from "$lib/dates";
@@ -33,8 +34,6 @@
   onDestroy(() => {
     comment_data.updated = false;
   });
-
-  let logo_width = $state(0);
 </script>
 
 <Seo
@@ -102,7 +101,7 @@
   <div class="left">
     <div class="extra">
       <div class="sticker">
-        <div class="logo" bind:offsetWidth={logo_width}>JovianMoon.io</div>
+        <div class="logo">JovianMoon.io</div>
         <a href="./" class="back_to_posts hide_mobile">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
             ><rect width="256" height="256" fill="none" /><polygon
@@ -127,7 +126,9 @@
           View all blog posts
         </a>
         {#if meta.bluesky_thread_id}
-          <CommentReport bluesky_thread_id={meta.bluesky_thread_id} />
+          {#key page.url}
+            <CommentReport bluesky_thread_id={meta.bluesky_thread_id} />
+          {/key}
         {/if}
       </div>
     </div>
