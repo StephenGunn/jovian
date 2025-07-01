@@ -18,7 +18,6 @@
 
   let { data } = $props();
   let { content, meta, slug, stars } = $derived(data);
-  let { bluesky_thread_id } = $derived(meta);
 
   $inspect(data);
 
@@ -126,8 +125,8 @@
           View all blog posts
         </a>
         {#if meta.bluesky_thread_id}
-          {#key bluesky_thread_id}
-            <CommentReport {bluesky_thread_id} />
+          {#key meta.bluesky_thread_id}
+            <CommentReport bluesky_thread_id={meta.bluesky_thread_id} />
           {/key}
         {/if}
       </div>
@@ -139,7 +138,10 @@
     </article>
     <div class="comments" id="comments">
       {#if meta.bluesky_thread_id}
-        <Comments did={PUBLIC_BLUESKY_DID} threadId={meta.bluesky_thread_id} />
+        <h2>Comments</h2>
+        {#key meta.bluesky_thread_id}
+          <Comments did={PUBLIC_BLUESKY_DID} threadId={meta.bluesky_thread_id} />
+        {/key}
       {:else}
         <ContactLink placement="article" />
       {/if}
