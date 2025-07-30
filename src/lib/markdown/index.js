@@ -54,8 +54,6 @@ const markdownProcessor = unified()
   .use(rehypeCopyCode)
   .use(toHtmlString, { allowDangerousHtml: true });
 
-// Rest of the code remains the same...
-
 /**
  * Returns post slug.
  * @param {string} filename
