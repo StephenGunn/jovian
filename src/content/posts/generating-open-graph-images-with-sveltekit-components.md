@@ -58,7 +58,7 @@ Image, you get:
 Thanks to Paolo's improvements, installation is now a single command:
 
 ```bash
-pnpm add -D svelte-component-to-image
+pnpm add  svelte-component-to-image
 ```
 
 ### Vite Configuration
