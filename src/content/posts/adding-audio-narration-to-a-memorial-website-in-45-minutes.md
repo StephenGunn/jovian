@@ -8,7 +8,7 @@ categories:
   - sveltekit
   - audio
 published: true
-#bluesky_thread_id: "3lardrinpms2m"
+bluesky_thread_id: "3lww4xegjpk2n"
 ---
 
 <script lang="ts">
@@ -125,9 +125,9 @@ pnpm audio:regenerate 01-friendship/sword-shopping
 
 What made this work so well was letting Claude Code take control of the entire development
 cycle. I gave it permission to run the dev server, then told it about the `-t` test flag
-that would show the extracted text without calling the ElevenLabs API. It immediately 
-started adding strategic console.log statements throughout the markdown processing pipeline 
-to see exactly how each component was being transformed.
+that would show the extracted text without calling the ElevenLabs API. It immediately
+started adding strategic console.log statements throughout the markdown processing
+pipeline to see exactly how each component was being transformed.
 
 This kicked off an incredibly fast iteration cycle:
 
@@ -184,7 +184,8 @@ The generated MP3s are about 2-5MB each, perfectly reasonable to store in the re
 With audio files for all 100+ articles, we can now:
 
 - Add a simple audio player to each article page
-- Create an "audiobook" mode that plays through the rest of the project (starting from where the user starts playback) and will scroll the articles along with the audio
+- Create an "audiobook" mode that plays through the rest of the project (starting from
+  where the user starts playback) and will scroll the articles along with the audio
 - Make the content accessible to people who prefer listening
 - Preserve these memories in another format
 
@@ -210,8 +211,15 @@ And immediately see the extracted text helped us catch issues like:
 
 ## Conclusion
 
-AI is a tool like anything else - when used properly, it can deliver impressive results. This experiment lands firmly in my win column. Those 30-40 edge cases with multiline components, nested quotes, and custom formatting would have taken me hours to debug manually. Instead, I got a working system in about 45 minutes total.
+AI is a tool like anything else - when used properly, it can deliver impressive results.
+This experiment lands firmly in my win column. Those 30-40 edge cases with multiline
+components, nested quotes, and custom formatting would have taken me hours to debug
+manually. Instead, I got a working system in about 45 minutes total.
 
-The result speaks for itself: over 100 articles now have audio narrations, generated with a single command, tracked in JSON, and automatically embedded in the site. The memorial project is more accessible, and I didn't burn a weekend wrestling with regex patterns.
+The result speaks for itself: over 100 articles now have audio narrations, generated with
+a single command, tracked in JSON, and automatically embedded in the site. The memorial
+project is more accessible, and I didn't burn a weekend wrestling with regex patterns.
 
-Sometimes you just need the right tool for the job. In this case, Claude Code's ability to rapidly iterate through text parsing logic while I focused on the bigger picture made all the difference. The project got what it needed, and I got to move on to other things.
+Sometimes you just need the right tool for the job. In this case, Claude Code's ability to
+rapidly iterate through text parsing logic while I focused on the bigger picture made all
+the difference. The project got what it needed, and I got to move on to other things.
