@@ -129,13 +129,15 @@ that would show the extracted text without calling the ElevenLabs API. It immedi
 started adding strategic console.log statements throughout the markdown processing
 pipeline to see exactly how each component was being transformed.
 
+> Note: I was very careful not to let Claude burn through my tokens while iterating
+
 This kicked off an incredibly fast iteration cycle:
 
 ```bash
 pnpm audio:regenerate 01-friendship/sword-shopping-with-a-dying-man -t
 ```
 
-Claude Code would:
+With access to the source material and the output, Claude would:
 
 1. Spot an issue in the console output (like a FacebookQuote with multiline content being
    mangled)
