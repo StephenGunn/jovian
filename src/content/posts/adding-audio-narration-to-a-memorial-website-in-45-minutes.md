@@ -15,8 +15,6 @@ bluesky_thread_id: "3lww4xegjpk2n"
     import MediaPlayer from '$lib/layout/MediaPlayer.svelte';
 </script>
 
-# Building an Audio Narration System for a Memorial Website with ElevenLabs
-
 ## The Project That Became a Website
 
 This started as a simple favor. A family friend's son Andy passed away, and she had been
