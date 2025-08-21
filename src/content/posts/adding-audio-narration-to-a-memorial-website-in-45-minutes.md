@@ -104,7 +104,7 @@ non-readable components were cleanly filtered out.
 
 The solution ended up being straightforward:
 
-1. **A [SvelteKit](https://kit.svelte.dev/) endpoint** that uses the existing markdown
+1. **A [SvelteKit](https://svelte.dev/) endpoint** that uses the existing markdown
    processor but with custom rules for audio
 2. **A TypeScript script** that calls the endpoint and generates audio files
 3. **A JSON manifest** to track what's been generated
