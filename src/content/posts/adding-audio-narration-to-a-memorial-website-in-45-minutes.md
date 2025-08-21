@@ -7,6 +7,8 @@ date: "2025-08-21"
 categories:
   - sveltekit
   - audio
+  - claude
+  - ai
 published: true
 bluesky_thread_id: "3lww4xegjpk2n"
 ---
