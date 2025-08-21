@@ -170,7 +170,6 @@ Everything runs locally:
 
 ```bash
 pnpm dev                    # Start the dev server
-export ELEVEN_LABS_API_KEY="..."
 pnpm audio:generate         # Generate MP3s
 git add static/audio        # Commit the files
 ```
