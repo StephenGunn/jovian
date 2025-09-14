@@ -7,7 +7,12 @@
   </div>
   <div class="foot_links">
     <a href="/privacy-policy">Privacy Policy</a> |
-    <a href="/terms-and-conditions">Terms and Conditions</a>
+    <a href="/terms-and-conditions">Terms and Conditions</a> |
+    <a
+      target="_blank"
+      referrerpolicy="no-referrer"
+      href="https://github.com/StephenGunn/jovian">Source</a
+    >
   </div>
 </footer>
 
