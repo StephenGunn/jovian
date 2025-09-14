@@ -25,7 +25,7 @@ out in action.
 Turns out, this was solved by [HuntaByte](https://github.com/huntabyte) on the
 [Mode Watcher](https://github.com/svecosystem/mode-watcher) project. They use localStorage
 but
-[inject a custom](github.com/svecosystem/mode-watcher/blob/main/packages/mode-watcher/src/lib/components/mode-watcher-full.svelte#L24)
+[inject a custom](https://github.com/svecosystem/mode-watcher/blob/main/packages/mode-watcher/src/lib/components/mode-watcher-full.svelte#L24)
 script injector to run in the browser before the first render.
 
 I'll honestly just use that in the future unless I need the cookie for some reason. I'm
