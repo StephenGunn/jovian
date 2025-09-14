@@ -107,7 +107,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 }
 ```
 
-### Toggle component with enhanced form (Svelte 5)
+### Toggle component using Svelte's Form Actions
 
 The key here is using SvelteKit's `enhance` to avoid full page reload:
 
