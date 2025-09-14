@@ -36,8 +36,7 @@ it before the HTML reaches the browser.
 
 ### Server action for the cookie
 
-```typescript
-// +page.server.ts
+```typescript:+page.server.ts
 export const actions = {
   setTheme: async ({ url, cookies }) => {
     const theme = url.searchParams.get("theme");
@@ -60,8 +59,7 @@ export const actions = {
 
 This injects the theme into the HTML before the browser parses it:
 
-```typescript
-// hooks.server.ts
+```typescript:hooks.server.ts
 export const handle: Handle = async ({ event, resolve }) => {
   const theme = event.cookies.get("theme") || "system";
   event.locals.theme = theme;
@@ -76,14 +74,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 ### HTML template
 
-```html
-<!-- app.html -->
+```html:app.html
 <html lang="en" data-theme=""></html>
 ```
 
 ### CSS with system detection
 
-```css
+```css:styles.css
 /* Default to light theme */
 :root {
   --bg: white;
@@ -114,7 +111,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 The key here is using SvelteKit's `enhance` to avoid full page reload:
 
-```svelte
+```svelte:ModeToggle.svelte
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
