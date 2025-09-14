@@ -1,10 +1,14 @@
 ---
 title: "SSR Theme Switching Without Flash in SvelteKit"
-date: 2024-12-13
 description:
   "How to implement theme switching that avoids flash when users prefer the opposite of
   their system theme"
-tags: ["sveltekit", "css", "ssr", "dark-mode", "svelte5"]
+date: "2025-9-13"
+categories:
+  - sveltekit
+  - ssr
+  - "dark light mode"
+published: true
 ---
 
 This is a response to
