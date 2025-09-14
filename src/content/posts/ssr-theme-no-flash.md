@@ -31,6 +31,8 @@ it before the HTML reaches the browser.
 
 ## Implementation
 
+> note: I've only included the bare-bones to get this working...
+
 ### Server action for the cookie
 
 ```typescript
