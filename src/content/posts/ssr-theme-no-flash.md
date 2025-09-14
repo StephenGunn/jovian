@@ -28,8 +28,9 @@ but
 [use a custom](https://github.com/svecosystem/mode-watcher/blob/main/packages/mode-watcher/src/lib/components/mode-watcher-full.svelte#L24)
 script injector to run in the browser before the first render.
 
-I'll honestly just use that in the future unless I need the cookie for some reason. I'm
-changing the post this fact.
+I'll honestly just use that in the future unless I need the cookie for some reason.
+
+But I'll leave this post up for those who want to use cookies.
 
 ## Why SSR is (maybe) needed
 
