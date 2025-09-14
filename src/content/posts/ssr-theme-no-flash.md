@@ -9,6 +9,7 @@ categories:
   - ssr
   - "dark light mode"
 published: true
+bluesky_thread_id: 3lyr2fu3we227
 ---
 
 This is a response to
