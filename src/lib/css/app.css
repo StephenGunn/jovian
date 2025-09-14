@@ -48,6 +48,7 @@
   --dark-input-bg: #1e1f26;
   --dark-subtle-highlight: rgba(41, 39, 55, 0.7);
   --dark-semi-transparent: rgba(18, 17, 23, 0.9);
+  --menu: rgba(18, 17, 23, 0.4);
   --dark-muted-color: #6e738d;
   color-scheme: dark;
 

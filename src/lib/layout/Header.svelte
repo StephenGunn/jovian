@@ -2,21 +2,60 @@
   import { page } from "$app/state";
   import { afterNavigate } from "$app/navigation";
   import { onMount, tick } from "svelte";
+  import HoverGlow from "$lib/layout/HoverGlow.svelte";
 
-  let width = $state(0);
-  let left = $state(0);
   let scroll = $state(0);
   let last_scroll = $state(0);
   let show_header = $state(true);
   let mobile_menu_open = $state(false);
 
-  afterNavigate(async () => {
-    setTimeout(async () => {
-      mobile_menu_open = false;
-    }, 10);
+  let hoverBg = $state({ width: 0, height: 0, x: 0, y: 0, opacity: 0, scale: 0.8 });
+  let navElement: HTMLElement | undefined = $state();
+  let ulElement: HTMLElement | undefined = $state();
+  let menuHovered = $state(false);
 
+  const isHomepage = $derived(page.route.id === "/");
+  let activeBg = $state({ width: 0, height: 0, x: 0, y: 0, opacity: 0, scale: 0.8 });
+
+  const updateActiveBg = () => {
+    const activeLink = ulElement?.querySelector("a.active") as HTMLAnchorElement;
+    if (!activeLink || !ulElement) {
+      activeBg = { width: 0, height: 0, x: 0, y: 0, opacity: 0, scale: 0.8 };
+      return;
+    }
+
+    const rect = activeLink.getBoundingClientRect();
+    const ulRect = ulElement.getBoundingClientRect();
+
+    activeBg = {
+      width: rect.width,
+      height: rect.height,
+      x: rect.left - ulRect.left,
+      y: rect.top - ulRect.top,
+      opacity: isHomepage && !menuHovered ? 0 : 1,
+      scale: isHomepage && !menuHovered ? 0.8 : 1
+    };
+  };
+
+  // Update on navigation
+  afterNavigate(async () => {
+    mobile_menu_open = false;
+    // Wait for DOM to update
     await tick();
-    determine_route(page?.route?.id);
+    updateActiveBg();
+  });
+
+  // Update when menu hover changes
+  $effect(() => {
+    if (menuHovered || !isHomepage) {
+      updateActiveBg();
+    }
+  });
+
+  // Initial positioning on mount
+  onMount(async () => {
+    await tick();
+    updateActiveBg();
   });
 
   const determine_header_visibility = (scroll: number) => {
@@ -41,43 +80,29 @@
     }
   });
 
-  let home: HTMLAnchorElement | undefined = $state();
-  let posts: HTMLAnchorElement | undefined = $state();
-  let projects: HTMLAnchorElement | undefined = $state();
-  let about: HTMLAnchorElement | undefined = $state();
-  let contact: HTMLAnchorElement | undefined = $state();
+  const handleLinkHover = (e: MouseEvent, isActive: boolean | undefined) => {
+    if (!ulElement) return;
 
-  const set_underline = (menu_item: HTMLAnchorElement) => {
-    const { offsetWidth, offsetLeft } = menu_item;
-    width = offsetWidth;
-    left = offsetLeft;
-  };
+    const link = e.currentTarget as HTMLAnchorElement;
+    const rect = link.getBoundingClientRect();
+    const ulRect = ulElement?.getBoundingClientRect();
 
-  const determine_route = (route: string | null) => {
-    if (!route) return;
-    if (route === "/") {
-      if (!home) return;
-      set_underline(home);
-    } else if (route.includes("/posts")) {
-      if (!posts) return;
-      set_underline(posts);
-    } else if (route.includes("/projects")) {
-      if (!projects) return;
-      set_underline(projects);
-    } else if (route.includes("/about")) {
-      if (!about) return;
-      set_underline(about);
-    } else if (route.includes("/contact")) {
-      if (!contact) return;
-      set_underline(contact);
+    if (ulRect) {
+      hoverBg = {
+        width: rect.width,
+        height: rect.height,
+        x: rect.left - ulRect.left,
+        y: rect.top - ulRect.top,
+        opacity: isActive ? 0 : 1,
+        scale: isActive ? 0.8 : 1
+      };
     }
   };
 
-  $effect(() => {});
-
-  onMount(() => {
-    determine_route(page?.route?.id);
-  });
+  const handleMouseLeave = () => {
+    hoverBg.opacity = 0;
+    hoverBg.scale = 0.8;
+  };
 </script>
 
 <svelte:window bind:scrollY={scroll} />
@@ -116,54 +141,80 @@
 
 <header class:open={mobile_menu_open}>
   <nav
+    bind:this={navElement}
     data-sveltekit-preload-code
     class:scrolled={scroll > 100}
     class:hide={!show_header}
+    onmouseenter={() => (menuHovered = true)}
+    onmouseleave={() => (menuHovered = false)}
   >
-    <ul>
-      <li><a bind:this={home} href="/" class:active={page.route.id === "/"}>Home</a></li>
-      <li>
-        <a
-          bind:this={posts}
-          href="/posts"
-          class:active={page.route?.id?.includes("/posts")}>Posts</a
-        >
-      </li>
-      <li>
-        <a
-          bind:this={projects}
-          href="/projects"
-          class:active={page.route?.id?.includes("/projects")}>Projects</a
-        >
-      </li>
-      <li>
-        <a
-          bind:this={about}
-          href="/about"
-          class:active={page.route?.id?.includes("/about")}>About</a
-        >
-      </li>
-      <li>
-        <a
-          bind:this={contact}
-          href="/contact"
-          class:active={page.route?.id?.includes("/contact")}>Contact</a
-        >
-      </li>
-    </ul>
-    <div class="underline" style:left="{left}px" style:width="{width}px"></div>
+    <HoverGlow transparent={scroll <= 100}>
+      <ul bind:this={ulElement} onmouseleave={handleMouseLeave}>
+        <div class="nav-backgrounds">
+          <div
+            class="active-bg"
+            style="
+              width: {activeBg.width}px;
+              height: {activeBg.height}px;
+              transform: translate({activeBg.x}px, {activeBg.y}px) scale({activeBg.scale});
+              opacity: {activeBg.opacity};
+            "
+          ></div>
+          <div
+            class="hover-bg"
+            style="
+              width: {hoverBg.width}px;
+              height: {hoverBg.height}px;
+              transform: translate({hoverBg.x}px, {hoverBg.y}px) scale({hoverBg.scale});
+              opacity: {hoverBg.opacity};
+            "
+          ></div>
+        </div>
+        <li>
+          <a
+            href="/"
+            class:active={page.route.id === "/"}
+            onmouseenter={(e) => handleLinkHover(e, page.route.id === "/")}>Home</a
+          >
+        </li>
+        <li>
+          <a
+            href="/posts"
+            class:active={page.route?.id?.includes("/posts")}
+            onmouseenter={(e) => handleLinkHover(e, page.route?.id?.includes("/posts"))}
+            >Posts</a
+          >
+        </li>
+        <li>
+          <a
+            href="/projects"
+            class:active={page.route?.id?.includes("/projects")}
+            onmouseenter={(e) =>
+              handleLinkHover(e, page.route?.id?.includes("/projects"))}>Projects</a
+          >
+        </li>
+        <li>
+          <a
+            href="/about"
+            class:active={page.route?.id?.includes("/about")}
+            onmouseenter={(e) => handleLinkHover(e, page.route?.id?.includes("/about"))}
+            >About</a
+          >
+        </li>
+        <li>
+          <a
+            href="/contact"
+            class:active={page.route?.id?.includes("/contact")}
+            onmouseenter={(e) => handleLinkHover(e, page.route?.id?.includes("/contact"))}
+            >Contact</a
+          >
+        </li>
+      </ul>
+    </HoverGlow>
   </nav>
 </header>
 
 <style>
-  .underline {
-    position: absolute;
-    bottom: 2px;
-    height: 3px;
-    background-color: var(--bg-accent-3);
-    z-index: 10;
-    transition: all 200ms ease-in-out;
-  }
   header {
     position: fixed;
     top: 1rem;
@@ -181,22 +232,18 @@
     transition: all 200ms ease-in-out;
   }
 
-  nav.scrolled {
-    outline: 1px solid var(--subtle-highlight);
-    background-color: var(--semi-transparent);
-    backdrop-filter: blur(3px);
-  }
-
   nav.hide {
     transform: translateY(-130%);
   }
 
   nav ul {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     list-style: none;
     margin: 0;
-    padding: 0 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+    z-index: 1;
   }
 
   nav a {
@@ -205,12 +252,65 @@
     text-decoration: none;
     font-family: "Jost", sans-serif;
     font-size: 1.3rem;
-    padding: 1rem;
-    transition: background-color 0.5s;
+    padding: 0.8rem 1rem;
+    margin: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2rem;
+    position: relative;
+  }
+
+  nav a.active {
+    color: white;
+  }
+
+  .nav-backgrounds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .active-bg,
+  .hover-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, width, height, opacity;
+    transform-origin: center;
+  }
+
+  .active-bg {
+    background: rgba(147, 51, 234, 0.08);
+    box-shadow:
+      inset 0 0 20px rgba(147, 51, 234, 0.1),
+      inset 0 0 40px rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+  }
+
+  .hover-bg {
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+  }
+
+  @keyframes glowPulse {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
   }
   nav a:focus {
     outline: 2px solid var(--accent);
-    border-radius: 0.25rem;
+    outline-offset: 2px;
+    border-radius: 2rem;
   }
 
   button.mobile-menu-toggle {
@@ -218,7 +318,7 @@
   }
 
   @media (max-width: 768px) {
-    .underline {
+    .nav-backgrounds {
       display: none;
     }
     button.mobile-menu-toggle {
@@ -319,6 +419,8 @@
         opacity 0.5s,
         visibility 0s 0.5s; /* Delay visibility change */
       display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100vw;
       height: 100vh;
       position: fixed;
@@ -336,13 +438,20 @@
       transition: opacity 0.5s;
     }
 
+    header nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: auto;
+      transform: none;
+    }
+
     header nav ul {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: 100%;
       gap: 1rem;
       list-style: none;
       margin: 0;
@@ -362,6 +471,8 @@
 
     header nav a.active {
       color: var(--primary);
+      background: rgba(147, 51, 234, 0.08);
+      border-radius: 1rem;
     }
 
     header nav a::after {

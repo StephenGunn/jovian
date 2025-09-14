@@ -51,6 +51,17 @@
   /* Padding to ensure spacing consistency */
 }
 
+.post p:has(+ ul),
+.post p:has(+ ol) {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.post p + ul,
+.post p + ol {
+  margin-top: 0.5rem;
+}
+
 .post>h1:not(:last-child),
 .post>h2:not(:last-child),
 .post>h3:not(:last-child),
