@@ -20,7 +20,21 @@ I also implemented this approach on a
 [ SvelteLab project ](https://www.sveltelab.dev/x2pg1m16pa3o39x) if you want to check it
 out in action.
 
-## Why SSR is needed
+## Oops- I was wrong!
+
+Turns out, this was solved by [ HuntaByte ](https://github.com/huntabyte) on the
+[ Mode Watcher ](https://github.com/svecosystem/mode-watcher) project. They use
+localStorage but
+[ inject a custom ](github.com/svecosystem/mode-watcher/blob/main/packages/mode-watcher/src/lib/components/mode-watcher-full.svelte#L24)
+script injector to run in the browser before the first render.
+
+I'll honestly just use that in the future unless I need the cookie for some reason. I'm
+changing the post this fact.
+
+## Why SSR is (maybe) needed
+
+> Note: this example is out-dated, but I left it intact because I can't think of a better
+> one right now.
 
 If someone has their system set to dark mode but prefers light mode on your site (saved in
 localStorage), they'll see a flash on every page load. The browser initially renders with
@@ -32,7 +46,7 @@ it before the HTML reaches the browser.
 
 ## Implementation
 
-> note: I've only included the bare-bones to get this working...
+> Note: I've only included the bare-bones to get this working...
 
 ### Server action for the cookie
 
