@@ -116,8 +116,8 @@ database:
 > Since it's not customer-facing, upgrading isn't a priority. Examples use Svelte 3/4
 > syntax since Svelte 5 is significantly different.
 
-```typescript
-// loader/+server.ts - Fetching contributors from Directus
+```typescript:loader/+server.ts
+// Fetching contributors from Directus
 // Note: Using my custom Directus API abstraction (built before the official SDK)
 export const POST: RequestHandler = async ({ request }) => {
   const body = await request.json();
@@ -177,7 +177,7 @@ Key features of the data loading:
 The filtering logic is important for fairness. I compare the contribution list against the
 guest database and remove any matches:
 
-```typescript
+```typescript:loader/+server.ts
 // Filtering logic for removing guests from the contributor pool
 // Get list of all guests
 const guests: Guest[] = await api({
@@ -207,8 +207,8 @@ WebSocket, which the overlay listens for:
 - `load_prev_giveaway_ep` - Load the previous episode's contributors
 - `refresh_giveaway_data` - Reload the current episode's data
 
-```typescript
-// Episode navigation WebSocket handlers in +page.svelte
+```typescript:+page.svelte
+// Episode navigation WebSocket handlers
 import { socket } from "$api/socket";
 
 socket.on("load_next_giveaway_ep", () => {
@@ -262,8 +262,8 @@ list should scroll, resulting in a deterministic giveaway system.
 The velocity calculation ensures the wheel spins at least 2-3 times through the entire
 list:
 
-```typescript
-// Velocity calculation from Picker.svelte
+```typescript:Picker.svelte
+// Velocity calculation
 const NAME_HEIGHT = 58; // 58px looked good on stream
 const PICKER_OFFSET = 540; // Picker pointer position at vertical center (1080px / 2)
 const MIN_ROTATIONS = 2; // Minimum number of times to spin through the full list
@@ -294,8 +294,8 @@ The name list is displayed as a scrolling column. Since the spin distance is des
 exceed the height of a single list, I dynamically append additional copies of the name
 array as needed:
 
-```typescript
-// Dynamic list stacking from Picker.svelte
+```typescript:Picker.svelte
+// Dynamic list stacking
 export const spin_me = async () => {
   start_from = -move_to;
   move_to += generate_velocity();
@@ -329,8 +329,7 @@ helps ensure fairness across multiple prize drawings in a single show.
 The actual scrolling animation uses CSS custom properties and a keyframe animation. When
 `spin_me()` is called, it sets CSS variables that drive the animation:
 
-```svelte
-<!-- In Picker.svelte -->
+```svelte:Picker.svelte
 <div
   class="names"
   class:activateSpin={spin}
@@ -394,8 +393,7 @@ the end, and let CSS do what it does best.
 After the 20-second animation completes, I calculate which name landed in the "winner
 zone":
 
-```typescript
-// Winner calculation from Picker.svelte
+```typescript:Picker.svelte
 const set_winner = () => {
   // Step 1: Find which name element is at the picker position
   // move_to = total pixels scrolled (e.g., 3500px)
@@ -447,8 +445,7 @@ The pointer (or "nib") is positioned at the vertical center of the screen (540px
 1080px canvas), indicating the winner zone. When the wheel is spinning, it has a subtle
 animation that makes it look like it's being hit by the wheel's movement:
 
-```svelte
-<!-- Pointer.svelte -->
+```svelte:Pointer.svelte
 <script lang="ts">
   export let spinning: boolean;
 </script>
@@ -498,8 +495,7 @@ the pointer as they scroll past.
 
 When a winner is selected, confetti animates from the picker zone:
 
-```typescript
-// In Picker.svelte
+```typescript:Picker.svelte
 const set_winner = () => {
   show_confetti = true;
   spin = false;
@@ -514,8 +510,8 @@ win, giving viewers immediate visual feedback that someone has been selected.
 
 Winners display in real-time on the left side of the screen using a Svelte store:
 
-```typescript
-// Winner store and prize assignment in Picker.svelte
+```typescript:Picker.svelte
+// Winner store and prize assignment
 const set_winner = () => {
   // ... winner calculation code ...
 
@@ -550,7 +546,7 @@ Each winner is assigned a prize based on which "slide" I'm currently on:
 I can delete the last winner live on-air if needed, which immediately updates the visual
 display:
 
-```typescript
+```typescript:Picker.svelte
 // Delete last winner function
 const delete_last = () => {
   $winner_details.pop();
@@ -565,15 +561,15 @@ const delete_last = () => {
 Each episode has different sponsor prizes. The overlay dynamically loads sponsor data and
 creates slides for each one:
 
-```typescript
+```typescript:Controls.svelte
 // Sponsor slide calculation
 let total: number = $sponsors.length + 2; // +2 for static slides
 ```
 
 Stream Deck buttons control slide navigation via WebSocket commands:
 
-```typescript
-// Sponsor slide navigation in Controls.svelte
+```typescript:Controls.svelte
+// Sponsor slide navigation
 const next = () => {
   $slide = $slide === total ? 0 : $slide + 1;
 };
@@ -605,8 +601,8 @@ socket.on("giveaway_sponsor_reset", () => {
 Visual tags appear at the bottom indicating whether the current prize is "Official Prize"
 or "Spin Sponsor":
 
-```svelte
-<!-- Sponsor tag display logic in +page.svelte -->
+```svelte:+page.svelte
+<!-- Sponsor tag display logic -->
 {#if $slide === 1 || $slide === 2}
   <div
     class="sponsorTag"
@@ -631,7 +627,7 @@ or "Spin Sponsor":
 The SvelteKit overlay listens for six main WebSocket commands that I trigger from Stream
 Deck buttons:
 
-```typescript
+```typescript:+page.svelte
 // Available WebSocket commands
 socket.on("giveaway_spin", () => {
   if (!browser) return;
@@ -673,8 +669,8 @@ clients.
 After we've selected all winners, I press a "Save Winners" button on my Stream Deck. This
 triggers the most important part of the automation:
 
-```typescript
-// Save function from Controls.svelte
+```typescript:Controls.svelte
+// Save function
 const save = async () => {
   if ($winner_details.length === 0) return;
 
@@ -696,8 +692,7 @@ load episode 199's contributors for the giveaway, I need to save the winners to 
 The save endpoint merges new winners with any existing winners (in case I run the giveaway
 twice) and deduplicates:
 
-```typescript
-// Save endpoint - save/+server.ts
+```typescript:save/+server.ts
 const uniq = (contributors: Contributor[]) =>
   contributors.filter(
     (value, index, self) => index === self.findIndex((t) => t.name === value.name)
@@ -745,7 +740,7 @@ instantaneous.
 
 In development mode, the overlay shows an on-screen control panel:
 
-```svelte
+```svelte:+page.svelte
 <!-- Dev controls display logic -->
 {#if dev}
   <div id="controls">
