@@ -124,9 +124,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
   // Query Directus for the episode with all its contributions
   const episode_query: Episode[] = await api({
-    target: "/items/episodes",
-    method: "SEARCH",
-    clearance: "NONE"
+    target: "episodes"
   }).access({
     sort: "-episode_number",
     fields: [
@@ -183,9 +181,7 @@ guest database and remove any matches:
 // Filtering logic for removing guests from the contributor pool
 // Get list of all guests
 const guests: Guest[] = await api({
-  target: "/items/guests",
-  method: "SEARCH",
-  clearance: "NONE"
+  target: "guests"
 }).access({
   fields: ["name"],
   limit: -1
@@ -291,8 +287,6 @@ The 540px offset is critical - it compensates for the picker pointer being in th
 of the screen. Without it, names at the top of the list would never have a chance to win
 because they start above the picker zone. By adding 540px to every spin velocity, even the
 first entries move down through the picker zone, giving everyone an equal chance.
-
-[ ADD VISUAL OF WHY THIS MATTERS ]
 
 ### Dynamic List Stacking
 
@@ -714,9 +708,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
   // Get the target episode
   const target_episode_raw: Episode[] = await api({
-    target: "/items/episodes",
-    method: "SEARCH",
-    clearance: "NONE"
+    target: "episodes"
   }).access({
     fields: ["id", "winners"],
     limit: 1,
@@ -733,9 +725,8 @@ export const POST: RequestHandler = async ({ request }) => {
   let final_winners = uniq([...already_won, ...winners]);
 
   await api({
-    target: `/items/episodes/${target_id}`,
-    method: "PATCH",
-    clearance: "ADMIN"
+    target: `episodes/${target_id}`,
+    method: "PATCH"
   }).access({ winners: final_winners });
 
   return new Response(null, { status: 204 });
