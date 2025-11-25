@@ -53,12 +53,9 @@ big stars don’t overlap, keeping the design clean and visually appealing.
 
 ## The Components
 
-The starfield is made up of two components: the `Starfield.svelte` and the `Star.svelte`,
-plus a server-side utility function `generate_starfield()`. The stars are generated on the
-server and passed as props to the `Starfield.svelte` component, which renders them on the
-screen. This server-side approach prevents flicker during hydration—since the same star
-positions are used on both server and client, there's no visual jump when the page becomes
-interactive. The `Star` component is responsible for rendering an individual star.
+The starfield is made up of two components: the `Starfield.svelte` and the `Star.svelte`.
+The `Starfield.svelte` component generates the stars and renders them on the screen, while
+the `Star` component is responsible for rendering an individual star.
 
 ### The Star Component
 
@@ -101,41 +98,59 @@ the component.
 </svg>
 ```
 
-### The generate_starfield Function
+### The Starfield Component
 
-Before we look at the component, let's start with the server-side generation function.
-This is where the magic happens to prevent flicker during hydration.
+The `Starfield.svelte` is a bit more complex, so I will post the whole thing and then
+break down the sections and give justifications for the choices made.
 
-```typescript:generate_starfield.svelte.ts
-import type { StarData } from "$lib/types/schema";
+```svelte:Starfield.svelte
+<script lang="ts">
+  import { browser } from "$app/environment";
+  import Star from "./Star.svelte";
 
-export const generate_starfield = (
-  width: number = 3000,
-  height: number = 1500,
-  large_star_count: number = 20,
-  tiny_star_count: number = 300
-) => {
+  let width: number = $state(0);
+  let height: number = $state(0);
+
+  // we want to serverside render the starfield
+  // we will render more stars than we need to, on the server, so we don't have to wait for the
+  // window dimensions to be available to generate the dom elements
+  let {
+    large_star_count = 20,
+    tiny_star_count = 300
+  }: { large_star_count: number; tiny_star_count: number } = $props();
+
   // random numbers
   const random = (min: number, max: number): number => {
     const randomValue = Math.random() * (max - min) + min;
     return Math.round(randomValue * 100) / 100; // Rounds to two decimal places
   };
 
-  // generate an array of random positions for the stars
-  let stars: StarData[] = Array.from({ length: large_star_count }).map(() => ({
-    size: `${random(0.1, 1)}rem`,
-    left: `${random(0, width)}px`,
-    top: `${random(0, height)}px`,
-    opacity: 1 // big stars are always full brightness
-  }));
+  type StarData = {
+    size: string;
+    left: string;
+    top: string;
+    opacity?: number;
+  };
 
-  // generate an array of random positions for the tiny stars
-  let tiny_stars: StarData[] = Array.from({ length: tiny_star_count }).map(() => ({
-    left: `${random(0, width)}px`,
-    top: `${random(0, height)}px`,
-    size: `${random(0.1, 0.15)}rem`,
-    opacity: random(0.5, 1)
-  }));
+  // generate an array of random positions for the stars that are between 3000 x 1500
+  let stars: StarData[] = $state(
+    Array.from({ length: large_star_count }).map(() => ({
+      size: `${random(0.1, 1)}rem`,
+      left: `${random(0, 3000)}px`,
+      top: `${random(0, 1500)}px`,
+      opacity: 1 // big stars are always full brightness
+    }))
+  );
+
+  // generate an array of random positions for the tiny stars that are between 3000 x 1500
+  let tiny_stars: StarData[] = $state(
+    Array.from({ length: tiny_star_count }).map(() => ({
+      left: `${random(0, 3000)}px`,
+      top: `${random(0, 1500)}px`,
+      size: `${random(0.1, 0.15)}rem`,
+      opacity: random(0.5, 1)
+    }))
+  );
 
   // a function to make sure our stars aren't too close together
   const check_star_positions = (stars: StarData[]) => {
@@ -154,15 +169,10 @@ export const generate_starfield = (
             const other_star = stars[i];
             const distance = Math.sqrt(
               Math.pow(
-                Number(new_star.left.replace("px", "")) -
-                Number(other_star.left.replace("px", "")),
+                Number(new_star.left.replace("px", "")) - Number(other_star.left.replace("px", "")),
                 2
               ) +
-              Math.pow(
-                Number(new_star.top.replace("px", "")) -
-                Number(other_star.top.replace("px", "")),
-                2
-              )
+                Math.pow(Number(new_star.top.replace("px", "")) - Number(other_star.top.replace("px", "")), 2)
             );
 
             if (distance < threshold) {
@@ -177,56 +187,14 @@ export const generate_starfield = (
         }
 
         // Reposition star
-        new_star.left = `${random(0, width)}px`;
-        new_star.top = `${random(0, height)}px`;
+        new_star.left = `${random(0, 3000)}px`;
+        new_star.top = `${random(0, 1500)}px`;
         attempts++;
       }
 
       return new_star;
     });
   };
-
-  return {
-    large: check_star_positions(stars),
-    tiny: tiny_stars
-  };
-};
-```
-
-### The Starfield Component
-
-The `Starfield.svelte` component receives the pre-generated stars from the server and
-renders them. It also handles dynamic regeneration if the viewport becomes larger than
-the initial box dimensions.
-
-```svelte:Starfield.svelte
-<script lang="ts">
-  import { generate_starfield } from "../generate_starfield.svelte";
-  import type { StarData, Starfield } from "$lib/types/schema";
-  import Star from "./Star.svelte";
-  import { browser } from "$app/environment";
-
-  let width: number = $state(0);
-  let height: number = $state(0);
-
-  // we want to serverside render the starfield
-  // we will render more stars than we need to, on the server, so we don't have to wait for the
-  // window dimensions to be available to generate the dom elements
-  let {
-    stars,
-    full_screen = true,
-    box_width = 3000,
-    box_height = 1500,
-    large_star_count = 20,
-    tiny_star_count = 300
-  }: {
-    stars: Starfield;
-    full_screen?: boolean;
-    box_width?: number;
-    box_height?: number;
-    large_star_count?: number;
-    tiny_star_count?: number;
-  } = $props();
 
   // check to see if stars are in the viewbox, so we can unrender the dom elements if they arent
   const in_view_box = (star: StarData) => {
@@ -235,27 +203,17 @@ the initial box dimensions.
     const top = Number(star.top.replace("px", ""));
     return left > 0 && left < width && top > 0 && top < height;
   };
-
-  // safely copy the stars to allow for mutation
-  let stars_copy = $state({ ...stars });
-
-  // only regenerate the starfield if the window dimensions are larger than the box dimensions
-  $effect(() => {
-    if ((width > box_width && full_screen) || (height > box_height && full_screen)) {
-      stars_copy = generate_starfield(width, height, large_star_count, tiny_star_count);
-    }
-  });
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 <div class="star-field">
-  {#each stars_copy.large as star}
+  {#each check_star_positions(stars) as star}
     {#if in_view_box(star)}
       <Star size={star.size} left={star.left} top={star.top} opacity={star.opacity} />
     {/if}
   {/each}
-  {#each stars_copy.tiny as star}
+  {#each tiny_stars as star}
     {#if in_view_box(star)}
       <Star size={star.size} left={star.left} top={star.top} opacity={star.opacity} />
     {/if}
@@ -272,47 +230,13 @@ the initial box dimensions.
 </style>
 ```
 
-### Server-Side Data Loading
-
-To pass the stars from the server to the component, we use SvelteKit's load function
-in `+page.server.ts`:
-
-```typescript:+page.server.ts
-export const prerender = true;
-
-import type { PageServerLoad } from "./$types";
-import { generate_starfield } from "$lib/layout/generate_starfield.svelte";
-
-export const load: PageServerLoad = async () => {
-  return {
-    stars: generate_starfield()
-  };
-};
-```
-
-Then in your page component, you receive the data and pass it to the StarField:
-
-```svelte:+page.svelte
-<script lang="ts">
-  import StarField from "$lib/layout/art/StarField.svelte";
-
-  let { data } = $props();
-  let stars = data.stars;
-</script>
-
-<StarField {stars} />
-```
-
 The code should be pretty easy to understand if you are familiar with Svelte and some
 minimal TypeScript. A few things to note:
 
-- I generate the stars on the server and pass them as props to avoid flicker. If you
-  generate them in the component with `Math.random()`, you'll get different positions on
-  the server vs the client, causing a visual jump during hydration.
-- I overrender stars across a 3000x1500px area on the server, then filter out the ones
-  outside the viewport in the browser with `in_view_box()`.
-- The `$effect()` hook regenerates the starfield if the viewport grows larger than the
-  initial box dimensions.
+- I overrender stars on the server then double-check in the browser and remove DOM
+  elements that are not in the viewbox.
+- The stars have a finite range of positions. I limit their container size so it's not a
+  problem for me.
 - I do a check on the large stars to make sure they are not too close together. I did this
   in response to the stars overlapping and looking like a mess.
 - The stars are generated with a random size and opacity within a range. I think the tiny
@@ -323,24 +247,16 @@ minimal TypeScript. A few things to note:
 
 ```typescript
 let {
-  stars,
-  full_screen = true,
-  box_width = 3000,
-  box_height = 1500,
   large_star_count = 20,
   tiny_star_count = 300
 }: {
-  stars: Starfield;
-  full_screen?: boolean;
-  box_width?: number;
-  box_height?: number;
-  large_star_count?: number;
-  tiny_star_count?: number;
+  large_star_count: number;
+  tiny_star_count: number;
 } = $props();
 ```
 
-The component receives pre-generated `stars` from the server, along with optional config
-for regeneration if needed. For my site, I'm using the defaults.
+Although the component is set up to receive the star counts as props, I am using the
+defaults for my site.
 
 ```typescript
 // random numbers
@@ -414,18 +330,18 @@ Like I said earlier in the article, the starfield would sometimes generate two l
 that would overlap or be too close together. This function makes sure that doesn't happen.
 It looked pretty bad when it happened.
 
-The last part of the component is the rendering of the stars. The stars come pre-checked
-from `generate_starfield()`, so we just need to filter them with `in_view_box()` to remove
-DOM elements outside the viewport. This only runs in the browser.
+The last part of the component is the rendering of the stars. I use the `in_view_box()`
+function to make sure the stars are in the viewbox. This only happens in the browser, so
+it only removes unseen star elements from the DOM.
 
 ```svelte
 <div class="star-field">
-  {#each stars_copy.large as star}
+  {#each check_star_positions(stars) as star}
     {#if in_view_box(star)}
       <Star size={star.size} left={star.left} top={star.top} opacity={star.opacity} />
     {/if}
   {/each}
-  {#each stars_copy.tiny as star}
+  {#each tiny_stars as star}
     {#if in_view_box(star)}
       <Star size={star.size} left={star.left} top={star.top} opacity={star.opacity} />
     {/if}
