@@ -21,8 +21,12 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://challenges.cloudflare.com",
+          "https://static.cloudflareinsights.com",
           "unsafe-inline" // needed for Turnstile
         ],
+        "object-src": ["none"],
+        "base-uri": ["self"],
+        "frame-ancestors": ["none"],
         "frame-src": [
           "self",
           "https://challenges.cloudflare.com" // needed for Turnstile iframe
@@ -35,6 +39,8 @@ const config = {
           "self",
           "https://public.api.bsky.app", // Allow Bluesky API requests
           "https://stats.craftroulette.live",
+          "https://static.cloudflareinsights.com",
+          "https://cloudflareinsights.com",
           "wss://multiplayer.jovianmoon.io"
         ]
       },
@@ -43,6 +49,7 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://challenges.cloudflare.com",
+          "https://static.cloudflareinsights.com",
           "unsafe-inline"
         ],
         "frame-src": ["self", "https://challenges.cloudflare.com"],
@@ -51,6 +58,8 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://public.api.bsky.app", // Allow Bluesky API requests
+          "https://static.cloudflareinsights.com",
+          "https://cloudflareinsights.com",
           "wss://multiplayer.jovianmoon.io"
         ],
         "report-uri": ["/__csp-report"]
