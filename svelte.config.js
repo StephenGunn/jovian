@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-vercel";
+import adapter from "@sveltejs/adapter-node";
 import markdown from "./src/lib/markdown/index.js";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
@@ -21,13 +21,11 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://challenges.cloudflare.com",
-          "https://vercel.live", // Added Vercel's domain
           "unsafe-inline" // needed for Turnstile
         ],
         "frame-src": [
           "self",
-          "https://challenges.cloudflare.com", // needed for Turnstile iframe
-          "https://vercel.live"
+          "https://challenges.cloudflare.com" // needed for Turnstile iframe
         ],
         "style-src": [
           "self",
@@ -37,8 +35,7 @@ const config = {
           "self",
           "https://public.api.bsky.app", // Allow Bluesky API requests
           "https://stats.craftroulette.live",
-          "wss://multiplayer.jovianmoon.io",
-          "https://vercel.live"
+          "wss://multiplayer.jovianmoon.io"
         ]
       },
       reportOnly: {
@@ -46,7 +43,6 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://challenges.cloudflare.com",
-          "https://vercel.live", // Added Vercel's domain
           "unsafe-inline"
         ],
         "frame-src": ["self", "https://challenges.cloudflare.com"],
@@ -55,8 +51,7 @@ const config = {
           "self",
           "https://stats.craftroulette.live",
           "https://public.api.bsky.app", // Allow Bluesky API requests
-          "wss://multiplayer.jovianmoon.io",
-          "https://vercel.live"
+          "wss://multiplayer.jovianmoon.io"
         ],
         "report-uri": ["/__csp-report"]
       }

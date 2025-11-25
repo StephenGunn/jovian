@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  jovianmoon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Public env vars (build time)
+        - PUBLIC_WS_SERVER=${PUBLIC_WS_SERVER}
+        - PUBLIC_BLUESKY_DID=${PUBLIC_BLUESKY_DID}
+        - PUBLIC_TURNSTILE_KEY=${PUBLIC_TURNSTILE_KEY}
+        # Private env vars (build and runtime)
+        - CONTACT_EMAIL=${CONTACT_EMAIL}
+        - FROM_EMAIL=${FROM_EMAIL}
+        - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+        - TURNSTILE_SECRET=${TURNSTILE_SECRET}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

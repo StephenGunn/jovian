@@ -1,10 +1,12 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vitest/config";
-import { sveltePhosphorOptimize } from "phosphor-svelte/vite";
 import { svelte_component_to_image } from "svelte-component-to-image/vite";
 
 export default defineConfig({
-  plugins: [sveltePhosphorOptimize() as any, sveltekit(), svelte_component_to_image()],
+  plugins: [sveltekit(), svelte_component_to_image()],
+  optimizeDeps: {
+    exclude: ["phosphor-svelte"]
+  },
   server: {
     port: 42069
   },
