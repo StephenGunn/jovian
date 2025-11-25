@@ -27,46 +27,57 @@
   let party: PartySocket | undefined = $state();
 
   onMount(async () => {
-    party = new PartySocket({
-      host: PUBLIC_WS_SERVER,
-      room: "space"
-    });
+    try {
+      party = new PartySocket({
+        host: PUBLIC_WS_SERVER,
+        room: "space"
+      });
 
-    party.addEventListener("message", (event: MessageEvent) => {
-      const message = JSON.parse(event.data);
+      // Silently handle connection errors (e.g., in PageSpeed Insights)
+      party.addEventListener("error", () => {
+        // Connection failed - this is expected in some environments like PSI
+        party = undefined;
+      });
 
-      switch (message.type) {
-        case "init":
-          aliens = message.aliens.map((alien: AlienData) => ({
-            id: alien.id,
-            country: alien.country
-          }));
-          break;
+      party.addEventListener("message", (event: MessageEvent) => {
+        const message = JSON.parse(event.data);
 
-        case "new_alien":
-          aliens = [
-            ...aliens,
-            {
-              id: message.id,
-              country: message.country
+        switch (message.type) {
+          case "init":
+            aliens = message.aliens.map((alien: AlienData) => ({
+              id: alien.id,
+              country: alien.country
+            }));
+            break;
+
+          case "new_alien":
+            aliens = [
+              ...aliens,
+              {
+                id: message.id,
+                country: message.country
+              }
+            ];
+            break;
+
+          case "waypoint":
+            const x = message.x * window.innerWidth;
+            const y = message.y * window.innerHeight;
+            if (alien_components[message.alienId]) {
+              alien_components[message.alienId].add_waypoint(message.alienId, x, y);
             }
-          ];
-          break;
+            break;
 
-        case "waypoint":
-          const x = message.x * window.innerWidth;
-          const y = message.y * window.innerHeight;
-          if (alien_components[message.alienId]) {
-            alien_components[message.alienId].add_waypoint(message.alienId, x, y);
-          }
-          break;
-
-        case "remove":
-          aliens = aliens.filter((alien) => alien.id !== message.alienId);
-          delete alien_components[message.alienId]; // Clean up the component reference
-          break;
-      }
-    });
+          case "remove":
+            aliens = aliens.filter((alien) => alien.id !== message.alienId);
+            delete alien_components[message.alienId]; // Clean up the component reference
+            break;
+        }
+      });
+    } catch (error) {
+      // Silently fail if WebSocket cannot be established
+      party = undefined;
+    }
   });
 
   onDestroy(() => {
