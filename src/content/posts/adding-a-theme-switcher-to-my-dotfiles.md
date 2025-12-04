@@ -3,10 +3,10 @@ title: Adding a Theme Switcher to my Arch and Hyprland dotfiles
 description: I needed some new colors in my life.
 date: "2025-12-04"
 categories:
-  - sveltekit
-  - audio
-  - claude
-  - ai
+  - arch
+  - hyprland
+  - bash
+  - linux
 published: true
 bluesky_thread_id: "3m767lrwnfs24"
 ---
