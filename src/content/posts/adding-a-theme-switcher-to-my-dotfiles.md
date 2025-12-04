@@ -8,7 +8,7 @@ categories:
   - claude
   - ai
 published: true
-bluesky_thread_id: "3lww4xegjpk2n"
+bluesky_thread_id: "3m767lrwnfs24"
 ---
 
 <script lang="ts">
