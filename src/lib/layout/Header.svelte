@@ -195,6 +195,14 @@
         </li>
         <li>
           <a
+            href="/playground"
+            class:active={page.route?.id?.includes("/playground")}
+            onmouseenter={(e) =>
+              handleLinkHover(e, page.route?.id?.includes("/playground"))}>Playground</a
+          >
+        </li>
+        <li>
+          <a
             href="/about"
             class:active={page.route?.id?.includes("/about")}
             onmouseenter={(e) => handleLinkHover(e, page.route?.id?.includes("/about"))}
@@ -518,6 +526,9 @@
     }
     header.open nav ul li:nth-child(5) {
       transition-delay: 0.5s;
+    }
+    header.open nav ul li:nth-child(6) {
+      transition-delay: 0.6s;
     }
   }
 </style>
