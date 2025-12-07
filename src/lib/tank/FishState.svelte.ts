@@ -10,7 +10,7 @@ export class FishState {
   in_motion = $state(false);
   visible = $state(true);
   waypoint_queue: { x: number; y: number }[] = $state([]);
-  trip_duration = $state(1500);
+  swim_duration = $state(1500);
 
   // Tween instances for smooth movement
   x_move: Tween<number>;
@@ -44,15 +44,15 @@ export class FishState {
       return;
     }
 
-    this.fly_to(x, y);
+    this.perform_swim(x, y);
   };
 
-  private calculate_trip_duration(target_x: number, target_y: number) {
+  private calculate_swim_duration(target_x: number, target_y: number) {
     const distance = Math.sqrt(
       Math.pow(target_x - this.x, 2) + Math.pow(target_y - this.y, 2)
     );
     // Scale duration based on distance (min 500ms, max 3000ms)
-    this.trip_duration = Math.min(Math.max(distance * 2, 500), 3000);
+    this.swim_duration = Math.min(Math.max(distance * 2, 500), 3000);
   }
 
   private update_facing_direction(target_x: number) {
@@ -65,8 +65,8 @@ export class FishState {
     // If target_x === this.x, keep current facing
   }
 
-  private async fly_to(x: number, y: number) {
-    this.calculate_trip_duration(x, y);
+  private async perform_swim(x: number, y: number) {
+    this.calculate_swim_duration(x, y);
     this.update_facing_direction(x);
 
     this.in_motion = true;
@@ -76,10 +76,10 @@ export class FishState {
     this.y_move.set(this.y, { duration: 0 });
 
     // Then animate to new position
-    this.x_move.set(x, { duration: this.trip_duration, easing: sineInOut });
-    this.y_move.set(y, { duration: this.trip_duration, easing: sineInOut });
+    this.x_move.set(x, { duration: this.swim_duration, easing: sineInOut });
+    this.y_move.set(y, { duration: this.swim_duration, easing: sineInOut });
 
-    await this.delay(this.trip_duration);
+    await this.delay(this.swim_duration);
 
     this.in_motion = false;
 
@@ -87,7 +87,7 @@ export class FishState {
     if (this.waypoint_queue.length > 0) {
       const next = this.waypoint_queue.shift();
       if (next) {
-        this.fly_to(next.x, next.y);
+        this.perform_swim(next.x, next.y);
       }
     }
   }
