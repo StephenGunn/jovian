@@ -18,7 +18,11 @@
 
 <div class="grid_column">
   <h1>Playground</h1>
-  <p class="subtitle">Experimental projects and interactive experiences.</p>
+  <p class="subtitle">
+    A distant echo back to the days of k10k's issues, but with much less direction, style, and
+    skill. Not by choice of course! This will hold the things that don't fit under blog posts,
+    shouldn't be on a subdomain, etc.
+  </p>
 
   <ul>
     {#each playground_items as item (item.slug)}

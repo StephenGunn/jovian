@@ -4,6 +4,10 @@
   import { PUBLIC_WS_SERVER } from "$env/static/public";
   import Tank from "$lib/tank/Tank.svelte";
   import OtherFish from "$lib/tank/OtherFish.svelte";
+  import type { PageData } from "./$types";
+
+  let { data }: { data: PageData } = $props();
+  let { item, related_posts } = data;
 
   type FishData = {
     id: string;
@@ -94,8 +98,8 @@
 </script>
 
 <svelte:head>
-  <title>Fish Tank - JovianMoon.io</title>
-  <meta name="description" content="A multiplayer fish tank playground" />
+  <title>{item.title} - JovianMoon.io</title>
+  <meta name="description" content={item.description} />
 </svelte:head>
 
 <div class="tank-page">
@@ -106,12 +110,33 @@
   </Tank>
 
   <div class="content">
-    <h2>Multiplayer Fish Tank</h2>
-    <p>Click anywhere in the tank to swim around.</p>
-    {#if other_fish.length > 0}
-      <p class="player-count">
-        [ {other_fish.length} other {other_fish.length === 1 ? "fish" : "fish"} swimming ]
-      </p>
+    <h2>{item.title}</h2>
+
+    <p class="description">{item.description}</p>
+
+    <div class="meta">
+      <p class="instructions">Click anywhere in the tank to swim around.</p>
+      {#if other_fish.length > 0}
+        <p class="player-count">
+          [ {other_fish.length} other {other_fish.length === 1 ? "fish" : "fish"} swimming ]
+        </p>
+      {/if}
+    </div>
+
+    {#if related_posts.length > 0}
+      <section class="related-posts">
+        <h3>Related Articles</h3>
+        <ul>
+          {#each related_posts as post}
+            <li>
+              <a href="/posts/{post.slug}">
+                <span class="post-title">{post.title}</span>
+                <span class="post-description">{post.description}</span>
+              </a>
+            </li>
+          {/each}
+        </ul>
+      </section>
     {/if}
   </div>
 </div>
@@ -132,9 +157,73 @@
     margin-bottom: 1rem;
   }
 
+  .description {
+    color: var(--fg-muted, #999);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .meta {
+    margin-bottom: 2rem;
+  }
+
+  .instructions {
+    color: var(--fg, #fff);
+    margin-bottom: 0.5rem;
+  }
+
   .player-count {
-    color: var(--fg-muted);
+    color: var(--fg-muted, #999);
     font-family: monospace;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .related-posts {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border, #444);
+  }
+
+  .related-posts h3 {
+    margin-bottom: 1rem;
+    color: var(--fg, #fff);
+  }
+
+  .related-posts ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .related-posts li {
+    margin: 0;
+  }
+
+  .related-posts a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    border: 1px solid var(--border, #444);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .related-posts a:hover {
+    border-color: var(--accent, #8b5cf6);
+    background: var(--bg-accent-1, rgba(139, 92, 246, 0.1));
+  }
+
+  .post-title {
+    color: var(--fg, #fff);
+    font-weight: 600;
+  }
+
+  .post-description {
+    color: var(--fg-muted, #999);
+    font-size: 0.9rem;
   }
 </style>
