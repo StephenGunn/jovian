@@ -6,6 +6,7 @@ export type PlaygroundItem = {
   date: string; // YYYY-MM-DD format
   categories: string[];
   related_posts?: string[]; // Slugs of blog posts that mention this playground item
+  bluesky_thread_id?: string; // Bluesky thread ID for comments
 };
 
 export const playground_items: PlaygroundItem[] = [

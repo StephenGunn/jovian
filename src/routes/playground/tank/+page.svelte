@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import PartySocket from "partysocket";
-  import { PUBLIC_WS_SERVER } from "$env/static/public";
+  import { PUBLIC_WS_SERVER, PUBLIC_BLUESKY_DID } from "$env/static/public";
   import Tank from "$lib/tank/Tank.svelte";
   import OtherFish from "$lib/tank/OtherFish.svelte";
+  import Comments from "$routes/posts/[slug]/Comments.svelte";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
@@ -138,6 +139,12 @@
         </ul>
       </section>
     {/if}
+
+    {#if item.bluesky_thread_id}
+      <section class="comments-section">
+        <Comments did={PUBLIC_BLUESKY_DID} threadId={item.bluesky_thread_id} />
+      </section>
+    {/if}
   </div>
 </div>
 
@@ -225,5 +232,11 @@
   .post-description {
     color: var(--fg-muted, #999);
     font-size: 0.9rem;
+  }
+
+  .comments-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border, #444);
   }
 </style>
