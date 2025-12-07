@@ -4,7 +4,7 @@
   import { PUBLIC_WS_SERVER, PUBLIC_BLUESKY_DID } from "$env/static/public";
   import Tank from "$lib/tank/Tank.svelte";
   import OtherFish from "$lib/tank/OtherFish.svelte";
-  import Comments from "$routes/posts/[slug]/Comments.svelte";
+  import Comments from "../../posts/[slug]/Comments.svelte";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
