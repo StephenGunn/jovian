@@ -1,7 +1,7 @@
 ---
 title: Getting Svelte Inspector Working with Neovim
 description: Setting up click-to-edit from browser to Neovim on Arch Linux
-date: "2025-12-9"
+date: "2025-12-09"
 categories:
   - sveltekit
   - neovim
