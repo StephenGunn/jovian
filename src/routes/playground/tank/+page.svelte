@@ -8,10 +8,16 @@
   import Comments from "../../posts/[slug]/Comments.svelte";
   import DevlogEntry from "../DevlogEntry.svelte";
   import Seo from "sk-seo";
+  import { blog_update_no_time } from "$lib/dates";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
   let { item, related_posts } = data;
+
+  // Get the most recent update date from devlog or creation date
+  const last_updated = item.devlog && item.devlog.length > 0
+    ? item.devlog[0].date
+    : item.date;
 
   const open_graph_image = encodeURI(
     `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=${item.title}&link=playground/tank`
@@ -134,6 +140,8 @@
 
     <p class="description">{item.description}</p>
 
+    <p class="last-updated">Last updated: {blog_update_no_time(last_updated)}</p>
+
     <div class="meta">
       <p class="instructions">Click anywhere in the tank to swim around.</p>
       {#if other_fish.length > 0}
@@ -251,6 +259,13 @@
   .description {
     color: var(--fg-muted, #999);
     line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .last-updated {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--fg-muted, #999);
     margin-bottom: 2rem;
   }
 

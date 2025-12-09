@@ -49,7 +49,7 @@ export const playground_items: PlaygroundItem[] = [
       {
         date: "2025-12-07",
         title: "Initial build: 2D to 3D multiplayer fish tank",
-        description: "Started with a basic 2D multiplayer fish tank using SVG and PartyKit WebSockets—had fish swimming around in about 5 minutes. Then converted to 3D using Threlte (Three.js + Svelte). Fish are now oval shapes with eyes for directionality and rotate when swimming. Added basic decorations: gravel floor, rocks, and simple plants. Camera zoomed to fill screen like standing in front of a real aquarium.",
+        description: "Started with a basic 2D multiplayer fish tank using SVG and PartyKit WebSockets—had fish swimming around in about 5 minutes. Then converted to 3D using Threlte (Three.js + Svelte). Fish are now stunning oval shapes with eyes (so you know which way they're going) and rotate when swimming. Added photorealistic decorations: gravel floor (flat plane), rocks (spheres), and plants (cylinders). Practically indistinguishable from a real aquarium.",
         screenshot: "fishtank_version1.png"
       }
     ]
