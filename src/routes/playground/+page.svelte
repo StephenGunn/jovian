@@ -19,9 +19,7 @@
 <div class="grid_column">
   <h1>Playground</h1>
   <p class="subtitle">
-    A distant echo back to the days of k10k's issues, but with much less direction, style, and
-    skill. Not by choice of course! This will hold the things that don't fit under blog posts,
-    shouldn't be on a subdomain, etc.
+    A distant echo back to the days of k10k's issues—experimental projects and interactive experiences that don't quite fit as blog posts. Multiplayer demos, visual experiments, and the occasional thing that came to me in a dream.
   </p>
 
   <ul>
@@ -37,11 +35,20 @@
   .subtitle {
     color: var(--fg-muted);
     margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  /* Override grid layout to use single column */
+  /* Override grid layout to use single column and center */
   .grid_column ul {
     grid-template-columns: 1fr;
     max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .grid_column h1 {
+    text-align: center;
   }
 </style>

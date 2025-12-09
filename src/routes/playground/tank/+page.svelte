@@ -2,13 +2,20 @@
   import { onMount, onDestroy } from "svelte";
   import PartySocket from "partysocket";
   import { PUBLIC_WS_SERVER, PUBLIC_BLUESKY_DID } from "$env/static/public";
+  import { dev } from "$app/environment";
   import Tank from "$lib/tank/Tank.svelte";
   import OtherFish from "$lib/tank/OtherFish.svelte";
   import Comments from "../../posts/[slug]/Comments.svelte";
+  import DevlogEntry from "../DevlogEntry.svelte";
+  import Seo from "sk-seo";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
   let { item, related_posts } = data;
+
+  const open_graph_image = encodeURI(
+    `${dev ? "http://localhost:42069" : "https://jovianmoon.io"}/api/images/pages?title=${item.title}&link=playground/tank`
+  );
 
   type FishData = {
     id: string;
@@ -98,20 +105,32 @@
   }
 </script>
 
-<svelte:head>
-  <title>{item.title} - JovianMoon.io</title>
-  <meta name="description" content={item.description} />
-</svelte:head>
+<Seo
+  title="{item.title} - JovianMoon.io"
+  description={item.description}
+  imageURL={open_graph_image}
+/>
 
 <div class="tank-page">
-  <Tank {broadcast_movement} bind:this={tank_component}>
-    {#each other_fish as fish (fish.id)}
-      <OtherFish id={fish.id} country={fish.country} bind:this={fish_components[fish.id]} />
-    {/each}
-  </Tank>
+  <div class="tank-wrapper">
+    <Tank {broadcast_movement} bind:this={tank_component}>
+      {#each other_fish as fish (fish.id)}
+        <OtherFish
+          id={fish.id}
+          country={fish.country}
+          bind:this={fish_components[fish.id]}
+        />
+      {/each}
+    </Tank>
+  </div>
 
   <div class="content">
-    <h2>{item.title}</h2>
+    <div class="header">
+      <h2>{item.title}</h2>
+      {#if item.status}
+        <span class="status-badge {item.status}">{item.status}</span>
+      {/if}
+    </div>
 
     <p class="description">{item.description}</p>
 
@@ -119,10 +138,34 @@
       <p class="instructions">Click anywhere in the tank to swim around.</p>
       {#if other_fish.length > 0}
         <p class="player-count">
-          [ {other_fish.length} other {other_fish.length === 1 ? "fish" : "fish"} swimming ]
+          [ {other_fish.length} other {other_fish.length === 1 ? "fish" : "fish"} swimming
+          ]
         </p>
       {/if}
     </div>
+
+    {#if item.goals && item.goals.length > 0}
+      <section class="goals-section">
+        <h3>Goals</h3>
+        <ul class="goals-list">
+          {#each item.goals as goal}
+            <li class="goal-item" class:completed={goal.completed}>
+              <span class="checkbox">{goal.completed ? "✓" : "☐"}</span>
+              <span class="goal-text">{goal.text}</span>
+            </li>
+          {/each}
+        </ul>
+      </section>
+    {/if}
+
+    {#if item.devlog && item.devlog.length > 0}
+      <section class="devlog-section">
+        <h3>Development Log</h3>
+        {#each item.devlog as entry}
+          <DevlogEntry {entry} />
+        {/each}
+      </section>
+    {/if}
 
     {#if related_posts.length > 0}
       <section class="related-posts">
@@ -154,14 +197,55 @@
     min-height: 100vh;
   }
 
+  .tank-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding: 7rem 2rem 0 2rem;
+  }
+
   .content {
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
   }
 
-  .content h2 {
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .content h2 {
+    margin-bottom: 0;
+  }
+
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-badge.in-progress {
+    background: rgba(234, 179, 8, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+  }
+
+  .status-badge.experimental {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+
+  .status-badge.stable {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
   }
 
   .description {
@@ -183,6 +267,64 @@
     color: var(--fg-muted, #999);
     font-family: monospace;
     margin-top: 0.5rem;
+  }
+
+  .goals-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border, #444);
+  }
+
+  .goals-section h3 {
+    margin-bottom: 1rem;
+    color: var(--fg, #fff);
+  }
+
+  .goals-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .goal-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: monospace;
+    color: var(--fg-muted, #999);
+    transition: color 0.2s;
+  }
+
+  .goal-item.completed {
+    color: var(--fg, #fff);
+  }
+
+  .checkbox {
+    font-size: 1.1rem;
+    color: var(--accent, #8b5cf6);
+    min-width: 1.5rem;
+    text-align: center;
+  }
+
+  .goal-item.completed .checkbox {
+    color: #4ade80;
+  }
+
+  .goal-text {
+    line-height: 1.5;
+  }
+
+  .devlog-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border, #444);
+  }
+
+  .devlog-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--fg, #fff);
   }
 
   .related-posts {

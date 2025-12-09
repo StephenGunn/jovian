@@ -26,6 +26,7 @@
     "@sveltejs/kit": "^2.49.0",
     "@sveltejs/vite-plugin-svelte": "6.2.1",
     "@types/eslint": "^9.6.1",
+    "@types/three": "^0.181.0",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.48.0",
     "dayjs": "^1.11.19",
@@ -73,7 +74,10 @@
   "type": "module",
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
+    "@threlte/core": "^8.3.1",
+    "@threlte/extras": "^9.7.1",
     "svelte-component-to-image": "^2.0.5",
+    "three": "^0.181.2",
     "unified": "^11.0.5"
   }
 }

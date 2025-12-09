@@ -37,9 +37,16 @@
         <div class="image-container">
           <img src={item.image} alt={item.title} />
         </div>
+      {:else}
+        <div class="image-placeholder">
+          <Starfield stars={generate_starfield()} />
+        </div>
       {/if}
       <div class="title">
         {item.title}
+        {#if item.status}
+          <span class="status-badge {item.status}">{item.status}</span>
+        {/if}
       </div>
       <div class="date">
         <span>{blog_update_no_time(item.date)}</span>
@@ -111,8 +118,8 @@
     gap: 0.25rem;
     position: relative;
     flex-flow: column;
-    background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%),
-      black;
+    background:
+      radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%), black;
     text-decoration: none;
     display: flex;
     width: 100%;
@@ -137,6 +144,7 @@
   a:hover {
     transition-duration: 150ms;
     box-shadow: 0 5px 20px 5px #00000044;
+    text-decoration: none;
   }
   a .content {
     z-index: 2;
@@ -161,6 +169,15 @@
     object-fit: cover;
   }
 
+  .image-placeholder {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--bg-accent-1);
+    position: relative;
+    background: radial-gradient(circle, rgba(24, 23, 29, 1) 0%, rgba(22, 20, 28, 1) 100%);
+  }
+
   a .title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -169,11 +186,40 @@
     padding: 1rem;
     min-height: 6rem;
     display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid var(--bg-accent-1);
     text-align: center;
     text-wrap: balance;
+  }
+
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-badge.in-progress {
+    background: rgba(234, 179, 8, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+  }
+
+  .status-badge.experimental {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+
+  .status-badge.stable {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
   }
 
   a .date {
