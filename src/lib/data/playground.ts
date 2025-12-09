@@ -36,7 +36,7 @@ export const playground_items: PlaygroundItem[] = [
     related_posts: [
       "i-made-my-homepage-multiplayer"
     ],
-    bluesky_thread_id: "3liij2ctiqc2t",
+    bluesky_thread_id: "3m7jdagazqs2a",
     goals: [
       { text: "Create project page", completed: true },
       { text: "Copy movement logic from homepage", completed: true },
