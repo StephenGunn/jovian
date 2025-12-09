@@ -18,10 +18,11 @@ first switched to Neovim, I really wanted this - press a keyboard shortcut, clic
 element in your browser, and it opens the corresponding component at the exact line and
 column.
 
-I found [Theo Steiner's deep-dive](https://github.com/Theo-Steiner/blog/discussions/4)
-about getting it working with Neovim via RPC sockets, but it required maintaining a bash
-script that parsed process IDs and matched working directories. I didn't want to maintain
-that at a scripting level, so I just got better at telescope and live grep instead.
+I found
+[Theo Steiner's deep-dive](https://github.com/Theo-Steiner/theosteiner.de/issues/4) about
+getting it working with Neovim via RPC sockets, but it required maintaining a bash script
+that parsed process IDs and matched working directories. I didn't want to maintain that at
+a scripting level, so I just got better at telescope and live grep instead.
 
 But Ilja's post inspired me to go back to it, and I found
 [nasso](https://tangled.org/nasso.dev/launch-editor-nvim/) had rewritten the solution in
