@@ -7,6 +7,7 @@ categories:
   - neovim
   - tooling
 published: true
+bluesky_thread_id: "3m7ldrep22s2o"
 ---
 
 ## Svelte Inspector
