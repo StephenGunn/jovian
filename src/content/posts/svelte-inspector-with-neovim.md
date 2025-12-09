@@ -34,21 +34,17 @@ being opened, and sends a remote command to that specific instance.
 
 No new processes, no swapfile conflicts, no bash scripts to maintain.
 
-On Arch:
+### The Setup
 
-```bash
+```bash:arch.btw
 cargo install --locked launch-editor-nvim
 ```
 
-Fish config:
-
-```fish
+```fish:config.fish
 set -gx LAUNCH_EDITOR launch-editor-nvim
 ```
 
-svelte.config.js:
-
-```javascript
+```javascript:svelte.config.js
 vitePlugin: {
   inspector: {
     toggleKeyCombo: "alt-x",
