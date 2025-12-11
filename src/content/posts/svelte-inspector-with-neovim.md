@@ -34,7 +34,7 @@ Every Neovim instance automatically creates an RPC socket. The tool finds all ru
 Neovim sockets, checks which one's working directory is the closest ancestor to the file
 being opened, and sends a remote command to that specific instance.
 
-No new processes, no swapfile conflicts, no bash scripts to maintain.
+No new processes and no bash scripts to maintain.
 
 ### The Setup
 
