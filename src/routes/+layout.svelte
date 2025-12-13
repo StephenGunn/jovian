@@ -9,11 +9,11 @@
 </script>
 
 <svelte:head>
-  <link rel="preconnect" href="https://stats.craftroulette.live" />
+  <link rel="preconnect" href="https://stats.jovianmoon.io" />
   <script
     defer
-    src="https://stats.craftroulette.live/script.js"
-    data-website-id="e34c081c-f7d3-41ee-9ebf-30baade2e00a"
+    src="https://stats.jovianmoon.io/script.js"
+    data-website-id="6d8729d3-6e80-4a83-8b78-b67af8910e55"
   ></script>
 </svelte:head>
 

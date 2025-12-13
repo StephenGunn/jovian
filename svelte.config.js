@@ -19,7 +19,7 @@ const config = {
       directives: {
         "script-src": [
           "self",
-          "https://stats.craftroulette.live",
+          "https://stats.jovianmoon.io",
           "https://challenges.cloudflare.com",
           "https://static.cloudflareinsights.com",
           "unsafe-inline" // needed for Turnstile
@@ -38,7 +38,7 @@ const config = {
         "connect-src": [
           "self",
           "https://public.api.bsky.app", // Allow Bluesky API requests
-          "https://stats.craftroulette.live",
+          "https://stats.jovianmoon.io",
           "https://static.cloudflareinsights.com",
           "https://cloudflareinsights.com",
           "wss://multiplayer.jovianmoon.io"
@@ -47,7 +47,7 @@ const config = {
       reportOnly: {
         "script-src": [
           "self",
-          "https://stats.craftroulette.live",
+          "https://stats.jovianmoon.io",
           "https://challenges.cloudflare.com",
           "https://static.cloudflareinsights.com",
           "unsafe-inline"
@@ -56,7 +56,7 @@ const config = {
         "style-src": ["self", "unsafe-inline"],
         "connect-src": [
           "self",
-          "https://stats.craftroulette.live",
+          "https://stats.jovianmoon.io",
           "https://public.api.bsky.app", // Allow Bluesky API requests
           "https://static.cloudflareinsights.com",
           "https://cloudflareinsights.com",
