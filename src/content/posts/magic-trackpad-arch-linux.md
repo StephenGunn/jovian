@@ -35,7 +35,7 @@ discomfort.
 
 <BlogImage src="blog/appletrackpad1.webp" caption="Modern design on a chunk of petrified tree" />
 
-> This is really just an excuse to show off my tree.
+> This is really just an excuse to show off my sweet stone tree.
 
 The Magic Trackpad turned out to be the perfect middle ground. I'm a Linux nerd who wants
 to use and make open and free software, but I also appreciate good hardware. Apple
