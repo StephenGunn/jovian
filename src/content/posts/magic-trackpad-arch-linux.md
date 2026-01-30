@@ -1,5 +1,5 @@
 ---
-title: Apple Magic Trackpad on Arch Linux with Hyprland
+title: Apple Magic Trackpad (USB-C) on Arch Linux with Hyprland
 description: Getting the Magic Trackpad working with full gesture support on Linux
 date: "2026-1-30"
 categories:
