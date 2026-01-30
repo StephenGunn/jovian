@@ -25,8 +25,6 @@ posts on that coming soon.
 
 <BlogImage src="blog/catncoffee.webp" caption="Action shot while working-on this article: Cat, coffee, and peripherals" />
 
-> This is really just an excuse to show off my tree.
-
 My goal is to use my keyboard for as much as possible. Tiling window navigation in
 Hyprland, Neovim motions, keybinds for everything. But you'll always need some kind of
 pointer for GUIs. I've been switching between a Kensington trackball and various mice for
@@ -34,6 +32,7 @@ years, and no matter what configuration I tried, the trackball still caused pain
 discomfort.
 
 <BlogImage src="blog/appletrackpad1.webp" caption="Modern design on a chunk of petrified tree" />
+> This is really just an excuse to show off my tree.
 
 The Magic Trackpad turned out to be the perfect middle ground. I'm a Linux nerd who wants
 to use and make open and free software, but I also appreciate good hardware. Apple
