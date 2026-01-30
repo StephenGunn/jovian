@@ -25,6 +25,8 @@ posts on that coming soon.
 
 <BlogImage src="blog/catncoffee.webp" caption="Action shot while working-on this article: Cat, coffee, and peripherals" />
 
+> This is really just an excuse to show off my tree.
+
 My goal is to use my keyboard for as much as possible. Tiling window navigation in
 Hyprland, Neovim motions, keybinds for everything. But you'll always need some kind of
 pointer for GUIs. I've been switching between a Kensington trackball and various mice for
