@@ -7,6 +7,7 @@ categories:
   - arch
   - hyprland
 published: true
+bluesky_thread_id: 3mdnuju36pc2u
 ---
 
 <script lang="ts">
