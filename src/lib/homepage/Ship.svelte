@@ -57,7 +57,6 @@
     );
     size = $derived(this.large ? 150 : 50);
 
-    /////////////////////////////////////////////////////////////////
     // helpers for anitmation sequencing & positioning
     private delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
