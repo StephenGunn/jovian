@@ -85,9 +85,14 @@ it with a Mac first and then tried to pair with Linux.
 > I plan on using this with multiple machines. I have a hunch that some more bash
 > scripting is in my future.
 
+With the trackpad off:
+
 ```bash:terminal
 bluetoothctl
 ```
+
+This will start an interactive CLI for bluetooth device management. You will probably need
+to run these commands:
 
 ```bash:bluetoothctl
 power on
@@ -109,6 +114,8 @@ pair AA:BB:CC:DD:EE:FF
 trust AA:BB:CC:DD:EE:FF
 connect AA:BB:CC:DD:EE:FF
 ```
+
+> This should be obvious, but replace the MAC address with your trackpad's.
 
 The `trust` command is what creates a proper bonded connection. Without it, you'll keep
 having issues.
