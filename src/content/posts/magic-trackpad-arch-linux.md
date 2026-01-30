@@ -23,7 +23,7 @@ strain caused by flexing my wrists to reach key combos. I'm now fully convinced 
 or 36 key keyboard is not only completely doable, but actually the best way to type. More
 posts on that coming soon.
 
-<BlogImage src="blog/catncoffee.webp" caption="Cat, coffee, and peripherals" />
+<BlogImage src="blog/catncoffee.webp" caption="Action shot while working-on this article: Cat, coffee, and peripherals" />
 
 My goal is to use my keyboard for as much as possible. Tiling window navigation in
 Hyprland, Neovim motions, keybinds for everything. But you'll always need some kind of
