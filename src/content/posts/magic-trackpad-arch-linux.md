@@ -14,6 +14,8 @@ bluesky_thread_id: 3mdnuju36pc2u
     import BlogImage from '$lib/components/blog/BlogImage.svelte';
 </script>
 
+> Tested on Hyprland 0.53.3 on Arch Linux (January 2026 rolling release)
+
 ## Why a Trackpad?
 
 I've been fighting RSI for a while now, but in December I hit an absolute wall. There were
@@ -204,6 +206,49 @@ The `post` case runs after the system wakes. The short sleep gives the Bluetooth
 connection time to re-establish before restarting the gestures service. Make the script
 executable and gestures will automatically restart after every wake.
 
+## Hyprland Device Config
+
+Hyprland lets you configure per-device input settings. First, find your device name:
+
+```bash:terminal
+hyprctl devices
+```
+
+Look for something like `apple-inc.-magic-trackpad-usb-c` in the output. Then add a device
+block to your Hyprland config:
+
+```conf:~/.config/hypr/hyprland.conf
+device {
+    name = apple-inc.-magic-trackpad-usb-c
+    natural_scroll = false
+    disable_while_typing = true
+    scroll_factor = 0.4
+    clickfinger_behavior = true
+}
+```
+
+- **scroll_factor** controls scroll speed (default is 1.0, I found 0.4 more comfortable)
+- **clickfinger_behavior** enables macOS-style multi-finger clicking (two fingers = right click, three = middle)
+
+## Why libinput-gestures?
+
+Hyprland has built-in workspace swipe gestures, but they animate smoothly between
+workspaces as you drag. I wanted discrete switching - swipe and it snaps to the next
+workspace. libinput-gestures fires `hyprctl dispatch` commands, which gives you that
+instant snap behavior.
+
+If you prefer the smooth animated swiping, you can skip libinput-gestures entirely and
+enable the built-in gestures instead:
+
+```conf:~/.config/hypr/hyprland.conf
+gestures {
+    workspace_swipe = true
+    workspace_swipe_fingers = 3
+    workspace_swipe_distance = 300
+    workspace_swipe_invert = true
+}
+```
+
 ## Dialing It In
 
 One of the best parts of Apple products is that they come finely tuned. You don't have to
@@ -220,9 +265,10 @@ need to restart to accept new themes. More on that later.
 ## Summary
 
 1. Pair with `bluetoothctl` - the GUI doesn't create bonded connections
-2. Install `libinput-gestures` and add yourself to the `input` group
-3. Configure gestures for your window manager
-4. Add a sleep hook to fix post-wake issues
+2. Add a per-device config in Hyprland to tune scroll speed and behavior
+3. Install `libinput-gestures` and add yourself to the `input` group
+4. Configure gestures for your window manager
+5. Add a sleep hook to fix post-wake issues
 
 The Magic Trackpad is genuinely nice hardware, and once configured, it works great on
 Linux. My [dotfiles](https://github.com/StephenGunn/dotfiles) have the full gesture config
