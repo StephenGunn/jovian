@@ -103,7 +103,7 @@ default-agent
 scan on
 ```
 
-You'll see the trackpad appear:
+Turn on the trackpad and you should see the trackpad appear:
 
 ```
 [NEW] Device AA:BB:CC:DD:EE:FF Apple Inc. Magic Trackpad
@@ -228,7 +228,8 @@ device {
 ```
 
 - **scroll_factor** controls scroll speed (default is 1.0, I found 0.4 more comfortable)
-- **clickfinger_behavior** enables macOS-style multi-finger clicking (two fingers = right click, three = middle)
+- **clickfinger_behavior** enables macOS-style multi-finger clicking (two fingers = right
+  click, three = middle)
 
 ## Why libinput-gestures?
 
