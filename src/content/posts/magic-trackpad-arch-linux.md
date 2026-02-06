@@ -275,3 +275,28 @@ need to restart to accept new themes. More on that later.
 The Magic Trackpad is genuinely nice hardware, and once configured, it works great on
 Linux. My [dotfiles](https://github.com/StephenGunn/dotfiles) have the full gesture config
 if you want to see it.
+
+## Update: USB Charging and Sleep Issues
+
+After a week of solid Bluetooth operation, I plugged the trackpad into my
+computer to charge. After that, it stopped reconnecting after sleep.
+
+The fix was updating the sleep hook to explicitly reconnect Bluetooth before
+restarting the gestures service:
+
+```bash
+#!/bin/bash
+case "$1" in
+    post)
+        sleep 2
+        bluetoothctl connect AA:BB:CC:DD:EE:FF
+        sleep 3
+        /usr/bin/runuser -u YOUR_USERNAME -- systemctl --user restart libinput-gestures
+        ;;
+esac
+```
+
+I also discovered that the trackpad has a different device name when connected
+over USB vs Bluetooth. Over Bluetooth it shows up as `apple-inc.-magic-trackpad-usb-c`
+but over USB it's just `apple-inc.-magic-trackpad`. If you want gestures and
+right-click to work while wired, add a second device block with the USB name.
