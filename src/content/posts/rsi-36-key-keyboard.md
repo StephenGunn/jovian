@@ -9,6 +9,7 @@ categories:
   - rsi
   - qmk
 published: true
+bluesky_thread_id: 3memasn2ekc2k
 ---
 
 <script lang="ts">
@@ -390,7 +391,8 @@ Right hand `Super` (`;`), left hand action key:
 
 <MediaPlayer video="https://github.com/user-attachments/assets/bb4f5d45-adbb-4225-9c03-2fa16c502002" />
 
-> A non-warmed up clip from practice on keybr.com. Once I get warmed up and have flow going, I'm much faster and don't feel slowed down by the keyboard at all.
+> A non-warmed up clip from practice on keybr.com. Once I get warmed up and have flow
+> going, I'm much faster and don't feel slowed down by the keyboard at all.
 
 ## Resources
 
