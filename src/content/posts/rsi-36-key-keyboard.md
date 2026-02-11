@@ -8,7 +8,7 @@ categories:
   - keyboards
   - rsi
   - qmk
-published: false
+published: true
 ---
 
 <script lang="ts">
@@ -39,7 +39,8 @@ and make the common paths effortless.
 
 <MediaPlayer video="https://github.com/user-attachments/assets/bb4f5d45-adbb-4225-9c03-2fa16c502002" />
 
-> A non-warmed up clip from practice on keybr.com. Once I get warmed up and have flow going, I'm much faster and don't feel slowed down by the keyboard at all.
+> A non-warmed up clip from practice on keybr.com. Once I get warmed up and have flow
+> going, I'm much faster and don't feel slowed down by the keyboard at all.
 
 ## The Breaking Point
 
@@ -112,7 +113,9 @@ What I wanted:
 - Clean aesthetics with the electronics hidden away
 - QMK firmware (I'd been using ZMK on the Lily58 and wanted to compare)
 
-I got Sunset Tactile Choc switches with this build as one last chance for tactile. I like them, but I'm still not sure if I like them more than the Silent Twilights. The hotswap board means I can keep experimenting.
+I got Sunset Tactile Choc switches with this build as one last chance for tactile. I like
+them, but I'm still not sure if I like them more than the Silent Twilights. The hotswap
+board means I can keep experimenting.
 
 The QMK vs ZMK decision was easy for this build. I wanted a hardwired keyboard to start,
 knowing I'd eventually invest in a wireless split to complement my desk setup at home.
@@ -137,7 +140,8 @@ them through this blog post. Maybe I'll get to write more keyboard content.
 ## Homerow Mods
 
 I'm not going to write a homerow mods tutorial. Better people than me have already done
-that. If you don't know what homerow mods are, [watch this video first](https://www.youtube.com/watch?v=WdLRyG536Us).
+that. If you don't know what homerow mods are,
+[watch this video first](https://www.youtube.com/watch?v=WdLRyG536Us).
 
 The resources that got me here:
 
@@ -257,9 +261,16 @@ quickly.
 
 <KeymapDiagram />
 
-QMK keyboards can be configured with GUI tools like [Vial](https://get.vial.today/), but I chose to edit my keymap directly in C. It gives me full control over the firmware and lets me use features that GUI tools don't always expose. When I make changes, I run a `build.sh` script that compiles the firmware and regenerates my keymap diagram using [keymap-drawer](https://github.com/caksoylar/keymap-drawer). Updating the keyboard is as easy as dragging the compiled file from one window to another.
+QMK keyboards can be configured with GUI tools like [Vial](https://get.vial.today/), but I
+chose to edit my keymap directly in C. It gives me full control over the firmware and lets
+me use features that GUI tools don't always expose. When I make changes, I run a
+`build.sh` script that compiles the firmware and regenerates my keymap diagram using
+[keymap-drawer](https://github.com/caksoylar/keymap-drawer). Updating the keyboard is as
+easy as dragging the compiled file from one window to another.
 
-I also threw together a script so I can hit `Super` + `K` at any time to see my up-to-date keymap. This is just another example of the hobbyist keyboard world being insane and having insane tooling.
+I also threw together a script so I can hit `Super` + `K` at any time to see my up-to-date
+keymap. This is just another example of the hobbyist keyboard world being insane and
+having insane tooling.
 
 <MediaPlayer video="https://github.com/user-attachments/assets/7ea02938-d4b1-4fa4-8b12-1e7532e839ae" />
 
