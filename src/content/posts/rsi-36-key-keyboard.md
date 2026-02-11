@@ -37,11 +37,6 @@ and make the common paths effortless.
 
 <BlogImage src="blog/keyboard1.webp" caption="The Piantor Pro on my desk, cat included" />
 
-<MediaPlayer video="https://github.com/user-attachments/assets/bb4f5d45-adbb-4225-9c03-2fa16c502002" />
-
-> A non-warmed up clip from practice on keybr.com. Once I get warmed up and have flow
-> going, I'm much faster and don't feel slowed down by the keyboard at all.
-
 ## The Breaking Point
 
 I spent years on the road as a professional drummer. Tight forearms have been part of my
@@ -392,6 +387,10 @@ Right hand `Super` (`;`), left hand action key:
 <KeyCombo held="19" keys="0" kbd="Super, Q" label="Open terminal (Ghostty)" />
 
 <KeyCombo held="19" keys="3" kbd="Super, R" label="Open app launcher (Rofi)" />
+
+<MediaPlayer video="https://github.com/user-attachments/assets/bb4f5d45-adbb-4225-9c03-2fa16c502002" />
+
+> A non-warmed up clip from practice on keybr.com. Once I get warmed up and have flow going, I'm much faster and don't feel slowed down by the keyboard at all.
 
 ## Resources
 
