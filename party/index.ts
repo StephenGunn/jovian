@@ -113,6 +113,21 @@ export default class Server implements Party.Server {
 
     console.log(`Connection ${conn.id} disconnected from room ${this.room.id}`);
   }
+
+  async onRequest(req: Party.Request) {
+    const url = new URL(req.url);
+
+    // Flush all stored entities (clears stale connections from storage)
+    if (url.pathname.endsWith("/flush") && req.method === "POST") {
+      const isTankRoom = this.room.id === "playground-tank";
+      const prefix = isTankRoom ? "fish:" : "alien:";
+      const entries = await this.room.storage.list({ prefix });
+      await this.room.storage.delete([...entries.keys()]);
+      return new Response(`Flushed ${entries.size} ${isTankRoom ? "fish" : "aliens"}`, { status: 200 });
+    }
+
+    return new Response("Not found", { status: 404 });
+  }
 }
 
 Server satisfies Party.Worker;

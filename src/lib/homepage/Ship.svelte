@@ -13,7 +13,8 @@
     io_data,
     europa_data,
     ganymede_data,
-    quest
+    quest,
+    wave_ref
   } from "$lib/stores/homepage.svelte.js";
 
   let { broadcast_waypoint }: { broadcast_waypoint: (x: number, y: number) => void } =
@@ -435,20 +436,28 @@
     ship.landed = true;
     quest.reset();
 
-    // Determine where the ship should be launched from, this is not science
+    // Position ship relative to bottom of screen, above the waves
+    // Wave peaks are roughly 50% up from the bottom of the wave SVG
+    const wave_height = wave_ref.height ?? h * 0.2;
+    const ship_y = h - wave_height * 0.7 - ship.size / 2;
+
+    // X position scales with screen width
+    let ship_x: number;
     if (w <= 600) {
-      ship.set_launch_position(w * 0.15, h * 0.785); // mobile has min-height on waves
+      ship_x = w * 0.15;
     } else if (w <= 800) {
-      ship.set_launch_position(w * 0.18, h * 0.85);
+      ship_x = w * 0.18;
     } else if (w <= 1000) {
-      ship.set_launch_position(w * 0.22, h * 0.83);
+      ship_x = w * 0.22;
     } else if (w <= 1300) {
-      ship.set_launch_position(w * 0.25, h * 0.79);
+      ship_x = w * 0.25;
     } else if (w <= 1600) {
-      ship.set_launch_position(w * 0.28, h * 0.79);
+      ship_x = w * 0.28;
     } else {
-      ship.set_launch_position(w * 0.3, h * 0.73);
+      ship_x = w * 0.3;
     }
+
+    ship.set_launch_position(ship_x, ship_y);
 
     setTimeout(async () => {
       ship.show_hint = true;
