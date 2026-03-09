@@ -12,6 +12,7 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "deploy:party": "./deploy.sh",
+    "flush": "bash -c 'source .env 2>/dev/null; PARTYKIT_DOMAIN=${PARTYKIT_DOMAIN:-party.jovianmoon.io}; curl -sX POST https://$PARTYKIT_DOMAIN/parties/main/space/flush && echo; curl -sX POST https://$PARTYKIT_DOMAIN/parties/main/playground-tank/flush && echo'",
     "docker:build": "docker build -t jovianmoon .",
     "docker:run": "docker run -p 3000:3000 jovianmoon",
     "docker:dev": "docker build -t jovianmoon . && docker run -p 3000:3000 jovianmoon"

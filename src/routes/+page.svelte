@@ -26,6 +26,16 @@
   let alien_components: Record<string, Alien> = $state({});
   let party: PartySocket | undefined = $state();
 
+  // Close connection when tab is hidden, reconnect when visible
+  function handleVisibility() {
+    if (!party) return;
+    if (document.hidden) {
+      party.close();
+    } else {
+      party.reconnect();
+    }
+  }
+
   onMount(async () => {
     try {
       party = new PartySocket({
@@ -38,6 +48,9 @@
         // Connection failed - this is expected in some environments like PSI
         party = undefined;
       });
+
+      // Pause reconnection when tab is hidden to prevent ghost connections
+      document.addEventListener("visibilitychange", handleVisibility);
 
       party.addEventListener("message", (event: MessageEvent) => {
         const message = JSON.parse(event.data);
@@ -81,6 +94,7 @@
   });
 
   onDestroy(() => {
+    document.removeEventListener("visibilitychange", handleVisibility);
     party?.close();
   });
 

@@ -21,6 +21,6 @@ npx partykit deploy --domain $PARTYKIT_DOMAIN
 
 # Flush stale connections from storage
 echo "Flushing stale connections..."
-curl -s -X POST "https://$PARTYKIT_DOMAIN/party/space/flush" && echo ""
-curl -s -X POST "https://$PARTYKIT_DOMAIN/party/playground-tank/flush" && echo ""
+curl -s -X POST "https://$PARTYKIT_DOMAIN/parties/main/space/flush" && echo ""
+curl -s -X POST "https://$PARTYKIT_DOMAIN/parties/main/playground-tank/flush" && echo ""
 echo "Deploy complete!"
