@@ -10,6 +10,7 @@ categories:
   - stow
   - arch
 published: true
+bluesky_thread_id: "3mgn4i6ofis2g"
 ---
 
 ## Why Manage Dotfiles?
