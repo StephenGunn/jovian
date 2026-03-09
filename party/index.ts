@@ -117,13 +117,21 @@ export default class Server implements Party.Server {
   async onRequest(req: Party.Request) {
     const url = new URL(req.url);
 
-    // Flush all stored entities (clears stale connections from storage)
+    // Flush all stored entities and kick active connections (they'll auto-reconnect)
     if (url.pathname.endsWith("/flush") && req.method === "POST") {
       const isTankRoom = this.room.id === "playground-tank";
       const prefix = isTankRoom ? "fish:" : "alien:";
       const entries = await this.room.storage.list({ prefix });
       await this.room.storage.delete([...entries.keys()]);
-      return new Response(`Flushed ${entries.size} ${isTankRoom ? "fish" : "aliens"}`, { status: 200 });
+
+      // Kick all active connections - they'll reconnect fresh
+      let kicked = 0;
+      for (const conn of this.room.getConnections()) {
+        conn.close();
+        kicked++;
+      }
+
+      return new Response(`Flushed ${entries.size} stored, kicked ${kicked} active`, { status: 200 });
     }
 
     return new Response("Not found", { status: 404 });

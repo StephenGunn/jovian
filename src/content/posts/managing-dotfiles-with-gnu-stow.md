@@ -69,6 +69,9 @@ The result:
 ~/.ssh → ~/dotfiles/.ssh
 ```
 
+> **Note:** I don't sync private keys. My `.ssh/` directory has a `.gitignore` that excludes
+> `id_*`, `*.pem`, `*.key`, and `authorized_keys`. Only the `config` file is tracked.
+
 ## Tree Folding
 
 Stow is smart about how it creates symlinks. If `~/.config/fish/` doesn't exist yet, stow
