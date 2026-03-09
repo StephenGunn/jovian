@@ -25,16 +25,7 @@
   let aliens: AlienData[] = $state<AlienData[]>([]);
   let alien_components: Record<string, Alien> = $state({});
   let party: PartySocket | undefined = $state();
-
-  // Close connection when tab is hidden, reconnect when visible
-  function handleVisibility() {
-    if (!party) return;
-    if (document.hidden) {
-      party.close();
-    } else {
-      party.reconnect();
-    }
-  }
+  let handleVisibility: (() => void) | undefined;
 
   onMount(async () => {
     try {
@@ -50,6 +41,14 @@
       });
 
       // Pause reconnection when tab is hidden to prevent ghost connections
+      handleVisibility = () => {
+        if (!party) return;
+        if (document.hidden) {
+          party.close();
+        } else {
+          party.reconnect();
+        }
+      };
       document.addEventListener("visibilitychange", handleVisibility);
 
       party.addEventListener("message", (event: MessageEvent) => {
@@ -94,7 +93,9 @@
   });
 
   onDestroy(() => {
-    document.removeEventListener("visibilitychange", handleVisibility);
+    if (handleVisibility) {
+      document.removeEventListener("visibilitychange", handleVisibility);
+    }
     party?.close();
   });
 
