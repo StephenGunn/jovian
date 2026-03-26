@@ -1,5 +1,6 @@
 ---
 title: "Cheapino Review: A Budget Entry Point to Split Ergo"
+published: true
 description:
   For everyone still on the fence about split keyboards. A look at what a $55 AliExpress
   board gets you, and whether it's enough to get started.
@@ -7,7 +8,6 @@ date: "2026-03-25"
 categories:
   - keyboards
   - qmk
-published: true
 bluesky_thread_id: 3mhwil462wc2k
 ---
 
