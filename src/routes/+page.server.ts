@@ -1,4 +1,4 @@
-export const prerender = true;
+export const prerender = false;
 
 import type { PageServerLoad } from "./$types";
 import { generate_starfield } from "$lib/layout/generate_starfield.svelte";

@@ -1,4 +1,4 @@
-export const prerender = true;
+export const prerender = false;
 
 import type { RequestHandler } from "@sveltejs/kit";
 import { get_posts } from "$lib/queries/get_posts";
