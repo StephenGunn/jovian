@@ -7,7 +7,7 @@ date: "2026-3-25"
 categories:
   - keyboards
   - qmk
-published: false
+published: true
 ---
 
 <script lang="ts">
