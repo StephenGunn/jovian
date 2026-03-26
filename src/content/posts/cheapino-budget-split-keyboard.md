@@ -54,7 +54,7 @@ add up quickly.
 
 ### The Learning Curve is Real (caveat)
 
-> A quite note if you're intersted in diving into tiny keyboards
+> A quick note if you're intersted in diving into tiny keyboards
 
 [If Coding Were Natural](https://www.youtube.com/watch?v=07Zl6AK5MBU) has a great video
 about this: people order a crazy split keyboard hoping it will fix their RSI, use it for
