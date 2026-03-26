@@ -13,10 +13,10 @@
 
   // data comes in, can't explain that
   let { data } = $props();
-  let { categories } = data;
+  let categories = $derived(data.categories);
 
   // making a copy of the posts to prevent possible mutation
-  const posts_copy = [...data.posts];
+  let posts_copy = $derived([...data.posts]);
 
   let active_filters: string[] = $state([]);
   let active_sort: "date" | "alpha" = $state("date");
