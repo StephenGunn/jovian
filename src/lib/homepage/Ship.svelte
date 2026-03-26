@@ -3,8 +3,7 @@
   import Rocket from "./Rocket.svelte";
   import type { CelestialBodyData, Coords } from "$lib/types/schema";
   import { fade, fly } from "svelte/transition";
-  import { onMount } from "svelte";
-  import { Tween } from "svelte/motion";
+    import { Tween } from "svelte/motion";
   import { debug_mode } from "$lib/data";
   import { sineInOut, sineIn } from "svelte/easing";
   import {
@@ -14,7 +13,8 @@
     europa_data,
     ganymede_data,
     quest,
-    wave_ref
+    wave_ref,
+    scene_ref
   } from "$lib/stores/homepage.svelte.js";
 
   let { broadcast_waypoint }: { broadcast_waypoint: (x: number, y: number) => void } =
@@ -432,36 +432,46 @@
   let w = $state(0);
   let h = $state(0);
 
-  onMount(() => {
-    ship.landed = true;
-    quest.reset();
+  // Track if we've positioned the ship
+  let positioned = $state(false);
 
-    // Position ship relative to bottom of screen, above the waves
-    // Wave peaks are roughly 50% up from the bottom of the wave SVG
-    const wave_height = wave_ref.height ?? h * 0.2;
-    const ship_y = h - wave_height * 0.7 - ship.size / 2;
+  // Position ship when dimensions are available
+  $effect(() => {
+    const scene_w = scene_ref.width ?? 0;
+    const scene_h = scene_ref.height ?? 0;
+    const wave_h = wave_ref.height ?? 0;
 
-    // X position scales with screen width
-    let ship_x: number;
-    if (w <= 600) {
-      ship_x = w * 0.15;
-    } else if (w <= 800) {
-      ship_x = w * 0.18;
-    } else if (w <= 1000) {
-      ship_x = w * 0.22;
-    } else if (w <= 1300) {
-      ship_x = w * 0.25;
-    } else if (w <= 1600) {
-      ship_x = w * 0.28;
-    } else {
-      ship_x = w * 0.3;
+    if (scene_w > 0 && scene_h > 0 && wave_h > 0 && !positioned) {
+      positioned = true;
+      ship.landed = true;
+      quest.reset();
+
+      // Position ship so it appears landed on the waves
+      // Place it 45% up from the bottom of the wave area
+      const ship_y = scene_h - (wave_h * 0.45) - ship.size / 2;
+
+      // X position scales with scene width
+      let ship_x: number;
+      if (scene_w <= 600) {
+        ship_x = scene_w * 0.15;
+      } else if (scene_w <= 800) {
+        ship_x = scene_w * 0.18;
+      } else if (scene_w <= 1000) {
+        ship_x = scene_w * 0.22;
+      } else if (scene_w <= 1300) {
+        ship_x = scene_w * 0.25;
+      } else if (scene_w <= 1600) {
+        ship_x = scene_w * 0.28;
+      } else {
+        ship_x = scene_w * 0.3;
+      }
+
+      ship.set_launch_position(ship_x, ship_y);
+
+      setTimeout(() => {
+        ship.show_hint = true;
+      }, 3000);
     }
-
-    ship.set_launch_position(ship_x, ship_y);
-
-    setTimeout(async () => {
-      ship.show_hint = true;
-    }, 3000);
   });
 </script>
 

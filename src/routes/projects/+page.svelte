@@ -13,10 +13,10 @@
 
   // data comes in, can't explain that
   let { data } = $props();
-  let { categories } = data;
+  let categories = $derived(data.categories ?? []);
 
   // making a copy of the projects to prevent possible mutation
-  const projects_copy = [...data.projects];
+  let projects_copy = $derived(data.projects ? [...data.projects] : []);
 
   let active_filters: string[] = $state([]);
   let active_sort: "date" | "alpha" = $state("alpha");

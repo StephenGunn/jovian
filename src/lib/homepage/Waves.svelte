@@ -6,8 +6,8 @@
   bind:clientWidth={wave_ref.width}
   bind:clientHeight={wave_ref.height}
   class="waves"
-  preserveAspectRatio="xMidYMid meet"
-  viewBox="0 0 960 540"
+  preserveAspectRatio="xMidYMax slice"
+  viewBox="0 390 960 151"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   version="1.1"
@@ -36,5 +36,5 @@
     z-index: 8;
     pointer-events: none;
     min-width: 1000px;
-  }
+      }
 </style>

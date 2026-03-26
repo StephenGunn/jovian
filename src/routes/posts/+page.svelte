@@ -13,15 +13,10 @@
 
   // data comes in, can't explain that
   let { data } = $props();
-  let categories = $derived(data.categories);
+  let categories = $derived(data.categories ?? []);
 
   // making a copy of the posts to prevent possible mutation
-  let posts_copy = $derived([...data.posts]);
-
-  // Debug logging
-  $effect(() => {
-    console.log("[posts/+page.svelte] data.posts changed:", data.posts.length, "first:", data.posts[0]?.slug);
-  });
+  let posts_copy = $derived(data.posts ? [...data.posts] : []);
 
   let active_filters: string[] = $state([]);
   let active_sort: "date" | "alpha" = $state("date");

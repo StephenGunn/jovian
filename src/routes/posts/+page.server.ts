@@ -2,14 +2,12 @@ export const prerender = false;
 
 import type { Post } from "$lib/types/schema";
 import type { PageServerLoad } from "./$types";
-
+import { get_posts } from "$lib/queries/get_posts";
 import { slugify } from "$lib/utility";
 
-export const load: PageServerLoad = async ({ fetch }) => {
-  console.log("[posts/+page.server.ts] load function running");
-  const response = await fetch("/api/posts");
-  const posts: Post[] = await response.json();
-  console.log("[posts/+page.server.ts] got posts:", posts.length, "first:", posts[0]?.slug);
+export const load: PageServerLoad = async ({ depends }) => {
+  depends('data:posts');
+  const posts: Post[] = await get_posts();
 
   // generate a map of our post categories
   const categories = new Map<string, string>();
