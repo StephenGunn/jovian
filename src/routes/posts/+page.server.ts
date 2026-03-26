@@ -6,8 +6,10 @@ import type { PageServerLoad } from "./$types";
 import { slugify } from "$lib/utility";
 
 export const load: PageServerLoad = async ({ fetch }) => {
+  console.log("[posts/+page.server.ts] load function running");
   const response = await fetch("/api/posts");
   const posts: Post[] = await response.json();
+  console.log("[posts/+page.server.ts] got posts:", posts.length, "first:", posts[0]?.slug);
 
   // generate a map of our post categories
   const categories = new Map<string, string>();

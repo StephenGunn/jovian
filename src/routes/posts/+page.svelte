@@ -18,6 +18,11 @@
   // making a copy of the posts to prevent possible mutation
   let posts_copy = $derived([...data.posts]);
 
+  // Debug logging
+  $effect(() => {
+    console.log("[posts/+page.svelte] data.posts changed:", data.posts.length, "first:", data.posts[0]?.slug);
+  });
+
   let active_filters: string[] = $state([]);
   let active_sort: "date" | "alpha" = $state("date");
   let show_filters = $state(false);
