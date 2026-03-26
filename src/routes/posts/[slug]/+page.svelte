@@ -375,12 +375,24 @@
         "right"
         "middle";
       padding: 0 1rem;
+      max-width: 100vw;
+      box-sizing: border-box;
+    }
+    .left, .middle, .right {
+      max-width: 100%;
+      min-width: 0;
     }
 
     .content > .left {
-      max-width: fit-content;
-      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: center;
       padding: 1rem;
+    }
+    .extra {
+      width: 100%;
+      max-width: none;
+      padding: 0;
     }
 
     .content > .right {

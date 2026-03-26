@@ -300,6 +300,8 @@
 @media (max-width: 768px) {
   .post {
     padding: 0.5rem;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .post>*:not(:last-child) {

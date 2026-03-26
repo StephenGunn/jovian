@@ -75,6 +75,13 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (max-width: 800px) {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
+
 body {
   font-family: "Jost", "Arial", sans-serif;
   font-weight: normal;
