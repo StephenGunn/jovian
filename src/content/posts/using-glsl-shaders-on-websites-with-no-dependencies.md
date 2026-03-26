@@ -1,7 +1,7 @@
 ---
 title: Using GLSL shaders on the web without dependencies
 description: Wrangling the power of LLMs to create stunning visuals from GLSL shaders.
-date: "2025-2-24"
+date: "2025-02-24"
 categories:
   - svelte
   - canvas

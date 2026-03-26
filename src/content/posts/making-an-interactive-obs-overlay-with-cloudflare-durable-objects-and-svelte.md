@@ -3,7 +3,7 @@ title: Making an interactive OBS stream overlay with Cloudflare Durable Objects 
 description:
   Control a dynamic stream overlay from an Elgato Streamdeck in an OBS Browser Source that
   you can self host.
-date: "2025-2-25"
+date: "2025-02-25"
 categories:
   - svelte
   - obs

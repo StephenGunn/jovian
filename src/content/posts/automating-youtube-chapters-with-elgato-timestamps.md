@@ -3,7 +3,7 @@ title: Automate (almost) your YouTube Chapter Creation in OBS with Elgato Timest
 description:
   A workflow and tool to transform your content timestamps into YouTube-ready chapter
   markers.
-date: "2025-5-3"
+date: "2025-05-03"
 categories:
   - tool
   - elgato

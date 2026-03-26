@@ -3,8 +3,8 @@ title: SvelteKit form validation with Valibot
 description:
   Creating a formData extraction system that relies on Valibot schemas for simple
   validation
-date: "2025-2-16"
-updated: "2025-2-25"
+date: "2025-02-16"
+updated: "2025-02-25"
 categories:
   - sveltekit
   - valibot

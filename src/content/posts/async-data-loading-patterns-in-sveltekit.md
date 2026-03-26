@@ -1,7 +1,7 @@
 ---
 title: Async data loading patterns in SvelteKit
 description: Avoid these common pitfalls in while data loading in SvelteKit
-date: "2025-4-16"
+date: "2025-04-16"
 categories:
   - sveltekit
   - svelte

@@ -3,7 +3,7 @@ title: "Piantor Pro Review: My RSI Journey and Switching to a 36-Key Keyboard"
 description:
   A Piantor Pro showcase and the story of how repetitive strain injury forced me to
   rethink everything about how I type.
-date: "2026-2-10"
+date: "2026-02-10"
 categories:
   - keyboards
   - rsi

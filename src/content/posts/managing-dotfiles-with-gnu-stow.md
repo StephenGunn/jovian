@@ -3,7 +3,7 @@ title: Managing Dotfiles with GNU Stow
 description:
   A simple single-package approach to dotfiles management with GNU Stow, plus a rofi menu
   for quick access
-date: "2026-3-9"
+date: "2026-03-09"
 categories:
   - linux
   - dotfiles

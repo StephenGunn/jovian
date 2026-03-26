@@ -2,7 +2,7 @@
 title: My approach to sitemaps in SvelteKit
 description:
   How I programmatically generate sitemaps in SvelteKit using a server endpoint.
-date: "2024-11-9"
+date: "2024-11-09"
 updated: "2024-11-11"
 categories:
   - sveltekit

@@ -1,7 +1,7 @@
 ---
 title: Building a Programming Video Recording Setup
 description: Join me as i build a programming environment for video recording
-date: "2025-30-11"
+date: "2025-11-30"
 categories:
   - OBS
   - "Video Production"

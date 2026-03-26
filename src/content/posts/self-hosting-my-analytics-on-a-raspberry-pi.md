@@ -3,7 +3,7 @@ title: Self-hosting Umami Analytics on a Raspberry Pi
 description:
   Breaking free from expensive analytics platforms by running Umami on a Raspberry Pi with
   Cloudflare tunnels
-date: "2025-4-06"
+date: "2025-04-06"
 categories:
   - self-hosting
   - analytics

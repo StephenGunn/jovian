@@ -1,7 +1,7 @@
 ---
 title: I made my homepage multiplayer with websockets
 description: And PartyKit made it easier than ever!
-date: "2025-2-18"
+date: "2025-02-18"
 categories:
   - sveltekit
   - partykit
