@@ -20,6 +20,12 @@ people who can't pull the trigger on a $200+ board. They are, with caveats.
 
 <BlogImage src="blog/cheapino/cheapino.webp" caption="The Cheapino on my desk" />
 
+> **Update:** The creator of the Cheapino, [tompi](https://github.com/tompi), commented on
+> the Reddit thread for this post. He confirmed what I suspected: the AliExpress sellers
+> modified his case design to make it cheaper to produce - basically just left out the
+> screws. If you want to see what a proper Cheapino build looks like, check out the
+> [community gallery](https://github.com/tompi/cheapino/blob/master/doc/gallery.md).
+
 ## Why This Post Exists
 
 If you're reading this, there's a good chance you've spent hours looking at keyboard
@@ -201,6 +207,38 @@ committing to a Choc board.
 
 <!-- TODO: Hand size photo, stagger comparison -->
 
+## Building Your Own
+
+After posting this review, tompi shared some thoughts on the DIY route. Short version: you
+can beat the $55 AliExpress price, but only if you're building two boards.
+
+The math (approximate, without first-time discounts):
+
+- **PCBs from JLCPCB:** ~$20 for 5 boards (minimum order), enough for 2.5 complete
+  keyboards. Use "Global Direct Line" shipping to save on costs. First-time customers get
+  significant discounts.
+- **Components:** ~$20 for 2 complete boards
+- **Switches + keycaps:** $30-40 for decent budget options
+
+So you're looking at roughly $35-40 per board if you build two. Not a huge savings over
+AliExpress, but you get the real case design and full control over the build.
+
+If you have a 3D printer, tompi recommends printing the
+[official case](https://www.thingiverse.com/thing:6661648) at 100% infill for better sound
+and feel. It uses 9 screws per side to sandwich the top and bottom together - far sturdier
+than the friction-fit AliExpress version. You'll need:
+
+- 18x M2 brass heat-set inserts (4mm long, 3mm outer diameter)
+- 18x M2 screws (~5mm long, countersunk head preferred)
+
+The official case also has proper insets for rubber feet, keeping the height minimal.
+
+> Note: My Chocofi is slightly lower profile than the Cheapino. The Piantor and Toucan are
+> both lower-profile than the Chocofi.
+
+For full build documentation, see the
+[Cheapino homepage](https://github.com/tompi/cheapino).
+
 ## Who This Is For
 
 The Cheapino makes sense if you're curious about split ergo but not ready to spend $200+.
@@ -220,8 +258,9 @@ The gap between this and an artisan board is real, but it's in the details. Once
 used a board from a builder like Leo at Beekeeb, you notice the difference. You're paying
 for craft, attention to detail, and someone who gives a shit.
 
-If you're on the fence about split keyboards, the Cheapino is a cheap experiment. If you
-already know you want to go down this rabbit hole, save up. You'll end up there anyway.
+If you're on the fence about split keyboards, the Cheapino is a great way to jump in.
+Building your own is technically the cheapest entry point, but if you're not comfortable
+with soldering, a pre-built gets you there faster.
 
 ## Resources
 
