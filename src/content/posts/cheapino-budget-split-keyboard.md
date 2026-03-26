@@ -8,6 +8,7 @@ categories:
   - keyboards
   - qmk
 published: true
+bluesky_thread_id: 3mhwil462wc2k
 ---
 
 <script lang="ts">
