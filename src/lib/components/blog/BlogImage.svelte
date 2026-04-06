@@ -3,19 +3,20 @@
     src: string;
     caption: string;
     alt?: string;
+    maxWidth?: string;
   }
 
-  let { src, caption, alt = caption }: Props = $props();
+  let { src, caption, alt = caption, maxWidth }: Props = $props();
 </script>
 
-<figure>
+<figure style="max-width: {maxWidth ?? 'none'}; margin-inline: auto;">
   <img src="/{src}" {alt} />
   <figcaption>{caption}</figcaption>
 </figure>
 
 <style>
   figure {
-    margin: 1rem;
+    margin-block: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
