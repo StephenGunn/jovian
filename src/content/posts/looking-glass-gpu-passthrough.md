@@ -7,6 +7,7 @@ categories:
   - linux
   - hyprland
   - arch
+bluesky_thread_id: "3mitvk3f45c23"
 ---
 
 <script lang="ts">
@@ -15,17 +16,16 @@ categories:
 
 **TL;DR:** I got a Windows 11 VM running with full GPU passthrough via Looking Glass on
 Arch Linux. Adobe products run well enough to be a real workflow, not quite bare metal,
-but usable. Clipboard and storage are shared, and the VM lives inside Hyprland at 144hz
-on a 1440p 165hz display.
-It's been about a week. I think it's working. This is not a tutorial. This is a report
-from the other side.
+but usable. Clipboard and storage are shared, and the VM lives inside Hyprland at 144hz on
+a 1440p 165hz display. It's been about a week. I think it's working. This is not a
+tutorial. This is a report from the other side.
 
 Here's a quick demo walking through the setup in action (unmute for music): switching
 between Hyprland workspaces, editing this post, hopping into the Windows VM, and copying
 vector data between Adobe Illustrator in the VM and Inkscape on Linux.
 
 <video controls muted preload="none" poster="/blog/desktop.webp" style="width: 100%; max-width: 800px;">
-	<source src="https://jovianmoon.io/workflow-demo.mp4" type="video/mp4" />
+	<source src="https://media.jovianmoon.io/workflow-demo.mp4" type="video/mp4" />
 	Your browser does not support the video tag.
 </video>
 
@@ -242,18 +242,18 @@ Most of the trouble wasn't on the Linux side, though. It was learning how to con
 VM properly from inside the VM itself. The right drivers, the right virtual hardware, the
 right settings. That's where the hours went.
 
-But the single hardest part of this whole project? **The purgatory after Windows installs.**
-The basic VM works fine with the emulated QXL display. It's when you start setting up GPU
-passthrough and Looking Glass that things get complicated. No mouse, wrong drivers, wrong
-monitor settings, keyboard-navigating through Windows panels, moving invisible windows
-between monitors with `Win + Shift + Arrow`. I've fought display battles before (Linux 5
-kernel with Intel, Nvidia, and HDMI is why my main CPU and GPU are both AMD now), but
-doing it through a VM was a new kind of miserable.
+But the single hardest part of this whole project? **The purgatory after Windows
+installs.** The basic VM works fine with the emulated QXL display. It's when you start
+setting up GPU passthrough and Looking Glass that things get complicated. No mouse, wrong
+drivers, wrong monitor settings, keyboard-navigating through Windows panels, moving
+invisible windows between monitors with `Win + Shift + Arrow`. I've fought display battles
+before (Linux 5 kernel with Intel, Nvidia, and HDMI is why my main CPU and GPU are both
+AMD now), but doing it through a VM was a new kind of miserable.
 
 On top of that, **EDID** was its own battle. I needed to plug a cable from the monitor
 into the GT 1030, not to display anything, but so the GPU could read the monitor's EDID
-and report a resolution and refresh rate that made sense. Without this, Windows defaults to
-garbage resolution because it has no idea what display it's connected to.
+and report a resolution and refresh rate that made sense. Without this, Windows defaults
+to garbage resolution because it has no idea what display it's connected to.
 
 I tried one of those HDMI EDID emulator dongles. Tiny adapter, no cable, just plug it into
 the GPU and it fakes a display signal. It worked, technically. But it capped the VM at
@@ -295,7 +295,6 @@ next on the list.
 
 ## The Result (So Far)
 
-
 It works. Or at least, it appears to work. Adobe Photoshop, Illustrator, Premiere, After
 Effects, and the rest of the Creative Cloud suite all run. It's not bare metal
 performance, you can feel the overhead, but it's usable enough to be a real workflow. I
@@ -306,7 +305,6 @@ the VM, no grabbing or releasing, it just works like a second monitor. Clipboard
 means I can copy text or file paths between Linux and Windows. Shared storage through
 [virtio-fs](https://virtio-fs.gitlab.io/) means my project files are accessible from both
 sides. 144hz, no tearing, no lag so far.
-
 
 Whether this setup survives contact with a real deadline and a 40-layer PSD is still an
 open question.
@@ -323,4 +321,3 @@ applications, this might be the setup. It's not simple to get running, and I hon
 don't know yet if it'll hold up long term or if I'll hit some dealbreaker I haven't found
 yet. But right now, it's **better than dual-booting by a wide margin**. One machine, one
 desktop, everything accessible.
-
