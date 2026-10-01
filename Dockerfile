@@ -23,7 +23,7 @@ ENV TURNSTILE_SECRET=$TURNSTILE_SECRET
 WORKDIR /app
 
 # Install pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@11
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
@@ -57,7 +57,7 @@ ENV TURNSTILE_SECRET=$TURNSTILE_SECRET
 WORKDIR /app
 
 # Install pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm@11
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
