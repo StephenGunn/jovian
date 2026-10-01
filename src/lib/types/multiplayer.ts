@@ -4,12 +4,25 @@ export type WaypointMessage = {
   y: number; // percentage from top
 };
 
+export type GhostWaypoint = {
+  x: number;
+  y: number;
+  dt: number; // ms since flight start
+};
+
+export type GhostFlight = {
+  id: string;
+  country: string;
+  waypoints: GhostWaypoint[];
+};
+
 export type InitMessage = {
   type: "init";
   aliens: Array<{
     id: string;
     country: string;
   }>;
+  ghosts?: GhostFlight[];
 };
 
 export type NewAlienMessage = {

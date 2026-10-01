@@ -13,6 +13,7 @@
   import { PUBLIC_WS_SERVER } from "$env/static/public";
   import { scene_ref } from "$lib/stores/homepage.svelte";
   import { fade } from "svelte/transition";
+  import type { GhostFlight } from "$lib/types/multiplayer";
 
   let { data } = $props();
   let stars = data.stars;
@@ -32,6 +33,7 @@
   let lastActivity = Date.now();
   let idleTimer: ReturnType<typeof setInterval> | undefined;
   let pingTimer: ReturnType<typeof setInterval> | undefined;
+  let ghostTimers: ReturnType<typeof setTimeout>[] = [];
 
   function trackActivity() {
     lastActivity = Date.now();
@@ -93,6 +95,11 @@
               id: alien.id,
               country: alien.country
             }));
+
+            // Replay ghost flights from past visitors
+            if (message.ghosts) {
+              replayGhosts(message.ghosts);
+            }
             break;
 
           case "new_alien":
@@ -131,10 +138,44 @@
     }
     if (idleTimer) clearInterval(idleTimer);
     if (pingTimer) clearInterval(pingTimer);
+    ghostTimers.forEach(clearTimeout);
     const activityEvents = ["mousemove", "mousedown", "keydown", "scroll", "touchstart"];
     activityEvents.forEach((evt) => document.removeEventListener(evt, trackActivity));
     party?.close();
   });
+
+  function replayGhosts(ghosts: GhostFlight[]) {
+    for (const ghost of ghosts) {
+      // Stagger ghost appearances by a random delay (0-10s)
+      const startDelay = Math.random() * 10_000;
+
+      const entryTimer = setTimeout(() => {
+        // Add the ghost as an alien
+        aliens = [...aliens, { id: ghost.id, country: ghost.country }];
+
+        // Schedule each waypoint
+        for (const wp of ghost.waypoints) {
+          const timer = setTimeout(() => {
+            const x = wp.x * window.innerWidth;
+            const y = wp.y * window.innerHeight;
+            if (alien_components[ghost.id]) {
+              alien_components[ghost.id].add_waypoint(ghost.id, x, y);
+            }
+          }, wp.dt);
+          ghostTimers.push(timer);
+        }
+
+        // Remove ghost after last waypoint + some buffer for the flight animation
+        const lastDt = ghost.waypoints[ghost.waypoints.length - 1]?.dt ?? 0;
+        const removeTimer = setTimeout(() => {
+          aliens = aliens.filter((a) => a.id !== ghost.id);
+          delete alien_components[ghost.id];
+        }, lastDt + 8000);
+        ghostTimers.push(removeTimer);
+      }, startDelay);
+      ghostTimers.push(entryTimer);
+    }
+  }
 
   function broadcast_waypoint(x: number, y: number) {
     if (!party) return;
