@@ -5,6 +5,9 @@ type AlienData = {
   country: string;
 };
 
+const IDLE_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
+const SWEEP_INTERVAL_MS = 60 * 1000; // Check every minute
+
 export default class Server implements Party.Server {
   constructor(readonly room: Party.Room) { }
 
@@ -30,12 +33,73 @@ export default class Server implements Party.Server {
     return "UNKNOWN";
   }
 
+  async ensureSweepAlarm() {
+    const alarm = await this.room.storage.getAlarm();
+    if (!alarm) {
+      await this.room.storage.setAlarm(Date.now() + SWEEP_INTERVAL_MS);
+    }
+  }
+
+  async onAlarm() {
+    const now = Date.now();
+    const isTankRoom = this.room.id === "playground-tank";
+    const prefix = isTankRoom ? "fish:" : "alien:";
+
+    // Get all last-activity timestamps
+    const activityEntries = await this.room.storage.list<number>({ prefix: "activity:" });
+    const entityEntries = await this.room.storage.list<AlienData>({ prefix });
+
+    // Build set of active connection IDs
+    const activeConnIds = new Set<string>();
+    for (const conn of this.room.getConnections()) {
+      activeConnIds.add(conn.id);
+    }
+
+    // Find and remove idle or orphaned entries
+    for (const [key, data] of entityEntries) {
+      const connId = key.replace(prefix, "");
+      const lastActivity = activityEntries.get(`activity:${connId}`);
+      const isIdle = !lastActivity || (now - lastActivity) > IDLE_TIMEOUT_MS;
+      const isOrphaned = !activeConnIds.has(connId);
+
+      if (isIdle || isOrphaned) {
+        await this.room.storage.delete(key);
+        await this.room.storage.delete(`activity:${connId}`);
+
+        // Close the connection if it's still open
+        for (const conn of this.room.getConnections()) {
+          if (conn.id === connId) {
+            conn.close();
+            break;
+          }
+        }
+
+        // Notify remaining clients
+        this.room.broadcast(
+          JSON.stringify({
+            type: "remove",
+            [isTankRoom ? "fishId" : "alienId"]: connId
+          })
+        );
+
+        console.log(`Swept idle connection ${connId} from room ${this.room.id}`);
+      }
+    }
+
+    // Reschedule if there are still connections
+    if (entityEntries.size > 0) {
+      await this.room.storage.setAlarm(Date.now() + SWEEP_INTERVAL_MS);
+    }
+  }
+
   async onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
     // Store country code in room storage for persistence
     const alien: AlienData = {
       country: this.get_valid_country_code(ctx.request)
     };
     await this.room.storage.put(`alien:${conn.id}`, alien);
+    await this.room.storage.put(`activity:${conn.id}`, Date.now());
+    await this.ensureSweepAlarm();
 
     // Get all current aliens from storage
     const alienEntries = await this.room.storage.list<AlienData>({ prefix: "alien:" });
@@ -67,9 +131,17 @@ export default class Server implements Party.Server {
     console.log(`Connection ${conn.id} connected from ${alien.country} to room ${this.room.id}`);
   }
 
-  onMessage(messageStr: string, sender: Party.Connection) {
+  async onMessage(messageStr: string, sender: Party.Connection) {
     try {
       const message = JSON.parse(messageStr) as any;
+
+      // Track activity for idle sweep
+      if (message.type === "ping") {
+        await this.room.storage.put(`activity:${sender.id}`, Date.now());
+        return;
+      }
+
+      await this.room.storage.put(`activity:${sender.id}`, Date.now());
 
       if (message.type === "waypoint") {
         // Homepage - relay waypoint to other clients
@@ -96,8 +168,9 @@ export default class Server implements Party.Server {
   }
 
   async onClose(conn: Party.Connection) {
-    // Remove alien from storage
+    // Remove alien and activity tracking from storage
     await this.room.storage.delete(`alien:${conn.id}`);
+    await this.room.storage.delete(`activity:${conn.id}`);
 
     // Use different message format based on room
     const isTankRoom = this.room.id === "playground-tank";
@@ -122,7 +195,8 @@ export default class Server implements Party.Server {
       const isTankRoom = this.room.id === "playground-tank";
       const prefix = isTankRoom ? "fish:" : "alien:";
       const entries = await this.room.storage.list({ prefix });
-      await this.room.storage.delete([...entries.keys()]);
+      const activityEntries = await this.room.storage.list({ prefix: "activity:" });
+      await this.room.storage.delete([...entries.keys(), ...activityEntries.keys()]);
 
       // Kick all active connections - they'll reconnect fresh
       let kicked = 0;

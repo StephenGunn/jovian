@@ -22,17 +22,49 @@
     country: string;
   };
 
+  const IDLE_TIMEOUT = 5 * 60 * 1000; // 5 minutes
+  const PING_INTERVAL = 2 * 60 * 1000; // 2 minutes
+
   let aliens: AlienData[] = $state<AlienData[]>([]);
   let alien_components: Record<string, Alien> = $state({});
   let party: PartySocket | undefined = $state();
   let handleVisibility: (() => void) | undefined;
+  let lastActivity = Date.now();
+  let idleTimer: ReturnType<typeof setInterval> | undefined;
+  let pingTimer: ReturnType<typeof setInterval> | undefined;
+
+  function trackActivity() {
+    lastActivity = Date.now();
+    // If we were idle and disconnected, reconnect
+    if (party && party.readyState === WebSocket.CLOSED) {
+      party.reconnect();
+    }
+  }
 
   onMount(async () => {
+    // Track user activity
+    const activityEvents = ["mousemove", "mousedown", "keydown", "scroll", "touchstart"];
+    activityEvents.forEach((evt) => document.addEventListener(evt, trackActivity));
+
+    // Check for idle every 30 seconds
+    idleTimer = setInterval(() => {
+      if (Date.now() - lastActivity > IDLE_TIMEOUT && party) {
+        party.close();
+      }
+    }, 30_000);
+
     try {
       party = new PartySocket({
         host: PUBLIC_WS_SERVER,
         room: "space"
       });
+
+      // Send periodic pings so the server knows we're alive
+      pingTimer = setInterval(() => {
+        if (party && party.readyState === WebSocket.OPEN) {
+          party.send(JSON.stringify({ type: "ping" }));
+        }
+      }, PING_INTERVAL);
 
       // Silently handle connection errors (e.g., in PageSpeed Insights)
       party.addEventListener("error", () => {
@@ -46,6 +78,7 @@
         if (document.hidden) {
           party.close();
         } else {
+          lastActivity = Date.now();
           party.reconnect();
         }
       };
@@ -96,6 +129,10 @@
     if (handleVisibility) {
       document.removeEventListener("visibilitychange", handleVisibility);
     }
+    if (idleTimer) clearInterval(idleTimer);
+    if (pingTimer) clearInterval(pingTimer);
+    const activityEvents = ["mousemove", "mousedown", "keydown", "scroll", "touchstart"];
+    activityEvents.forEach((evt) => document.removeEventListener(evt, trackActivity));
     party?.close();
   });
 
