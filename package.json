@@ -65,10 +65,7 @@
     "vitest": "^4.1.2"
   },
   "pnpm": {
-    "ignoredBuiltDependencies": [
-      "esbuild",
-      "workerd"
-    ]
+    "onlyBuiltDependencies": []
   },
   "type": "module",
   "dependencies": {
