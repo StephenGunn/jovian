@@ -133,6 +133,7 @@
   });
 
   onDestroy(() => {
+    if (typeof document === "undefined") return;
     if (handleVisibility) {
       document.removeEventListener("visibilitychange", handleVisibility);
     }
