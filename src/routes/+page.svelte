@@ -145,9 +145,13 @@
   });
 
   function replayGhosts(ghosts: GhostFlight[]) {
-    for (const ghost of ghosts) {
-      // Stagger ghost appearances by a random delay (0-10s)
-      const startDelay = Math.random() * 10_000;
+    for (let i = 0; i < ghosts.length; i++) {
+      const ghost = ghosts[i];
+      // First ghost: 10-60s, subsequent ones: ~1 min apart after the first
+      const startDelay =
+        i === 0
+          ? 10_000 + Math.random() * 50_000
+          : 10_000 + Math.random() * 50_000 + i * 60_000;
 
       const entryTimer = setTimeout(() => {
         // Add the ghost as an alien
