@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 # Build arguments for public env vars
 ARG PUBLIC_WS_SERVER
@@ -23,7 +23,7 @@ ENV TURNSTILE_SECRET=$TURNSTILE_SECRET
 WORKDIR /app
 
 # Install pnpm
-RUN npm install -g pnpm@11
+RUN npm install -g pnpm
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
@@ -41,7 +41,7 @@ RUN pnpm exec svelte-kit sync
 RUN pnpm build
 
 # Production stage
-FROM node:20-alpine
+FROM node:22-alpine
 
 # Runtime environment variables (private vars needed at runtime)
 ARG CONTACT_EMAIL
@@ -57,7 +57,7 @@ ENV TURNSTILE_SECRET=$TURNSTILE_SECRET
 WORKDIR /app
 
 # Install pnpm
-RUN npm install -g pnpm@11
+RUN npm install -g pnpm
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
